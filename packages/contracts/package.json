@@ -1,0 +1,19 @@
+{
+  "name": "@booster-role/contracts",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "test": "tsx --test",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.5",
+    "expect": "^30.5.2",
+    "tsx": "^4.20.3",
+    "typescript": "latest"
+  }
+}

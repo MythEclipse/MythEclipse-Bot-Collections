@@ -3,7 +3,8 @@ import { z } from "zod";
 import { logger } from "../logger";
 import { ValidationError, NotFoundError, PermissionError } from "../domain/errors";
 import { claimOptions, renameOptions, recolorOptions } from "./schemas";
-import type { BoosterRoleRecord, RoleIcon } from "../services/boosterRoleService";
+import type { BoosterRoleRecord } from "../services/boosterRoleStore";
+import type { RoleIcon } from "../services/boosterRoleService";
 
 export type ChatInputInteractionLike = {
   commandName: string;

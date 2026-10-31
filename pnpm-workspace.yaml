@@ -1,7 +1,14 @@
-# pnpm workspace for the deployed booster-role payload.
+# Workspace packages are kept separate from the root bot package so the
+# existing deployment entrypoint remains stable during migration.
+packages:
+  - apps/*
+  - packages/*
+
+# pnpm workspace for the deployed booster-role payload and verification web app.
 #
-# Single package, so this file exists only to whitelist the one lifecycle script
-# pnpm blocks by default. esbuild (pulled in transitively by tsx and drizzle-kit)
+# The root package remains the deployed bot while apps/* and packages/* are
+# independently buildable workspace packages. This file also whitelists the
+# lifecycle script pnpm blocks by default. esbuild (pulled in transitively by tsx and drizzle-kit)
 # downloads a platform binary on install; without it, tsx cannot resolve the
 # TypeScript transform and every entry point fails at startup.
 #

@@ -33,10 +33,13 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Typecheck
-        run: pnpm run typecheck
+        run: pnpm run typecheck:all
 
       - name: Test
         run: pnpm test
+
+      - name: Build web verification app
+        run: pnpm run web:build
 
   build-and-deploy:
     needs: test

@@ -1,7 +1,7 @@
 import { logger } from "../logger";
 import type { Client, Guild } from "discord.js";
-import type { BoosterRoleStore } from "./boosterRoleService";
-import type { RoleRepository } from "./boosterRoleService";
+import type { BoosterRoleStore } from "./boosterRoleStore";
+import type { RoleRepository } from "./roleRepository";
 
 export type CleanupServiceOptions = {
   intervalMs: number;

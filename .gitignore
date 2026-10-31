@@ -1,67 +1,79 @@
-apps/gmw/
-# See https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
+# Dependencies and package-manager state
+node_modules/
+.pnpm-store/
+.npm/
+.yarn/
 
-# compiled output
-dist
-tmp
-out-tsc
+# Environment and local secrets
+.env
+.env.*
+!.env.example
+!.env.*.example
+.dev.vars
+.dev.vars.*
+!.dev.vars.example
+
+# Build output and generated artifacts
+dist/
+build/
+out/
+.next/
+storybook-static/
+coverage/
+test-output/
+tmp/
+temp/
+out-tsc/
+*.tsbuildinfo
+*.map
+
+# Runtime logs and local databases
+*.log
+*.log.*
+*.sqlite
+*.sqlite3
+*.db
 error.log
-# dependencies
-node_modules
-.bun/**
+
+# Drizzle and Vite transient files
+drizzle-kit/
+vite.config.*.timestamp-*
+vitest.config.*.timestamp-*
+
+# Moonrepo and other build caches
+.moon/cache/
 .turbo/
+.cache/
+
 # IDEs and editors
-/.idea
+.idea/
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
 .project
 .classpath
 .c9/
 *.launch
 .settings/
 *.sublime-workspace
-**/target/**
-# IDE - VSCode
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
 
-# misc
-/.sass-cache
-/connect.lock
-/coverage
-/libpeerconnection.log
-npm-debug.log
-yarn-error.log
-testem.log
-/typings
-
-# System Files
+# Operating-system files
 .DS_Store
 Thumbs.db
-.claude
-# Next.js
-.next
-out
-**/.codegraph/**
-**/.claude/**
-test-output
-**/**.env
-**/**.env.**
-vite.config.*.timestamp*
-vitest.config.*.timestamp*
+*.swp
+*.swo
 
+# Tool-specific local state
+.claude/
+**/.codegraph/
+**/vendor/
 
-storybook-static
-~/.bun/**
+# Generated documentation and local workflow state
 docs/dependency-map.md
 docs/handoff-log.jsonl
 docs/observability.md
 docs/quality-gates.json
 docs/workflow-state.json
 docs/todo.md
-**/vendor/
-
-# moonrepo
-.moon/cache
-.~moon**

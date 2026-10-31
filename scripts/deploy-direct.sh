@@ -18,8 +18,8 @@
 # Flow:
 #   1. extract the tarball into $RELEASES_DIR/<sha>
 #   2. pnpm install --frozen-lockfile there (devDependencies included — the unit
-#      runs drizzle-kit + tsx out of node_modules, they are NOT optional)
-#   3. sanity-check the tree BEFORE touching $CURRENT (tsx + drizzle-kit present)
+#      runs the bot workspace's drizzle-kit + tsx, they are NOT optional)
+#   3. sanity-check the tree BEFORE touching $CURRENT (bot tools present)
 #   4. swap it into place: current -> current.previous, release -> current
 #   5. systemctl restart + hold `is-active` steady (the bot has no inbound
 #      listener, so health is a steady systemd state, not an HTTP probe)
@@ -184,7 +184,7 @@ fi
 
 # ── 2. install ─────────────────────────────────────────────────────────────
 # NODE_ENV must NOT be production here: pnpm would then skip devDependencies and
-# the unit would boot without drizzle-kit (migrate) or tsx (entry point).
+# the unit would boot without the bot workspace's drizzle-kit (migrate) or tsx.
 (
   cd "$RELEASE_DIR"
   unset NODE_ENV || true
@@ -195,10 +195,10 @@ fi
 # ── 3. sanity-check before anything is swapped ─────────────────────────────
 # Both paths are what /opt/booster-role/bin/booster-role execs. Failing here
 # means $CURRENT is still the live tree and the service was never disturbed.
-[ -x "$RELEASE_DIR/node_modules/.bin/tsx" ] || \
-  die "node_modules/.bin/tsx missing after install — pnpm skipped devDependencies or esbuild builds"
-[ -f "$RELEASE_DIR/node_modules/drizzle-kit/bin.cjs" ] || \
-  die "node_modules/drizzle-kit/bin.cjs missing after install — the unit cannot migrate"
+[ -x "$RELEASE_DIR/apps/bot/node_modules/.bin/tsx" ] || \
+  die "apps/bot/node_modules/.bin/tsx missing after install — pnpm skipped bot devDependencies"
+[ -f "$RELEASE_DIR/apps/bot/node_modules/drizzle-kit/bin.cjs" ] || \
+  die "apps/bot/node_modules/drizzle-kit/bin.cjs missing after install — the unit cannot migrate"
 
 # ── 4. activate ────────────────────────────────────────────────────────────
 log "activating $RELEASE_DIR"

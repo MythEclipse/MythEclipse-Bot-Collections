@@ -1,30 +1,20 @@
 {
-  "name": "booster-role-bot",
+  "name": "booster-role-workspace",
   "version": "1.0.5",
-  "type": "module",
   "private": true,
   "packageManager": "pnpm@10.33.2",
   "scripts": {
-    "dev": "tsx src/index.ts",
-    "test": "tsx --test",
-    "typecheck": "tsc --noEmit",
-    "lint": "tsc --noEmit",
-    "db:generate": "drizzle-kit generate",
-    "db:migrate": "drizzle-kit migrate"
-  },
-  "dependencies": {
-    "@discordjs/builders": "latest",
-    "discord.js": "latest",
-    "drizzle-orm": "latest",
-    "postgres": "latest",
-    "winston": "^3.19.0",
-    "zod": "^4.6.7"
-  },
-  "devDependencies": {
-    "@types/node": "^26.6.5",
-    "drizzle-kit": "latest",
-    "expect": "^30.5.2",
-    "tsx": "^4.20.3",
-    "typescript": "latest"
+    "dev": "pnpm --filter @booster-role/bot dev",
+    "web:dev": "pnpm --filter @booster-role/web dev",
+    "web:build": "pnpm --filter @booster-role/web build",
+    "api:dev": "pnpm --filter @booster-role/api dev",
+    "api:start": "pnpm --filter @booster-role/api start",
+    "moon:check": "moon run :typecheck && moon run :test",
+    "test": "pnpm --filter @booster-role/bot test && pnpm --filter @booster-role/contracts test && pnpm --filter @booster-role/api test",
+    "typecheck": "pnpm --filter @booster-role/bot typecheck",
+    "typecheck:all": "pnpm --filter @booster-role/bot typecheck && pnpm --filter @booster-role/contracts typecheck && pnpm --filter @booster-role/api typecheck && pnpm --filter @booster-role/web exec tsc --noEmit",
+    "lint": "pnpm --filter @booster-role/bot lint",
+    "db:generate": "pnpm --filter @booster-role/bot db:generate",
+    "db:migrate": "pnpm --filter @booster-role/bot db:migrate"
   }
 }

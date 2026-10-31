@@ -11,12 +11,11 @@ import {
 } from "../domain/roleGuards";
 import { ValidationError, NotFoundError } from "../domain/errors";
 
-import type { BoosterRoleRecord, BoosterRoleStore } from "./drizzleBoosterRoleStore";
-import type { RoleRepository } from "./discordRoleRepository";
+import type { BoosterRoleRecord, BoosterRoleStore } from "./boosterRoleStore";
+import type { RoleRepository } from "./roleRepository";
 
-// Re-export for consumers that import from this module
 export type { BoosterRoleRecord, BoosterRoleStore };
-export type { RoleRepository } from "./discordRoleRepository";
+export type { RoleRepository } from "./roleRepository";
 
 export type RoleIcon = {
   contentType: string;

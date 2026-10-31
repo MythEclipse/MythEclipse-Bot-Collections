@@ -4,3 +4,5 @@ node_modules
 .env
 data
 *.log
+# `dist` alone matches only the context root; the web app builds into apps/web/dist.
+**/dist

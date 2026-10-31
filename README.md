@@ -8,6 +8,8 @@ Discord bot untuk memberi role custom kosmetik ke user yang sedang boost server.
 - discord.js
 - PostgreSQL via Drizzle ORM
 - Node.js test runner (`node:test`) dengan `expect`
+- pnpm + Moonrepo workspace dengan web React berbasis TanStack Router,
+  TanStack Query, Vite, dan Tailwind CSS v4
 
 ## Prasyarat
 
@@ -55,14 +57,59 @@ Pastikan `DATABASE_URL` mengarah ke database PostgreSQL external (pool PgBouncer
 pnpm run dev
 ```
 
+## Web verification app
+
+Workspace ini juga menyediakan web platform React untuk landing page publik,
+katalog bot, public server lookup, dan dashboard admin server. Routing memakai
+TanStack Router, data fetching/cache memakai TanStack Query, dan style pipeline
+menggunakan Tailwind CSS v4 melalui Vite. Kontrak verifikasi dan tenant
+dibagikan melalui `packages/contracts`, sehingga aturan yang dipakai web tidak
+dibuat ulang secara terpisah dari bot.
+Kontrak verifikasinya dibagikan melalui `packages/contracts`, sehingga aturan
+yang dipakai web tidak dibuat ulang secara terpisah dari bot.
+
+```bash
+pnpm run web:dev
+pnpm run web:build
+pnpm run api:dev
+```
+
+Web dapat diarahkan ke API melalui `VITE_API_URL`; default-nya adalah
+`http://localhost:8787`. Auth dashboard masih berupa development boundary
+`x-admin-user` sampai Discord OAuth/session diaktifkan.
+
+## Multi-tenant platform
+
+The workspace now contains:
+
+- `apps/api` - Hono backend with tenant-scoped public and admin endpoints.
+- `apps/web` - public landing page and server-admin dashboard.
+- `packages/contracts` - shared verification and tenant types.
+- `apps/bot` - Discord worker that remains isolated from other tenants.
+- Moonrepo configuration lives in `.moon/workspace.yml` and each workspace
+  package's `moon.yml`; use `moon run :typecheck` for task orchestration.
+
+Run the API and web in separate terminals. The web defaults to
+`http://localhost:8787` for the API:
+
+```bash
+pnpm run api:dev
+pnpm run web:dev
+```
+
+The dashboard currently uses `x-admin-user` as an explicit development
+authentication boundary. Replace it with Discord OAuth/session middleware before
+production use; tenant authorization is already enforced in the API store.
+
 Saat startup, bot otomatis register slash command ke guild dari `DISCORD_GUILD_ID`, lalu menangani interaction command. Pastikan bot di-invite dengan scope `applications.commands`.
 
 ## Testing
 
 ```bash
 pnpm test
-pnpm test src/domain/roleGuards.test.ts
+pnpm --filter @booster-role/bot test src/domain/roleGuards.test.ts
 pnpm run typecheck
+pnpm run typecheck:all
 pnpm run lint
 ```
 
