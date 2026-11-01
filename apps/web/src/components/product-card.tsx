@@ -20,9 +20,11 @@ export function ProductCard({ bot }: { bot: BotProduct }): React.ReactElement {
       <p className="product-tagline">{bot.tagline}</p>
       <p>{bot.description}</p>
       {bot.command && <code className="product-command">{bot.command}</code>}
-      <Link className="product-link" to={available ? "/dashboard" : "/support"}>
-        {available ? t("product.manage") : t("product.talk")}
-      </Link>
+      {available && (
+        <Link className="product-link" to="/dashboard">
+          {t("product.manage")}
+        </Link>
+      )}
     </article>
   );
 }

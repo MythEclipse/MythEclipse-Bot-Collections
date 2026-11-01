@@ -23,7 +23,6 @@ import {
   signSession,
   verifySession
 } from "./session";
-import { createTenantStore, type TenantStore } from "./tenantStore";
 
 const botProducts: BotProduct[] = [
   {
@@ -36,16 +35,6 @@ const botProducts: BotProduct[] = [
     accent: "#c6f36b",
     command: "/booster-role claim"
   },
-  {
-    id: "community-guard",
-    slug: "community-guard",
-    name: "Community Guard",
-    tagline: "Moderation signals for busy communities.",
-    description: "A focused moderation companion for incident alerts, onboarding, and safer community operations.",
-    status: "coming-soon",
-    accent: "#8ed8ff",
-    command: null
-  }
 ];
 
 export type OAuthGateway = {
@@ -56,7 +45,6 @@ export type OAuthGateway = {
 
 export type AppDeps = {
   config: WebConfig;
-  tenants?: TenantStore;
   oauth?: OAuthGateway;
   overview?: OverviewSources;
   roles?: ManagedRoleSources;
@@ -65,7 +53,6 @@ export type AppDeps = {
 
 export function createApp(deps: AppDeps) {
   const { config } = deps;
-  const tenants = deps.tenants ?? createTenantStore();
   const oauth: OAuthGateway = deps.oauth ?? { exchangeCode, fetchUser, fetchGuilds };
   const now = deps.now ?? (() => Date.now());
   const dashboardUrl = `${config.publicBaseUrl}/dashboard`;
@@ -83,12 +70,6 @@ export function createApp(deps: AppDeps) {
   app.get("/api/health", (context) => context.json({ ok: true, service: "booster-role-api" }));
 
   app.get("/api/public/bots", (context) => context.json({ bots: botProducts }));
-
-  app.get("/api/public/tenants/:slug", (context) => {
-    const tenant = tenants.findPublicBySlug(context.req.param("slug"));
-    if (!tenant) return context.json({ error: "Server not found" }, 404);
-    return context.json({ tenant });
-  });
 
   // ── Discord OAuth ────────────────────────────────────────────────────────
   app.get("/api/auth/discord", (context) => {

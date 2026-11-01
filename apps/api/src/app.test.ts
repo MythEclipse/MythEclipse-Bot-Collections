@@ -5,7 +5,6 @@ import type { WebConfig } from "./config";
 import type { OAuthGateway } from "./app";
 import type { OverviewSources } from "./guildOverview";
 import type { ManagedRoleSources } from "./managedRoles";
-import { createTenantStore } from "./tenantStore";
 import { SESSION_COOKIE, signSession, STATE_COOKIE } from "./session";
 
 const config: WebConfig = {
@@ -54,7 +53,6 @@ function makeApp(
 ) {
   return createApp({
     config,
-    tenants: createTenantStore(),
     oauth: overrides.oauth ?? oauth(),
     overview: overrides.overview ?? sources,
     roles: overrides.roles ?? roleSources,
@@ -70,15 +68,13 @@ function setCookies(response: Response): string[] {
 describe("public endpoints", () => {
   const app = makeApp();
 
-  test("serves only active public tenant summaries", async () => {
-    const response = await app.request("/api/public/tenants/demo-server");
-    expect(response.status).toBe(200);
-    expect((await response.json()).tenant.id).toBe("tenant-demo");
-  });
+  test("lists the bots that actually ship", async () => {
+    const response = await app.request("/api/public/bots");
 
-  test("404s an unknown slug", async () => {
-    const response = await app.request("/api/public/tenants/nope");
-    expect(response.status).toBe(404);
+    expect(response.status).toBe(200);
+    const body = (await response.json()) as { bots: Array<{ slug: string; command: string | null }> };
+    expect(body.bots.map((bot) => bot.slug)).toEqual(["booster-role"]);
+    expect(body.bots[0]?.command).toBe("/booster-role claim");
   });
 });
 

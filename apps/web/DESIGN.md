@@ -227,7 +227,8 @@ neutral, plus an error family that only appears when something failed.
 - **Lime Deep** (`#a8d94f`): the hover and pressed step of the primary button.
   The one place the accent is allowed to move.
 - **Orbit Blue** (`#8ed8ff`): per-bot accent, injected per card via `--accent`
-  from the API payload (Community Guard uses it). Everything outside a product
+  from the API payload. One bot ships today and it is lime, so orbit blue is
+  reserved, not decorative: no surface may use it until a bot claims it. Everything outside a product
   card stays lime.
 
 ### Neutral
@@ -285,7 +286,7 @@ serif is not a second voice — it is a breath inside the first.
   closing call to action.
 - **Headline** (760, `clamp(2.25rem, 3.4vw, 3rem)`, 1.05, -0.035em): section
   headings; the dashboard h1 and legal h1 sit on the same step.
-- **Subhead** (750, `clamp(1.75rem, 2.6vw, 2.25rem)`, -0.03em): the lookup
+- **Subhead** (750, `clamp(1.75rem, 2.6vw, 2.25rem)`, -0.03em): the section
   panel, the verifier heading.
 - **Title Large** (750, 1.75rem): the guild name on the dashboard.
 - **Title** (750, 1.5rem): product card names.
@@ -410,7 +411,7 @@ error rather than an English sentence leaking into an Indonesian page.
 ## Shapes
 
 Actions are pills (999px). Panels are soft slabs — 20px for cards, the role
-rows, and the diagnostics disclosure, 22px for the lookup panel, 18px for the
+rows, and the diagnostics disclosure, 22px for the hero card, 18px for the
 admin form, 16px for metric tiles and legal index cards, 12px for alerts and the
 session bar, 9px for fields and result strips. Inline `code` sits at 6px. The
 recurring silhouette is the circle: pill buttons, the round login pill, the round

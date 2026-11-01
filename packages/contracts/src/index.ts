@@ -18,15 +18,6 @@ export type VerificationResult = {
   checks: Array<{ label: string; passed: boolean; detail: string }>;
 };
 
-export type TenantSummary = {
-  id: string;
-  slug: string;
-  name: string;
-  discordGuildId: string;
-  plan: "free" | "pro";
-  active: boolean;
-};
-
 /**
  * What the dashboard shows for the one guild the bot is installed in. Every
  * number here comes from Discord or from the bot's own table — nothing is

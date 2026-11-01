@@ -20,12 +20,11 @@ export const id: Messages = {
 
   "footer.blurb": "Bot Discord dari MythEclipse. Tiap bot punya ketentuan dan kebijakan privasinya sendiri.",
   "footer.legalLabel": "Legal",
-  "footer.copyright": "© 2026 MythEclipse",
+  "footer.copyright": "© {year} MythEclipse",
 
   "landing.hero.line1": "Servermu.",
   "landing.hero.line2": "Lebih bertenaga.",
-  "landing.hero.lead":
-    "Koleksi kecil bot Discord yang dibangun dengan hati-hati — role booster, pendamping moderasi, dan apa pun berikutnya. Satu dashboard untuk setiap server yang memakainya.",
+  "landing.hero.lead": "Koleksi bot Discord yang kecil dan dibangun dengan hati-hati. Satu dashboard untuk setiap server yang menjalankannya.",
   "landing.hero.cta": "Buka dashboard",
   "landing.hero.secondary": "Lihat koleksinya",
 
@@ -33,8 +32,7 @@ export const id: Messages = {
   "proof.caption": "Yang diketik booster. Bot yang membuat role-nya; izin tidak pernah lepas dari staf.",
 
   "products.heading": "Satu rumah untuk semua bot.",
-  "products.body":
-    "Pasang yang kamu butuhkan hari ini. Tambah lagi saat komunitasmu tumbuh. Tiap server dapat ruang kerjanya sendiri.",
+  "products.body": "Satu bot hari ini. Berikutnya muncul di sini begitu benar-benar siap. Setiap server punya ruang kerjanya sendiri.",
   "products.loading": "Memuat koleksi…",
   "products.error": "Koleksi gagal dimuat.",
   "products.retry": "Coba lagi",
@@ -43,21 +41,7 @@ export const id: Messages = {
   "product.available": "Tersedia",
   "product.comingSoon": "Segera",
   "product.manage": "Kelola bot →",
-  "product.talk": "Hubungi kami →",
 
-  "lookup.heading": "Sudah memakai bot?",
-  "lookup.body":
-    "Cek apakah sebuah server punya ruang kerja. Masuk lebih cepat — kami langsung menampilkan server yang kamu kelola.",
-  "lookup.label": "ID server atau slug",
-  "lookup.submit": "Cek server",
-  "lookup.checking": "Memeriksa…",
-  "lookup.open": "Buka dashboard →",
-  "lookup.clear": "Bersihkan",
-  "lookup.miss":
-    "Tidak ada ruang kerja dengan ID atau slug itu. Periksa ejaannya, atau masuk dan kami tampilkan server yang kamu kelola.",
-  "lookup.meta": "{state} · ruang kerja {plan} · {guild}",
-  "lookup.active": "Aktif",
-  "lookup.inactive": "Nonaktif",
 
   "cta.line1": "Bikin komunitasmu",
   "cta.line2": "terasa milikmu.",
@@ -86,7 +70,7 @@ export const id: Messages = {
   "dash.guild": "Guild {id}",
   "dash.readAt": "Dibaca dari Discord pada {time}",
 
-  "metric.members": "Anggota",
+  "metric.members": "Anggota (perkiraan)",
   "metric.boosters": "Booster",
   "metric.managedRoles": "Role dikelola",
 

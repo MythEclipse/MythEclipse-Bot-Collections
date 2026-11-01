@@ -21,7 +21,9 @@ They only reach the public pages, if they arrive at all.
 
 MythEclipse Bot Collections is one monorepo of Discord bots with a single shared
 web home: a public landing page, a per-bot catalogue and legal pages, a public
-server lookup, and an admin dashboard behind Discord login.
+and an admin dashboard behind Discord login. (The server lookup was removed: it
+  answered from a hard-coded demo tenant, so every result it could give was
+  invented.)
 
 Success means a server owner can understand what a bot does, install it, and
 manage it in one place — and the collection can add the next bot without
@@ -55,7 +57,7 @@ deploy instead of shipping a parallel site.
 Confirmed functionality:
 
 - Landing page: hero, collection grid fed by `/api/public/bots`, public server
-  lookup by slug (`/api/public/tenants/:slug`), closing call to action.
+  closing call to action.
 - Auth: `/api/auth/discord`, `/api/auth/discord/callback`, `/api/auth/session`,
   `/api/auth/logout`.
 - Admin dashboard: guild overview (name, member count, booster count, managed
@@ -72,7 +74,8 @@ Constraints:
 - Booster-created roles stay cosmetic: no dangerous permissions (Administrator,
   ManageRoles, ManageChannels, BanMembers, KickMembers, MentionEveryone,
   ManageGuild, ManageWebhooks) and no position above the anchor role.
-- The public server lookup still reads a demo store
+- The public server lookup is removed until there is a real tenant table. It used
+  to read a hard-coded demo store
   (`apps/api/src/tenantStore.ts`); real tenant data is not wired yet, and the
   dashboard does not use it.
 - The dashboard is admin-only. There is no member-facing account surface.

@@ -83,7 +83,7 @@ export function Shell(): React.ReactElement {
           <Link to="/terms">{t("nav.terms")}</Link>
           <Link to="/support">{t("nav.support")}</Link>
         </nav>
-        <small>{t("footer.copyright")}</small>
+        <small>{t("footer.copyright", { year: new Date().getFullYear() })}</small>
       </footer>
     </>
   );

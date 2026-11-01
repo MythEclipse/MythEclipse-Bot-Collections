@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import * as React from "react";
-import { fetchProducts, fetchTenant } from "../api";
+import { fetchProducts } from "../api";
 import { ProductCard } from "../components/product-card";
 import { useLocale } from "../i18n";
 
@@ -10,7 +10,6 @@ export function LandingPage(): React.ReactElement {
     <main id="main">
       <Hero />
       <ProductSection />
-      <ServerLookup />
       <ClosingCta />
     </main>
   );
@@ -87,86 +86,6 @@ function ProductSection(): React.ReactElement {
         {products.data?.bots.map((bot) => (
           <ProductCard key={bot.id} bot={bot} />
         ))}
-      </div>
-    </section>
-  );
-}
-
-function ServerLookup(): React.ReactElement {
-  const { t } = useLocale();
-  const [value, setValue] = React.useState("");
-  const [submitted, setSubmitted] = React.useState<string | null>(null);
-  const lookup = useQuery({
-    queryKey: ["public", "tenant", submitted],
-    queryFn: () => fetchTenant(submitted ?? ""),
-    enabled: submitted !== null && submitted.length > 0,
-    retry: false
-  });
-
-  function clear(): void {
-    setValue("");
-    setSubmitted(null);
-  }
-
-  return (
-    <section className="section container">
-      <div className="panel lookup">
-        <div>
-          <h2>{t("lookup.heading")}</h2>
-          <p>{t("lookup.body")}</p>
-        </div>
-        <form
-          className="lookup-form"
-          onSubmit={(event) => {
-            event.preventDefault();
-            setSubmitted(value.trim());
-          }}
-        >
-          <label className="field">
-            {t("lookup.label")}
-            <input
-              value={value}
-              onChange={(event) => setValue(event.target.value)}
-              placeholder="demo-server"
-              autoComplete="off"
-              required
-            />
-          </label>
-          <button className="button" type="submit" disabled={lookup.isFetching}>
-            {lookup.isFetching ? t("lookup.checking") : t("lookup.submit")}
-          </button>
-        </form>
-        {lookup.data && (
-          <div className="server-result">
-            <div>
-              <strong>{lookup.data.tenant.name}</strong>
-              <span>
-                {t("lookup.meta", {
-                  state: lookup.data.tenant.active ? t("lookup.active") : t("lookup.inactive"),
-                  plan: lookup.data.tenant.plan,
-                  guild: lookup.data.tenant.discordGuildId
-                })}
-              </span>
-            </div>
-          </div>
-        )}
-        {lookup.isError && (
-          <p className="form-error server-result" role="alert">
-            {t("lookup.miss")}
-          </p>
-        )}
-        {submitted !== null && (lookup.data !== undefined || lookup.isError) && (
-          <div className="result-actions">
-            {lookup.data && (
-              <Link className="text-link" to="/dashboard">
-                {t("lookup.open")}
-              </Link>
-            )}
-            <button className="text-link" type="button" onClick={clear}>
-              {t("lookup.clear")}
-            </button>
-          </div>
-        )}
       </div>
     </section>
   );

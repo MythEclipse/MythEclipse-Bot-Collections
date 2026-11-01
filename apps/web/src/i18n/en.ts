@@ -18,12 +18,11 @@ export const en = {
 
   "footer.blurb": "Discord bots by MythEclipse. Each bot has its own terms and privacy policy.",
   "footer.legalLabel": "Legal",
-  "footer.copyright": "© 2026 MythEclipse",
+  "footer.copyright": "© {year} MythEclipse",
 
   "landing.hero.line1": "Your server.",
   "landing.hero.line2": "More capable.",
-  "landing.hero.lead":
-    "A small, carefully built collection of Discord bots — booster roles, moderation companions, and whatever comes next. One dashboard for every server that runs them.",
+  "landing.hero.lead": "A small, carefully built collection of Discord bots. One dashboard for every server that runs one.",
   "landing.hero.cta": "Open your dashboard",
   "landing.hero.secondary": "See the collection",
 
@@ -31,8 +30,7 @@ export const en = {
   "proof.caption": "What a booster types. The bot creates the role; permissions never leave your staff.",
 
   "products.heading": "One home for every bot.",
-  "products.body":
-    "Install the tools you need today. Add more as your community evolves. Every server gets its own isolated workspace.",
+  "products.body": "One bot today. The next one lands here when it is actually ready. Every server gets its own isolated workspace.",
   "products.loading": "Loading the collection…",
   "products.error": "The collection could not be loaded.",
   "products.retry": "Try again",
@@ -41,20 +39,7 @@ export const en = {
   "product.available": "Available now",
   "product.comingSoon": "Coming soon",
   "product.manage": "Manage bot →",
-  "product.talk": "Talk to us →",
 
-  "lookup.heading": "Already running a bot?",
-  "lookup.body": "Check whether a server has a workspace. Signing in is quicker — it lists the servers you manage.",
-  "lookup.label": "Server ID or slug",
-  "lookup.submit": "Check server",
-  "lookup.checking": "Checking…",
-  "lookup.open": "Open dashboard →",
-  "lookup.clear": "Clear",
-  "lookup.miss":
-    "No workspace uses that ID or slug. Check the spelling, or sign in and we will list the servers you manage.",
-  "lookup.meta": "{state} · {plan} workspace · {guild}",
-  "lookup.active": "Active",
-  "lookup.inactive": "Inactive",
 
   "cta.line1": "Make your community",
   "cta.line2": "feel like yours.",
@@ -83,7 +68,7 @@ export const en = {
   "dash.guild": "Guild {id}",
   "dash.readAt": "Read from Discord at {time}",
 
-  "metric.members": "Members",
+  "metric.members": "Members (approx.)",
   "metric.boosters": "Boosters",
   "metric.managedRoles": "Managed roles",
 

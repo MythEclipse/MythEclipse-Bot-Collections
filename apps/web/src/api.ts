@@ -1,4 +1,4 @@
-import type { BotProduct, GuildOverview, ManagedRoleReviews, SessionUser, TenantSummary } from "@mytheclipse/contracts";
+import type { BotProduct, GuildOverview, ManagedRoleReviews, SessionUser } from "@mytheclipse/contracts";
 
 /**
  * Empty by default so production is same-origin: Caddy serves this SPA and
@@ -43,10 +43,6 @@ async function readError(response: Response): Promise<string> {
 
 export function fetchProducts(): Promise<{ bots: BotProduct[] }> {
   return request("/api/public/bots");
-}
-
-export function fetchTenant(slug: string): Promise<{ tenant: TenantSummary }> {
-  return request(`/api/public/tenants/${encodeURIComponent(slug)}`);
 }
 
 export function fetchSession(): Promise<{ user: SessionUser; expiresAt: number }> {
