@@ -1,3 +1,5 @@
+## [1.7.2](https://github.com/MythEclipse/MythEclipse-Bot-Collections/compare/v1.7.1...v1.7.2) (2026-11-01)
+
 ## [1.7.1](https://github.com/asepharyana/MythEclipse-Bot-Collections/compare/v1.7.0...v1.7.1) (2026-11-01)
 
 
