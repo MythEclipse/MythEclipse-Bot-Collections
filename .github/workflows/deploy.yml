@@ -104,7 +104,7 @@ jobs:
           ssh -o BatchMode=yes "$VPS_USER@$VPS_HOST" \
             'systemctl is-active booster-role; systemctl show booster-role -p NRestarts --value; journalctl -u booster-role -n 20 --no-pager'
           ssh -o BatchMode=yes "$VPS_USER@$VPS_HOST" \
-            'systemctl is-active dcbot-web; curl -fsS -m 5 http://127.0.0.1:4024/api/health; echo; journalctl -u dcbot-web -n 20 --no-pager'
+            'systemctl is-active dcbot-web; curl -fsS -m 5 http://127.0.0.1:4025/api/health; echo; journalctl -u dcbot-web -n 20 --no-pager'
 
       # The domain is the deliverable, so it is asserted from outside the box:
       # static landing page, a client-side route (proves the SPA fallback), and

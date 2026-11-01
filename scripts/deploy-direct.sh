@@ -44,7 +44,7 @@ CURRENT="${CURRENT:-/opt/booster-role/current}"
 PREV="${CURRENT}.previous"
 UNIT="${UNIT:-booster-role}"
 WEB_UNIT="${WEB_UNIT:-dcbot-web}"
-WEB_PORT="${WEB_PORT:-4024}"
+WEB_PORT="${WEB_PORT:-4025}"
 KEEP_RELEASES="${KEEP_RELEASES:-5}"
 SKIP_RESTART="${SKIP_RESTART:-0}"
 

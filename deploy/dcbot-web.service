@@ -15,7 +15,7 @@ Group=booster-role
 # assets swap together and this path always resolves to the live release.
 WorkingDirectory=/opt/booster-role/current/apps/api
 Environment=NODE_ENV=production
-Environment=PORT=4024
+Environment=PORT=4025
 # No bws-exec wrapper: the API needs no secrets today (the tenant store is
 # in-process). Add one when it reads Postgres or Discord with a token.
 ExecStart=/opt/booster-role/current/apps/api/node_modules/.bin/tsx src/server.ts

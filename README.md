@@ -85,7 +85,7 @@ development boundary `x-admin-user` sampai Discord OAuth/session diaktifkan.
 
 - URL: <https://dcbot.asepharyana.my.id>
 - Static SPA: `/opt/booster-role/current/apps/web/dist` (dilayani Caddy)
-- API: unit `dcbot-web` di `127.0.0.1:4024`, route `/api/*` lewat Caddy
+- API: unit `dcbot-web` di `127.0.0.1:4025`, route `/api/*` lewat Caddy
 - Rute Caddy adalah source of truth di repo `asepharyana/infra`
   (`infra/caddy/Caddyfile.prod`)
 
