@@ -91,21 +91,28 @@ development boundary `x-admin-user` sampai Discord OAuth/session diaktifkan.
 
 ### Discord app directory / verification
 
-Link yang dipakai saat mengisi form verifikasi Discord:
+Link yang dipakai saat mengisi form verifikasi Discord (satu pasang URL per bot,
+bukan per situs):
 
 | Field | URL |
 |---|---|
-| Privacy policy | <https://dcbot.asepharyana.my.id/privacy> |
-| Terms of service | <https://dcbot.asepharyana.my.id/terms> |
+| Privacy policy (Booster Role) | <https://dcbot.asepharyana.my.id/apps/booster-role/privacy> |
+| Terms of service (Booster Role) | <https://dcbot.asepharyana.my.id/apps/booster-role/terms> |
 | Support | <https://dcbot.asepharyana.my.id/support> |
 | Install link | `https://discord.com/oauth2/authorize?client_id=1504869409687076864&permissions=268435456&integration_type=0&scope=bot+applications.commands` |
 
 `permissions=268435456` adalah **Manage Roles** saja.
 
+Halaman legal disimpan di `apps/web/src/legal/`: satu modul konten per bot plus
+satu entri di `legal/index.ts`. Route-nya `/apps/$slug/privacy` dan
+`/apps/$slug/terms`, jadi menambah bot baru cukup menambah modul + entri registry
+(tanpa route baru). `/privacy` dan `/terms` adalah index koleksi yang menautkan
+tiap bot. Kontak publik ada di satu konstanta (`legal/types.ts`).
+
 Intent yang diminta bot hanya `Guilds` + `Server Members`; **Presence** dan
 **Message Content** sengaja tidak diminta. Kalau suatu saat intent baru dipakai,
-update dulu tabel intent di `apps/web/src/routes/legal.tsx` — halaman itu yang
-dibaca reviewer Discord sebagai rujukan pemakaian data.
+update dulu tabel intent di modul legal bot tersebut — halaman itu yang dibaca
+reviewer Discord sebagai rujukan pemakaian data.
 
 `scripts/deploy-direct.sh` membangun SPA di dalam release dir, lalu men-swap
 `current` sehingga kode dan aset statis berganti (dan rollback) bersamaan. Wrapper
