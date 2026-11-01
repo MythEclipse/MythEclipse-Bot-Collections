@@ -1,3 +1,10 @@
+## [1.6.2](https://github.com/asepharyana/MythEclipse-Bot-Collections/compare/v1.6.1...v1.6.2) (2026-11-01)
+
+
+### Bug Fixes
+
+* remove the data the site was inventing ([6d6b439](https://github.com/asepharyana/MythEclipse-Bot-Collections/commit/6d6b439a4d5949c5b1738f747a26c5e3484c3320))
+
 ## [1.6.1](https://github.com/asepharyana/MythEclipse-Bot-Collections/compare/v1.6.0...v1.6.1) (2026-11-01)
 
 
