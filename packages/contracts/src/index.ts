@@ -27,11 +27,24 @@ export type TenantSummary = {
   active: boolean;
 };
 
-export type TenantOverview = TenantSummary & {
+/**
+ * What the dashboard shows for the one guild the bot is installed in. Every
+ * number here comes from Discord or from the bot's own table — nothing is
+ * hardcoded, so the page cannot drift from reality.
+ */
+export type GuildOverview = {
+  guildId: string;
+  name: string;
+  iconUrl: string | null;
   memberCount: number;
-  managedRoleCount: number;
-  eligibleBoosterCount: number;
-  updatedAt: string;
+  boosterCount: number;
+  managedRoleCount: number | null;
+  fetchedAt: string;
+};
+
+export type SessionUser = {
+  id: string;
+  name: string;
 };
 
 export type BotProduct = {

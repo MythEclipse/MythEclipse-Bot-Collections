@@ -64,6 +64,12 @@ bot, public server lookup, dan dashboard admin server. Routing memakai TanStack
 Router, data fetching/cache memakai TanStack Query, dan style pipeline
 menggunakan Tailwind CSS v4 melalui Vite.
 
+Dashboard login memakai **Discord OAuth** (`identify guilds`). Session hanya
+diberikan kalau akun itu punya izin Administrator/Manage Server di guild
+`DISCORD_GUILD_ID`; cookie session ditandatangani HMAC dan HttpOnly. Data
+overview diambil live: nama/member/booster dari Discord, jumlah managed role dari
+tabel `booster_roles`.
+
 Kontrak verifikasi dan tenant dibagikan melalui `packages/contracts`, sehingga
 aturan yang dipakai web tidak dibuat ulang secara terpisah dari bot. Dashboard
 menjalankan panel **role safety** yang memanggil `verifyBoosterRole` dari paket
@@ -78,12 +84,16 @@ pnpm run api:dev
 API client memakai base URL same-origin secara default, jadi production tidak
 butuh build-time URL: Caddy menyajikan SPA dan mem-proxy `/api` ke service yang
 sama. Di dev, Vite mem-proxy `/api` ke `http://127.0.0.1:8787`; isi
-`VITE_API_URL` kalau API berjalan di port lain. Auth dashboard masih berupa
-development boundary `x-admin-user` sampai Discord OAuth/session diaktifkan.
+`VITE_API_URL` kalau API berjalan di port lain.
 
 ### Production
 
 - URL: <https://dcbot.asepharyana.my.id>
+- Redirect URI OAuth yang harus terdaftar di Discord Developer Portal:
+  `https://dcbot.asepharyana.my.id/api/auth/discord/callback`
+- Secret set `dcbot_web_*` di BWS: `DISCORD_CLIENT_ID`, `DISCORD_CLIENT_SECRET`,
+  `DISCORD_GUILD_ID`, `DISCORD_TOKEN`, `DATABASE_URL`, `PUBLIC_BASE_URL`,
+  `SESSION_SECRET` (dibaca lewat `bws-exec dcbot-web`)
 - Static SPA: `/opt/booster-role/current/apps/web/dist` (dilayani Caddy)
 - API: unit `dcbot-web` di `127.0.0.1:4025`, route `/api/*` lewat Caddy
 - Rute Caddy adalah source of truth di repo `asepharyana/infra`
@@ -137,10 +147,9 @@ pnpm run api:dev
 pnpm run web:dev
 ```
 
-The dashboard currently uses `x-admin-user` as an explicit development
-authentication boundary. Replace it with Discord OAuth/session middleware before
-production use; tenant authorization is already enforced in the API store. The
-tenant data itself is still the in-process demo store in `apps/api/src/tenantStore.ts`.
+The dashboard authenticates with Discord OAuth and only opens for accounts that
+can manage the configured guild. The public server lookup still reads the demo
+store in `apps/api/src/tenantStore.ts`; the dashboard does not use it.
 
 Saat startup, bot otomatis register slash command ke guild dari `DISCORD_GUILD_ID`, lalu menangani interaction command. Pastikan bot di-invite dengan scope `applications.commands`.
 

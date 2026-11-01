@@ -1,49 +1,29 @@
-import type { TenantOverview, TenantSummary } from "@booster-role/contracts";
+import type { TenantSummary } from "@booster-role/contracts";
 
 export type TenantStore = {
   findPublicBySlug(slug: string): TenantSummary | null;
-  getOverview(tenantId: string, adminUserId: string): TenantOverview | null;
 };
 
-type TenantRecord = TenantOverview & { adminUserIds: string[] };
-
-const tenants: TenantRecord[] = [
+/**
+ * Public lookup only. The admin dashboard reads live data from Discord and the
+ * bot's own table (`guildOverview.ts`), so this store stays a thin demo surface
+ * for the landing page instead of pretending to be a tenant database.
+ */
+const tenants: TenantSummary[] = [
   {
     id: "tenant-demo",
     slug: "demo-server",
     name: "Demo Booster Server",
     discordGuildId: "guild-demo",
     plan: "pro",
-    active: true,
-    memberCount: 1284,
-    managedRoleCount: 47,
-    eligibleBoosterCount: 92,
-    updatedAt: new Date().toISOString(),
-    adminUserIds: ["demo-admin"]
+    active: true
   }
 ];
 
-export function createTenantStore(records: TenantRecord[] = tenants): TenantStore {
+export function createTenantStore(records: TenantSummary[] = tenants): TenantStore {
   return {
     findPublicBySlug(slug) {
-      const tenant = records.find((record) => record.slug === slug && record.active);
-      return tenant ? toSummary(tenant) : null;
-    },
-    getOverview(tenantId, adminUserId) {
-      const tenant = records.find(
-        (record) => record.id === tenantId && record.active && record.adminUserIds.includes(adminUserId)
-      );
-      return tenant ? toOverview(tenant) : null;
+      return records.find((record) => record.slug === slug && record.active) ?? null;
     }
   };
-}
-
-function toSummary(tenant: TenantRecord): TenantSummary {
-  const { memberCount, managedRoleCount, eligibleBoosterCount, updatedAt, adminUserIds, ...summary } = tenant;
-  return summary;
-}
-
-function toOverview(tenant: TenantRecord): TenantOverview {
-  const { adminUserIds, ...overview } = tenant;
-  return overview;
 }

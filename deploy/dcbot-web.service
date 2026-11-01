@@ -16,9 +16,11 @@ Group=booster-role
 WorkingDirectory=/opt/booster-role/current/apps/api
 Environment=NODE_ENV=production
 Environment=PORT=4025
-# No bws-exec wrapper: the API needs no secrets today (the tenant store is
-# in-process). Add one when it reads Postgres or Discord with a token.
-ExecStart=/opt/booster-role/current/apps/api/node_modules/.bin/tsx src/server.ts
+# Runtime env comes from the `dcbot_web_*` secrets in Bitwarden Secrets Manager:
+# DISCORD_CLIENT_ID, DISCORD_CLIENT_SECRET, DISCORD_GUILD_ID, DISCORD_TOKEN,
+# DATABASE_URL, PUBLIC_BASE_URL, SESSION_SECRET. Its own set, not the bot's, so a
+# rotated bot token cannot silently change what the dashboard authorizes.
+ExecStart=/usr/local/bin/bws-exec dcbot-web /opt/booster-role/current/apps/api/node_modules/.bin/tsx src/server.ts
 Restart=always
 RestartSec=5
 ProtectHome=true

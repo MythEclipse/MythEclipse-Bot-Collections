@@ -1,4 +1,4 @@
-import type { BotProduct, TenantOverview, TenantSummary } from "@booster-role/contracts";
+import type { BotProduct, GuildOverview, SessionUser, TenantSummary } from "@booster-role/contracts";
 
 /**
  * Empty by default so production is same-origin: Caddy serves this SPA and
@@ -7,10 +7,25 @@ import type { BotProduct, TenantOverview, TenantSummary } from "@booster-role/co
  */
 const apiUrl = import.meta.env.VITE_API_URL ?? "";
 
+export class ApiError extends Error {
+  constructor(
+    message: string,
+    readonly status: number
+  ) {
+    super(message);
+    this.name = "ApiError";
+  }
+}
+
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
-  const response = await fetch(`${apiUrl}${path}`, init);
+  const response = await fetch(`${apiUrl}${path}`, {
+    // The dashboard session is an HttpOnly cookie; send it on the same-origin
+    // production path and on a cross-origin VITE_API_URL in dev.
+    credentials: "include",
+    ...init
+  });
   if (!response.ok) {
-    throw new Error(await readError(response));
+    throw new ApiError(await readError(response), response.status);
   }
   return (await response.json()) as T;
 }
@@ -34,12 +49,19 @@ export function fetchTenant(slug: string): Promise<{ tenant: TenantSummary }> {
   return request(`/api/public/tenants/${encodeURIComponent(slug)}`);
 }
 
-/**
- * `adminUser` is the documented development auth boundary: the API accepts it
- * as the `x-admin-user` header until Discord OAuth replaces it.
- */
-export function fetchTenantOverview(tenantId: string, adminUser: string): Promise<{ overview: TenantOverview }> {
-  return request(`/api/admin/tenants/${encodeURIComponent(tenantId)}/overview`, {
-    headers: { "x-admin-user": adminUser }
-  });
+export function fetchSession(): Promise<{ user: SessionUser; expiresAt: number }> {
+  return request("/api/auth/session");
+}
+
+export function fetchGuildOverview(): Promise<{ overview: GuildOverview; user: SessionUser }> {
+  return request("/api/admin/overview");
+}
+
+export async function signOut(): Promise<void> {
+  await fetch(`${apiUrl}/api/auth/logout`, { method: "POST", credentials: "include" });
+}
+
+/** Full-page navigation, not a fetch: Discord has to own the redirect chain. */
+export function discordLoginUrl(): string {
+  return `${apiUrl}/api/auth/discord`;
 }

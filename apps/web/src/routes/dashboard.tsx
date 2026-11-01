@@ -1,95 +1,115 @@
-import type { TenantOverview } from "@booster-role/contracts";
-import { useQuery } from "@tanstack/react-query";
+import type { GuildOverview, SessionUser } from "@booster-role/contracts";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import * as React from "react";
-import { fetchTenantOverview } from "../api";
+import { discordLoginUrl, fetchGuildOverview, fetchSession, signOut } from "../api";
 import { RoleVerifier } from "../components/role-verifier";
 
-type Workspace = {
-  tenantId: string;
-  adminUser: string;
+/** Set by the OAuth callback when it redirects back without a session. */
+const authMessages: Record<string, string> = {
+  denied: "Akun Discord itu bukan administrator server ini, jadi workspace-nya tidak dibuka.",
+  state: "Sesi login kedaluwarsa atau tidak cocok. Coba masuk lagi.",
+  error: "Discord menolak proses login. Coba lagi sebentar lagi."
 };
 
-// The demo workspace the API ships with. It loads on mount so the dashboard is
-// never an empty form; the fields below are how another workspace is opened.
-const demoWorkspace: Workspace = { tenantId: "tenant-demo", adminUser: "demo-admin" };
-
 export function DashboardPage(): React.ReactElement {
-  const [form, setForm] = React.useState<Workspace>(demoWorkspace);
-  const [opened, setOpened] = React.useState<Workspace>(demoWorkspace);
-  const overview = useQuery({
-    queryKey: ["admin", "overview", opened.tenantId, opened.adminUser],
-    queryFn: () => fetchTenantOverview(opened.tenantId, opened.adminUser)
-  });
+  const session = useQuery({ queryKey: ["auth", "session"], queryFn: fetchSession });
+  const signedIn = session.data !== undefined;
+  const overview = useQuery({ queryKey: ["admin", "overview"], queryFn: fetchGuildOverview, enabled: signedIn });
 
   return (
     <main className="dashboard container">
       <div className="dashboard-top">
         <div>
           <p className="eyebrow">Server admin</p>
-          <h1>Your workspaces.</h1>
-          <p className="lead">Manage every Discord server and bot from one place.</p>
+          <h1>Your workspace.</h1>
+          <p className="lead">Live state of the server Booster Role runs in.</p>
         </div>
-        <span className="avatar">ME</span>
+        {session.data && <Avatar user={session.data.user} />}
       </div>
 
-      <div className="notice">
-        <strong>Demo authentication boundary</strong>
-        <span>
-          The API accepts the admin identity below as <code>x-admin-user</code>. Discord OAuth replaces this field
-          before the dashboard handles real servers.
-        </span>
-      </div>
+      {session.isPending && <p className="muted">Checking your session…</p>}
 
-      <form
-        className="admin-form"
-        onSubmit={(event) => {
-          event.preventDefault();
-          setOpened({ tenantId: form.tenantId.trim(), adminUser: form.adminUser.trim() });
-        }}
-      >
-        <label>
-          Workspace ID
-          <input
-            value={form.tenantId}
-            onChange={(event) => setForm((current) => ({ ...current, tenantId: event.target.value }))}
-            required
-          />
-        </label>
-        <label>
-          Admin identity
-          <input
-            value={form.adminUser}
-            onChange={(event) => setForm((current) => ({ ...current, adminUser: event.target.value }))}
-            required
-          />
-        </label>
-        <button className="button" type="submit" disabled={overview.isFetching}>
-          {overview.isFetching ? "Opening…" : "Open workspace"}
-        </button>
-      </form>
+      {session.isError && <SignIn notice={authNotice()} />}
 
-      {overview.isError && (
-        <p className="form-error">
-          {overview.error.message} · workspace <code>{opened.tenantId}</code>
-        </p>
+      {signedIn && (
+        <>
+          <SignedInBar user={session.data.user} />
+          {overview.isPending && <p className="muted">Loading the server from Discord…</p>}
+          {overview.isError && <p className="form-error">{overview.error.message}</p>}
+          {overview.data && (
+            <>
+              <OverviewCard overview={overview.data.overview} />
+              <RoleVerifier guildId={overview.data.overview.guildId} />
+            </>
+          )}
+        </>
       )}
-
-      {overview.data && <OverviewCard overview={overview.data.overview} />}
-
-      <RoleVerifier guildId={overview.data?.overview.discordGuildId ?? "guild-demo"} />
     </main>
   );
 }
 
-function OverviewCard({ overview }: { overview: TenantOverview }): React.ReactElement {
+function authNotice(): string | null {
+  const flag = new URLSearchParams(window.location.search).get("auth");
+  return flag ? (authMessages[flag] ?? null) : null;
+}
+
+function SignIn({ notice }: { notice: string | null }): React.ReactElement {
+  return (
+    <section className="admin-form">
+      <h2>Sign in to manage this server</h2>
+      <p className="muted">
+        Login memakai Discord dan hanya membuka workspace kalau akunmu punya izin Administrator atau Manage Server di
+        server ini.
+      </p>
+      {notice && <p className="form-error">{notice}</p>}
+      <a className="button" href={discordLoginUrl()}>
+        Continue with Discord
+      </a>
+    </section>
+  );
+}
+
+function SignedInBar({ user }: { user: SessionUser }): React.ReactElement {
+  const queryClient = useQueryClient();
+  const [pending, setPending] = React.useState(false);
+
+  async function handleSignOut(): Promise<void> {
+    setPending(true);
+    await signOut();
+    queryClient.clear();
+    window.location.assign("/dashboard");
+  }
+
+  return (
+    <div className="session-bar">
+      <span>
+        Signed in as <strong>{user.name}</strong>
+      </span>
+      <button className="text-link" type="button" onClick={() => void handleSignOut()} disabled={pending}>
+        {pending ? "Signing out…" : "Sign out"}
+      </button>
+    </div>
+  );
+}
+
+function Avatar({ user }: { user: SessionUser }): React.ReactElement {
+  return <span className="avatar">{initials(user.name)}</span>;
+}
+
+function initials(name: string): string {
+  const parts = name.trim().split(/\s+/).slice(0, 2);
+  return parts.map((part) => part[0]?.toUpperCase() ?? "").join("") || "ME";
+}
+
+function OverviewCard({ overview }: { overview: GuildOverview }): React.ReactElement {
   return (
     <div className="metrics">
       <div className="dashboard-heading">
         <div>
-          <p className="eyebrow">{overview.plan} plan</p>
+          <p className="eyebrow">Guild {overview.guildId}</p>
           <h2>{overview.name}</h2>
         </div>
-        <span className="status">● Active</span>
+        <span className="status">● Connected</span>
       </div>
       <div className="metric-grid">
         <div>
@@ -97,17 +117,15 @@ function OverviewCard({ overview }: { overview: TenantOverview }): React.ReactEl
           <strong>{overview.memberCount.toLocaleString()}</strong>
         </div>
         <div>
-          <span>Managed roles</span>
-          <strong>{overview.managedRoleCount}</strong>
+          <span>Boosters</span>
+          <strong>{overview.boosterCount.toLocaleString()}</strong>
         </div>
         <div>
-          <span>Eligible boosters</span>
-          <strong>{overview.eligibleBoosterCount}</strong>
+          <span>Managed roles</span>
+          <strong>{overview.managedRoleCount === null ? "—" : overview.managedRoleCount.toLocaleString()}</strong>
         </div>
       </div>
-      <p className="muted">
-        Guild ID: {overview.discordGuildId} · Updated {new Date(overview.updatedAt).toLocaleString()}
-      </p>
+      <p className="muted">Read from Discord at {new Date(overview.fetchedAt).toLocaleString()}</p>
     </div>
   );
 }

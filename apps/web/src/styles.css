@@ -48,3 +48,9 @@ code{font-family:ui-monospace,SFMono-Regular,monospace;font-size:.9em;color:#d4d
 .legal-index-links a{color:#c6f36b;font-weight:700;text-decoration:none;font-size:.9rem}
 .legal-index-links a:hover{text-decoration:underline}
 
+/* Dashboard session bar */
+.session-bar{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;margin:2rem 0;padding:.85rem 1.1rem;border:1px solid #293127;border-radius:12px;background:#171b15;color:#9ba496;font-size:.9rem}
+.session-bar strong{color:#f4f1ea}
+.session-bar button{background:none;border:0;padding:0;font:inherit;cursor:pointer}
+.admin-form h2{margin:0 0 .5rem;font-size:1.4rem;letter-spacing:-.03em}
+

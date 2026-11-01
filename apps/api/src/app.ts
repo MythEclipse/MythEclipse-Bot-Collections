@@ -1,8 +1,28 @@
-import { cors } from "hono/cors";
 import { Hono } from "hono";
-import type { TenantStore } from "./tenantStore";
-import { createTenantStore } from "./tenantStore";
+import { cors } from "hono/cors";
+import { deleteCookie, getCookie, setCookie } from "hono/cookie";
 import type { BotProduct } from "@booster-role/contracts";
+import { callbackUrl, isSecureBase, type WebConfig } from "./config";
+import { loadGuildOverview, type OverviewSources } from "./guildOverview";
+import {
+  authorizeUrl,
+  exchangeCode,
+  fetchGuilds,
+  fetchUser,
+  findManageableGuild,
+  type DiscordGuild,
+  type DiscordUser
+} from "./oauth";
+import {
+  randomToken,
+  SESSION_COOKIE,
+  SESSION_TTL_MS,
+  STATE_COOKIE,
+  STATE_TTL_SECONDS,
+  signSession,
+  verifySession
+} from "./session";
+import { createTenantStore, type TenantStore } from "./tenantStore";
 
 const botProducts: BotProduct[] = [
   {
@@ -25,7 +45,33 @@ const botProducts: BotProduct[] = [
   }
 ];
 
-export function createApp(store: TenantStore = createTenantStore()) {
+export type OAuthGateway = {
+  exchangeCode(input: { clientId: string; clientSecret: string; code: string; redirectUri: string }): Promise<string>;
+  fetchUser(accessToken: string): Promise<DiscordUser>;
+  fetchGuilds(accessToken: string): Promise<DiscordGuild[]>;
+};
+
+export type AppDeps = {
+  config: WebConfig;
+  tenants?: TenantStore;
+  oauth?: OAuthGateway;
+  overview?: OverviewSources;
+  now?: () => number;
+};
+
+export function createApp(deps: AppDeps) {
+  const { config } = deps;
+  const tenants = deps.tenants ?? createTenantStore();
+  const oauth: OAuthGateway = deps.oauth ?? { exchangeCode, fetchUser, fetchGuilds };
+  const now = deps.now ?? (() => Date.now());
+  const dashboardUrl = `${config.publicBaseUrl}/dashboard`;
+  const cookieOptions = {
+    httpOnly: true,
+    sameSite: "Lax" as const,
+    path: "/",
+    secure: isSecureBase(config)
+  };
+
   const app = new Hono();
 
   app.use("/api/*", cors());
@@ -35,18 +81,86 @@ export function createApp(store: TenantStore = createTenantStore()) {
   app.get("/api/public/bots", (context) => context.json({ bots: botProducts }));
 
   app.get("/api/public/tenants/:slug", (context) => {
-    const tenant = store.findPublicBySlug(context.req.param("slug"));
+    const tenant = tenants.findPublicBySlug(context.req.param("slug"));
     if (!tenant) return context.json({ error: "Server not found" }, 404);
     return context.json({ tenant });
   });
 
-  app.get("/api/admin/tenants/:tenantId/overview", (context) => {
-    const adminUserId = context.req.header("x-admin-user");
-    if (!adminUserId) return context.json({ error: "Authentication required" }, 401);
+  // ── Discord OAuth ────────────────────────────────────────────────────────
+  app.get("/api/auth/discord", (context) => {
+    const state = randomToken();
+    setCookie(context, STATE_COOKIE, state, { ...cookieOptions, maxAge: STATE_TTL_SECONDS });
+    context.header("cache-control", "no-store");
+    return context.redirect(
+      authorizeUrl({ clientId: config.clientId, redirectUri: callbackUrl(config), state })
+    );
+  });
 
-    const overview = store.getOverview(context.req.param("tenantId"), adminUserId);
-    if (!overview) return context.json({ error: "Tenant not found or access denied" }, 404);
-    return context.json({ overview });
+  app.get("/api/auth/discord/callback", async (context) => {
+    const expectedState = getCookie(context, STATE_COOKIE);
+    deleteCookie(context, STATE_COOKIE, { path: "/" });
+
+    const code = context.req.query("code");
+    const state = context.req.query("state");
+    if (!code || !state || !expectedState || state !== expectedState) {
+      return context.redirect(`${dashboardUrl}?auth=state`);
+    }
+
+    try {
+      const accessToken = await oauth.exchangeCode({
+        clientId: config.clientId,
+        clientSecret: config.clientSecret,
+        code,
+        redirectUri: callbackUrl(config)
+      });
+      const user = await oauth.fetchUser(accessToken);
+      const guilds = await oauth.fetchGuilds(accessToken);
+      if (!findManageableGuild(guilds, config.guildId)) {
+        return context.redirect(`${dashboardUrl}?auth=denied`);
+      }
+
+      setCookie(
+        context,
+        SESSION_COOKIE,
+        signSession(config.sessionSecret, {
+          user: { id: user.id, name: user.globalName ?? user.username },
+          expiresAt: now() + SESSION_TTL_MS
+        }),
+        { ...cookieOptions, maxAge: Math.floor(SESSION_TTL_MS / 1000) }
+      );
+      return context.redirect(dashboardUrl);
+    } catch {
+      return context.redirect(`${dashboardUrl}?auth=error`);
+    }
+  });
+
+  app.get("/api/auth/session", (context) => {
+    context.header("cache-control", "no-store");
+    const session = verifySession(config.sessionSecret, getCookie(context, SESSION_COOKIE), now());
+    if (!session) return context.json({ error: "Not signed in" }, 401);
+    return context.json({ user: session.user, expiresAt: session.expiresAt });
+  });
+
+  app.post("/api/auth/logout", (context) => {
+    deleteCookie(context, SESSION_COOKIE, { path: "/" });
+    return context.body(null, 204);
+  });
+
+  // The session is only issued to someone who could manage the guild at login
+  // time; it carries that decision for its lifetime instead of re-asking
+  // Discord on every dashboard request.
+  app.get("/api/admin/overview", async (context) => {
+    context.header("cache-control", "no-store");
+    const session = verifySession(config.sessionSecret, getCookie(context, SESSION_COOKIE), now());
+    if (!session) return context.json({ error: "Sign in with Discord to open the dashboard" }, 401);
+    if (!deps.overview) return context.json({ error: "Dashboard data source is not configured" }, 503);
+
+    try {
+      const overview = await loadGuildOverview(config.guildId, deps.overview);
+      return context.json({ overview, user: session.user });
+    } catch {
+      return context.json({ error: "Could not load this server from Discord" }, 502);
+    }
   });
 
   return app;
