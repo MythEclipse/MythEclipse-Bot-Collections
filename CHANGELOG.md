@@ -1,3 +1,10 @@
+## [1.7.1](https://github.com/asepharyana/MythEclipse-Bot-Collections/compare/v1.7.0...v1.7.1) (2026-11-01)
+
+
+### Bug Fixes
+
+* **web:** give every block room and stop stretching lone cards ([1f76c2c](https://github.com/asepharyana/MythEclipse-Bot-Collections/commit/1f76c2c8abf945c4b295e6ed23aea1875e458b1b))
+
 # [1.7.0](https://github.com/asepharyana/MythEclipse-Bot-Collections/compare/v1.6.4...v1.7.0) (2026-11-01)
 
 
