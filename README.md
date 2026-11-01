@@ -89,6 +89,24 @@ development boundary `x-admin-user` sampai Discord OAuth/session diaktifkan.
 - Rute Caddy adalah source of truth di repo `asepharyana/infra`
   (`infra/caddy/Caddyfile.prod`)
 
+### Discord app directory / verification
+
+Link yang dipakai saat mengisi form verifikasi Discord:
+
+| Field | URL |
+|---|---|
+| Privacy policy | <https://dcbot.asepharyana.my.id/privacy> |
+| Terms of service | <https://dcbot.asepharyana.my.id/terms> |
+| Support | <https://dcbot.asepharyana.my.id/support> |
+| Install link | `https://discord.com/oauth2/authorize?client_id=1504869409687076864&permissions=268435456&integration_type=0&scope=bot+applications.commands` |
+
+`permissions=268435456` adalah **Manage Roles** saja.
+
+Intent yang diminta bot hanya `Guilds` + `Server Members`; **Presence** dan
+**Message Content** sengaja tidak diminta. Kalau suatu saat intent baru dipakai,
+update dulu tabel intent di `apps/web/src/routes/legal.tsx` — halaman itu yang
+dibaca reviewer Discord sebagai rujukan pemakaian data.
+
 `scripts/deploy-direct.sh` membangun SPA di dalam release dir, lalu men-swap
 `current` sehingga kode dan aset statis berganti (dan rollback) bersamaan. Wrapper
 `deploy/bin/booster-role` dan unit `deploy/dcbot-web.service` ikut di-install dari
