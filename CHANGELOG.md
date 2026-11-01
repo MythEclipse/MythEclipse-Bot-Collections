@@ -1,3 +1,10 @@
+## [1.6.1](https://github.com/asepharyana/MythEclipse-Bot-Collections/compare/v1.6.0...v1.6.1) (2026-11-01)
+
+
+### Bug Fixes
+
+* **web:** show the real invocation in the hero instead of an invented role ([d674fe6](https://github.com/asepharyana/MythEclipse-Bot-Collections/commit/d674fe607468aac4a85f5f64b8709ee217e91d5c))
+
 # [1.6.0](https://github.com/asepharyana/MythEclipse-Bot-Collections/compare/v1.5.0...v1.6.0) (2026-11-01)
 
 
