@@ -1,10 +1,9 @@
-import { Link, createRootRoute, createRoute, createRouter } from "@tanstack/react-router";
+import { Link, createRootRoute, createRoute, createRouter, redirect } from "@tanstack/react-router";
 import * as React from "react";
 import { DashboardPage } from "./routes/dashboard";
 import { LandingPage } from "./routes/landing";
-import { LegalDocumentPage, LegalIndexPage } from "./routes/legal";
+import { LegalDocumentPage } from "./routes/legal";
 import { Shell } from "./routes/shell";
-import { SupportPage } from "./routes/support";
 import { useLocale } from "./i18n";
 
 function NotFound(): React.ReactElement {
@@ -23,17 +22,14 @@ function NotFound(): React.ReactElement {
 const rootRoute = createRootRoute({ component: Shell, notFoundComponent: NotFound });
 const indexRoute = createRoute({ getParentRoute: () => rootRoute, path: "/", component: LandingPage });
 const dashboardRoute = createRoute({ getParentRoute: () => rootRoute, path: "/dashboard", component: DashboardPage });
-const supportRoute = createRoute({ getParentRoute: () => rootRoute, path: "/support", component: SupportPage });
-const privacyIndexRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: "/privacy",
-  component: () => <LegalIndexPage kind="privacy" />
-});
-const termsIndexRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: "/terms",
-  component: () => <LegalIndexPage kind="terms" />
-});
+// Support, privacy and terms are one section on the landing page now; the old
+// addresses keep working by pointing at it.
+const toHelp = (): never => {
+  throw redirect({ to: "/", hash: "help" });
+};
+const supportRoute = createRoute({ getParentRoute: () => rootRoute, path: "/support", beforeLoad: toHelp });
+const privacyIndexRoute = createRoute({ getParentRoute: () => rootRoute, path: "/privacy", beforeLoad: toHelp });
+const termsIndexRoute = createRoute({ getParentRoute: () => rootRoute, path: "/terms", beforeLoad: toHelp });
 // Per-bot documents: each Discord application points at its own pair of URLs.
 const appPrivacyRoute = createRoute({
   getParentRoute: () => rootRoute,

@@ -2,6 +2,8 @@ import { useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import * as React from "react";
 import { fetchProducts } from "../api";
+import { legalApps } from "../legal";
+import { contactEmail } from "../legal/types";
 import { ProductCard } from "../components/product-card";
 import { useLocale } from "../i18n";
 
@@ -10,6 +12,7 @@ export function LandingPage(): React.ReactElement {
     <main id="main">
       <Hero />
       <ProductSection />
+      <HelpSection />
       <ClosingCta />
     </main>
   );
@@ -87,6 +90,72 @@ function ProductSection(): React.ReactElement {
           <ProductCard key={bot.id} bot={bot} />
         ))}
       </div>
+    </section>
+  );
+}
+
+/**
+ * Support, privacy and terms live on this page instead of three routes: they are
+ * three short answers, not three destinations. The binding documents stay per
+ * bot at /apps/$slug, because each Discord application must point at its own.
+ */
+function HelpSection(): React.ReactElement {
+  const { t } = useLocale();
+
+  return (
+    <section className="section container" id="help">
+      <div className="section-head">
+        <h2>{t("help.heading")}</h2>
+        <p>{t("help.body")}</p>
+      </div>
+      <div className="help-grid">
+        <article className="panel help-card">
+          <h3>{t("support.h1")}</h3>
+          <p>{t("support.body")}</p>
+          <ul className="help-list">
+            <li>{t("support.before.one")}</li>
+            <li>{t("support.before.two")}</li>
+            <li>{t("support.before.three")}</li>
+          </ul>
+          <p className="support-card">
+            {t("support.emailLabel")}{" "}
+            <a href={`mailto:${contactEmail}`}>
+              <strong>{contactEmail}</strong>
+            </a>
+          </p>
+        </article>
+
+        <article className="panel help-card">
+          <h3>{t("legal.privacy")}</h3>
+          <p>{t("legal.index.privacy.body")}</p>
+          <p>{t("legal.index.privacy.site")}</p>
+          <ul className="help-list help-links">
+            {legalApps.map((app) => (
+              <li key={app.slug}>
+                <Link to="/apps/$slug/privacy" params={{ slug: app.slug }}>
+                  {app.name} — {t("legal.index.policy")} →
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </article>
+
+        <article className="panel help-card">
+          <h3>{t("legal.terms")}</h3>
+          <p>{t("legal.index.terms.body")}</p>
+          <p>{t("legal.index.terms.site")}</p>
+          <ul className="help-list help-links">
+            {legalApps.map((app) => (
+              <li key={app.slug}>
+                <Link to="/apps/$slug/terms" params={{ slug: app.slug }}>
+                  {app.name} — {t("legal.index.termsLink")} →
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </article>
+      </div>
+      <p className="muted">{t("legal.index.contact.body", { email: contactEmail })}</p>
     </section>
   );
 }

@@ -7,13 +7,14 @@ export const en = {
   "nav.primaryLabel": "Primary",
   "nav.bots": "Bots",
   "nav.support": "Support",
-  "nav.privacy": "Privacy",
-  "nav.terms": "Terms",
   "nav.signIn": "Sign in",
   "nav.language": "Language",
   "nav.theme.toLight": "Switch to light theme",
   "nav.theme.toDark": "Switch to dark theme",
   "brand.tag": "Bot Collections",
+  "help.heading": "Support, privacy and terms",
+  "help.body": "Three short answers instead of three pages. The binding documents stay per bot, because each Discord application points at its own pair.",
+  "footer.helpLink": "Support, privacy & terms",
   "skip.link": "Skip to content",
 
   "footer.blurb": "Discord bots by MythEclipse. Each bot has its own terms and privacy policy.",
@@ -116,17 +117,13 @@ export const en = {
   "diag.region": "Safety checks",
 
   "support.h1": "Support center",
-  "support.intro": "We help server admins keep things moving.",
   "support.body":
     "Tell us what happened and include your server id, the workspace id shown in the dashboard, and the command you used. Never send your bot token or password.",
-  "support.before": "Before contacting us",
   "support.before.one": "Confirm the bot is still in the server and its role sits above the roles it manages.",
   "support.before.two":
     "Confirm the member still has the booster eligibility role, otherwise their role is removed on purpose.",
   "support.before.three": "Check the dashboard for the workspace state and the last update time.",
-  "support.contact": "Contact",
   "support.emailLabel": "Support email",
-  "support.legal": "For how data is handled see each bot's privacy policy; for the rules of use, its terms of service.",
 
   "legal.privacy": "Privacy",
   "legal.terms": "Terms",
@@ -143,9 +140,8 @@ export const en = {
     "MythEclipse Bot Collections is a set of Discord bots run by the same developer. Every bot publishes its own privacy policy, because each one requests different Discord intents and stores different data.",
   "legal.index.terms.body":
     "MythEclipse Bot Collections is a set of Discord bots run by the same developer. Every bot publishes its own terms of service, because each one asks for different Discord permissions.",
-  "legal.index.bots": "Bots in the collection",
-  "legal.index.policy": "Privacy policy",
   "legal.index.termsLink": "Terms of service",
+  "legal.index.policy": "Privacy policy",
   "legal.index.site": "This website",
   "legal.index.privacy.site":
     "The site you are reading is a static page. It sets no cookies, runs no analytics or tracking scripts, and asks for no account. It calls the collection's own API only to list bots and to load a server dashboard; nothing from that call is shared with a third party.",

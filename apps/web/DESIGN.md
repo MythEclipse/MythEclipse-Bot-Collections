@@ -325,7 +325,14 @@ sitting on the orbit rings — vertically centered in a 560px-minimum band. Sect
 heading and its supporting paragraph share a baseline. Product cards flow in an
 `auto-fit` grid with a 280px floor, so the collection grows without a new layout
 rule. Metric tiles are three-up, verifier fields three-up, and both collapse to
-one column at 900px. Legal pages narrow to an 860px page with a 56ch measure.
+one column at 900px. Legal documents narrow to an 860px page with a 56ch
+measure.
+
+Support, privacy and terms are one section on the landing page (`#help`), three
+cards on the same auto-fit grid as the product cards. They are short answers, not
+destinations, and the old `/support`, `/privacy`, `/terms` addresses redirect to
+the section. The binding documents stay per bot at `/apps/$slug/{privacy,terms}`,
+because each Discord application must point at its own pair.
 
 Rhythm comes in one scale: 0.4 / 0.6 / 1 / 1.5 / 2 / 3 / 4 / 5.5rem. Cards are
 padded at 2rem (1.5rem for metric tiles), grids gap at 1rem, and the gap between
@@ -473,7 +480,7 @@ carries hover, focus-visible, active, disabled, loading, and error behaviour.
 ### Navigation
 
 - **Style:** one row inside the 1180px container, 1.5rem vertical padding,
-  wordmark left, five links right. Links are Ash at 0.9rem, hover to Bone, and
+  wordmark left, two links plus the sign-in pill right. Links are Ash at 0.9rem, hover to Bone, and
   the current page is marked with `aria-current="page"` in Bone.
 - **Wordmark:** "MythEclipse", one word, one colour (Bone), weight 780,
   -0.04em. It is a single token: no inner span, no two-tone split, no gap that

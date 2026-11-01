@@ -1224,9 +1224,8 @@ li {
   display: grid;
   gap: 0.25rem;
   margin-top: var(--space-sm);
-  padding: var(--space-md);
-  border: 1px solid var(--slate-light);
-  border-radius: var(--radius-md);
+  padding-top: var(--space-sm);
+  border-top: 1px solid var(--slate);
   color: var(--ash-soft);
 }
 
@@ -1321,6 +1320,58 @@ li {
 .lang-switch button[aria-pressed="true"] {
   background: var(--lime);
   color: var(--on-signal);
+}
+
+/* ==========================================================================
+   Help section (support + privacy + terms on one page)
+   ========================================================================== */
+.help-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: var(--space-md);
+}
+
+.help-card {
+  display: grid;
+  align-content: start;
+  gap: var(--space-sm);
+  padding: var(--space-lg);
+}
+
+.help-card h3 {
+  color: var(--bone);
+  font-size: 1.35rem;
+  font-weight: 750;
+  letter-spacing: -0.02em;
+}
+
+.help-card p {
+  color: var(--ash-soft);
+  font-size: 0.9rem;
+}
+
+.help-list {
+  display: grid;
+  gap: 0.4rem;
+  margin: 0;
+  padding-left: 1.1rem;
+  color: var(--ash-soft);
+  font-size: 0.9rem;
+}
+
+.help-links {
+  padding-left: 0;
+  list-style: none;
+}
+
+.help-links a {
+  color: var(--signal);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+}
+
+.help-links a:hover {
+  border-bottom-color: currentColor;
 }
 
 /* ==========================================================================

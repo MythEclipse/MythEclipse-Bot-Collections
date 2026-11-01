@@ -1,9 +1,8 @@
 import { Link, useParams } from "@tanstack/react-router";
 import * as React from "react";
 import { useLocale } from "../i18n";
-import { findLegalApp, legalApps } from "../legal";
+import { findLegalApp } from "../legal";
 import type { LegalDocumentKind } from "../legal/types";
-import { contactEmail } from "../legal/types";
 
 /**
  * Legal documents are per bot, not per site: each Discord application links to
@@ -35,7 +34,7 @@ export function LegalDocumentPage({ kind }: { kind: LegalDocumentKind }): React.
     <LegalShell
       crumb={
         <>
-          <Link to={kind === "privacy" ? "/privacy" : "/terms"}>
+          <Link to="/" hash="help">
             {kind === "privacy" ? t("legal.privacy") : t("legal.terms")}
           </Link>
           <span aria-hidden="true"> / </span>
@@ -55,61 +54,10 @@ function NotFoundBody(): React.ReactElement {
 
   return (
     <p>
-      {t("legal.notFound.body.one")} <Link to="/privacy">{t("legal.privacy")}</Link> {t("legal.notFound.body.two")}{" "}
-      <Link to="/terms">{t("legal.terms")}</Link>
+      {t("legal.notFound.body.one")} <Link to="/" hash="help">{t("legal.privacy")}</Link>{" "}
+      {t("legal.notFound.body.two")} <Link to="/" hash="help">{t("legal.terms")}</Link>
       {t("legal.notFound.body.three")}
     </p>
-  );
-}
-
-/**
- * Collection-level page. It carries the rules that are true for every bot in the
- * collection and links out to each bot's own documents.
- */
-export function LegalIndexPage({ kind }: { kind: "privacy" | "terms" }): React.ReactElement {
-  const { t } = useLocale();
-  const isPrivacy = kind === "privacy";
-
-  return (
-    <LegalShell
-      title={isPrivacy ? t("legal.privacy") : t("legal.terms")}
-      subtitle={isPrivacy ? t("legal.index.privacy.subtitle") : t("legal.index.terms.subtitle")}
-      body={
-        <>
-          <p>{isPrivacy ? t("legal.index.privacy.body") : t("legal.index.terms.body")}</p>
-
-          <section className="legal-section">
-            <h2>{t("legal.index.bots")}</h2>
-            <div className="legal-index">
-              {legalApps.map((app) => (
-                <article key={app.slug} className="legal-index-card">
-                  <h3>{app.name}</h3>
-                  <p>{app.summary}</p>
-                  <div className="legal-index-links">
-                    <Link to="/apps/$slug/privacy" params={{ slug: app.slug }}>
-                      {t("legal.index.policy")}
-                    </Link>
-                    <Link to="/apps/$slug/terms" params={{ slug: app.slug }}>
-                      {t("legal.index.termsLink")}
-                    </Link>
-                  </div>
-                </article>
-              ))}
-            </div>
-          </section>
-
-          <section className="legal-section">
-            <h2>{t("legal.index.site")}</h2>
-            <p>{isPrivacy ? t("legal.index.privacy.site") : t("legal.index.terms.site")}</p>
-          </section>
-
-          <section className="legal-section">
-            <h2>{t("legal.index.contact")}</h2>
-            <p>{t("legal.index.contact.body", { email: contactEmail })}</p>
-          </section>
-        </>
-      }
-    />
   );
 }
 

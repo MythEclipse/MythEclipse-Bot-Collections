@@ -60,10 +60,12 @@ export function Shell(): React.ReactElement {
         <Brand as="link" />
         <div className="nav-right">
           <nav className="nav-links" aria-label={t("nav.primaryLabel")}>
-            <a href="#products">{t("nav.bots")}</a>
-            <Link to="/support">{t("nav.support")}</Link>
-            <Link to="/privacy">{t("nav.privacy")}</Link>
-            <Link to="/terms">{t("nav.terms")}</Link>
+            <Link to="/" hash="products">
+              {t("nav.bots")}
+            </Link>
+            <Link to="/" hash="help">
+              {t("nav.support")}
+            </Link>
             <Link className="nav-login" to="/dashboard">
               {t("nav.signIn")}
             </Link>
@@ -81,9 +83,9 @@ export function Shell(): React.ReactElement {
           <p>{t("footer.blurb")}</p>
         </div>
         <nav className="footer-links" aria-label={t("footer.legalLabel")}>
-          <Link to="/privacy">{t("nav.privacy")}</Link>
-          <Link to="/terms">{t("nav.terms")}</Link>
-          <Link to="/support">{t("nav.support")}</Link>
+          <Link to="/" hash="help">
+            {t("footer.helpLink")}
+          </Link>
         </nav>
         <small>{t("footer.copyright", { year: new Date().getFullYear() })}</small>
       </footer>

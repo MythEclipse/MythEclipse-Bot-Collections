@@ -9,13 +9,14 @@ export const id: Messages = {
   "nav.primaryLabel": "Utama",
   "nav.bots": "Bot",
   "nav.support": "Bantuan",
-  "nav.privacy": "Privasi",
-  "nav.terms": "Ketentuan",
   "nav.signIn": "Masuk",
   "nav.language": "Bahasa",
   "nav.theme.toLight": "Ganti ke tema terang",
   "nav.theme.toDark": "Ganti ke tema gelap",
   "brand.tag": "Bot Collections",
+  "help.heading": "Bantuan, privasi, dan ketentuan",
+  "help.body": "Tiga jawaban singkat, bukan tiga halaman. Dokumen yang mengikat tetap per bot, karena tiap aplikasi Discord menunjuk pasangan URL-nya sendiri.",
+  "footer.helpLink": "Bantuan, privasi & ketentuan",
   "skip.link": "Lompat ke konten",
 
   "footer.blurb": "Bot Discord dari MythEclipse. Tiap bot punya ketentuan dan kebijakan privasi sendiri.",
@@ -117,17 +118,13 @@ export const id: Messages = {
   "diag.region": "Pemeriksaan keamanan",
 
   "support.h1": "Pusat bantuan",
-  "support.intro": "Kami bantu admin server menjaga semuanya tetap jalan.",
   "support.body":
     "Ceritakan apa yang terjadi dan sertakan id server, id ruang kerja yang tampil di dashboard, dan perintah yang kamu pakai. Jangan pernah mengirim token bot atau kata sandi.",
-  "support.before": "Sebelum menghubungi kami",
   "support.before.one": "Pastikan bot masih ada di server dan role-nya berada di atas role yang dikelolanya.",
   "support.before.two":
     "Pastikan anggota masih punya role kelayakan booster; kalau tidak, role-nya memang dicabut.",
   "support.before.three": "Cek dashboard untuk status ruang kerja dan waktu pembaruan terakhir.",
-  "support.contact": "Kontak",
   "support.emailLabel": "Email bantuan",
-  "support.legal": "Soal pengelolaan data, lihat kebijakan privasi tiap bot; soal aturan pemakaian, lihat ketentuannya.",
 
   "legal.privacy": "Privasi",
   "legal.terms": "Ketentuan",
@@ -144,9 +141,8 @@ export const id: Messages = {
     "MythEclipse Bot Collections adalah kumpulan bot Discord yang dijalankan pengembang yang sama. Tiap bot menerbitkan kebijakan privasinya sendiri, karena tiap bot meminta intent Discord dan menyimpan data yang berbeda.",
   "legal.index.terms.body":
     "MythEclipse Bot Collections adalah kumpulan bot Discord yang dijalankan pengembang yang sama. Tiap bot menerbitkan ketentuannya sendiri, karena tiap bot meminta izin Discord yang berbeda.",
-  "legal.index.bots": "Bot dalam koleksi",
-  "legal.index.policy": "Kebijakan privasi",
   "legal.index.termsLink": "Ketentuan layanan",
+  "legal.index.policy": "Kebijakan privasi",
   "legal.index.site": "Situs ini",
   "legal.index.privacy.site":
     "Situs yang kamu baca ini halaman statis. Tidak memasang cookie, tidak menjalankan analitik atau pelacak, dan tidak meminta akun. Situs hanya memanggil API koleksi ini untuk menampilkan daftar bot dan memuat dashboard server; tidak ada data dari panggilan itu yang dibagikan ke pihak ketiga.",

@@ -64,7 +64,10 @@ Confirmed functionality:
   role count) and a role-safety panel that calls `verifyBoosterRole` from
   `packages/contracts`.
 - Legal: `/apps/$slug/privacy` and `/apps/$slug/terms` driven by a per-bot
-  registry in `apps/web/src/legal/`, plus `/privacy` and `/terms` collection
+  registry in `apps/web/src/legal/`. The collection-level answers (support,
+  privacy, terms) live in one `#help` section on the landing page; the old
+  `/support`, `/privacy` and `/terms` routes redirect there. Superseded: a
+  separate collection
   indexes and a public support page.
 
 Constraints:
