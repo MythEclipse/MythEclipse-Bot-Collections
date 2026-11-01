@@ -1,3 +1,10 @@
+# [1.7.0](https://github.com/asepharyana/MythEclipse-Bot-Collections/compare/v1.6.4...v1.7.0) (2026-11-01)
+
+
+### Features
+
+* **web:** fold support, privacy and terms into one landing section ([454a0e9](https://github.com/asepharyana/MythEclipse-Bot-Collections/commit/454a0e9dd06b27948909aeca1c7ae79807dbdded))
+
 ## [1.6.4](https://github.com/asepharyana/MythEclipse-Bot-Collections/compare/v1.6.3...v1.6.4) (2026-11-01)
 
 
