@@ -8,7 +8,7 @@ function Brand({ as }: { as: "link" | "text" }): React.ReactElement {
   const { t } = useLocale();
   const content = (
     <>
-      Myth<span>Eclipse</span>
+      MythEclipse
       <small className="brand-tag">{t("brand.tag")}</small>
     </>
   );
@@ -58,18 +58,20 @@ export function Shell(): React.ReactElement {
       </a>
       <header className="nav container">
         <Brand as="link" />
-        <nav className="nav-links" aria-label={t("nav.primaryLabel")}>
-          <a href="#products">{t("nav.bots")}</a>
-          <Link to="/support">{t("nav.support")}</Link>
-          <Link to="/privacy">{t("nav.privacy")}</Link>
-          <Link to="/terms">{t("nav.terms")}</Link>
-          <Link className="nav-login" to="/dashboard">
-            {t("nav.signIn")}
-          </Link>
-        </nav>
-        <div className="nav-tools">
-          <LanguageSwitch />
-          <ThemeToggle />
+        <div className="nav-right">
+          <nav className="nav-links" aria-label={t("nav.primaryLabel")}>
+            <a href="#products">{t("nav.bots")}</a>
+            <Link to="/support">{t("nav.support")}</Link>
+            <Link to="/privacy">{t("nav.privacy")}</Link>
+            <Link to="/terms">{t("nav.terms")}</Link>
+            <Link className="nav-login" to="/dashboard">
+              {t("nav.signIn")}
+            </Link>
+          </nav>
+          <div className="nav-tools">
+            <LanguageSwitch />
+            <ThemeToggle />
+          </div>
         </div>
       </header>
       <Outlet />

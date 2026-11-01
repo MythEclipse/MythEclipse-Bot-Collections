@@ -475,16 +475,21 @@ carries hover, focus-visible, active, disabled, loading, and error behaviour.
 - **Style:** one row inside the 1180px container, 1.5rem vertical padding,
   wordmark left, five links right. Links are Ash at 0.9rem, hover to Bone, and
   the current page is marked with `aria-current="page"` in Bone.
-- **Wordmark:** "Myth" in Bone plus "Eclipse" in Signal Lime, weight 780,
-  tracking -0.04em, with a 0.72rem uppercase "Bot Collections" tag in Ash Soft.
-  Inline, not flex — the two syllables must read as one word. It appears twice:
-  as a link in the header, as plain text in the footer.
+- **Wordmark:** "MythEclipse", one word, one colour (Bone), weight 780,
+  -0.04em. It is a single token: no inner span, no two-tone split, no gap that
+  would let it read as two words. "Bot Collections" sits beside it as the small
+  uppercase tag.
+- **Cluster:** links and tools live in one `.nav-right` group with the auto
+  margin, so they wrap together and stay flush right. The brand never floats
+  mid-row and the links never strand in the middle.
 - **Tools:** a language segmented control (`EN` / `ID`, `aria-pressed`) and a
-  44px theme toggle (☀ / ☾, `aria-label` naming the theme it switches to) sit
-  right of the links.
-- **Wrapping:** the row wraps instead of overflowing, at any width — the same
-  rule covers a 320px phone and a 200% text zoom. Below 900px the four text
-  links hide (they repeat in the footer) and the tools stay.
+  theme toggle (☀ / ☾, `aria-label` naming the theme it switches to).
+- **Heights:** brand, links, sign-in pill, language pill and theme button are all
+  44px tall; the two language buttons are 36×38 inside the pill. Nothing in the
+  row is a different height from its neighbour.
+- **Wrapping:** one row down to 390px; below that the `.nav-right` cluster
+  wraps as a unit and stays flush right, so the bar is never a half-empty second
+  row. It never overflows, at any width or at 200% text zoom.
 - **Mobile (≤760px):** the four text links hide; the ghost login pill stays.
 
 ### Signature: The Command

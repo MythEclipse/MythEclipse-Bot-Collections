@@ -238,18 +238,16 @@ a {
 }
 
 .brand {
-  display: inline-flex;
-  align-items: baseline;
-  gap: 0.5rem;
+  display: inline-grid;
+  grid-auto-flow: column;
+  align-items: center;
+  gap: 0.55rem;
+  min-height: 2.75rem;
   color: var(--bone);
   font-size: 1.35rem;
   font-weight: 780;
   letter-spacing: -0.04em;
   text-decoration: none;
-}
-
-.brand span {
-  color: var(--signal);
 }
 
 .brand-tag {
@@ -268,7 +266,19 @@ a {
   min-width: 0;
 }
 
+.nav-right {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-sm);
+  margin-left: auto;
+}
+
 .nav-links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
   color: var(--ash);
   font-size: 0.9rem;
   text-decoration: none;
@@ -283,7 +293,7 @@ a {
 .nav-links a.nav-login {
   border: 1px solid var(--slate-light);
   border-radius: var(--radius-pill);
-  padding: 0.55rem 0.95rem;
+  padding: 0 1rem;
   color: var(--bone);
   transition:
     color var(--dur-fast) var(--ease-out),
@@ -1280,7 +1290,9 @@ li {
 
 .lang-switch {
   display: flex;
+  align-items: center;
   gap: 2px;
+  min-height: 2.75rem;
   padding: 3px;
   border: 1px solid var(--slate-light);
   border-radius: var(--radius-pill);
@@ -1288,7 +1300,7 @@ li {
 
 .lang-switch button {
   min-width: 2.4rem;
-  min-height: 2.35rem;
+  min-height: 2.25rem;
   border: 0;
   border-radius: var(--radius-pill);
   padding: 0 0.5rem;
@@ -1440,6 +1452,25 @@ li {
   .lookup-form {
     align-items: stretch;
     flex-direction: column;
+  }
+}
+
+@media (max-width: 480px) {
+  .nav {
+    gap: 0.4rem;
+  }
+
+  .nav-right {
+    gap: var(--space-xs);
+  }
+
+  .nav-links a.nav-login {
+    padding: 0 0.8rem;
+  }
+
+  .lang-switch button {
+    min-width: 1.9rem;
+    padding: 0 0.3rem;
   }
 }
 
