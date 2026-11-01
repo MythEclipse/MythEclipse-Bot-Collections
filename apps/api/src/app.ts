@@ -4,6 +4,7 @@ import { deleteCookie, getCookie, setCookie } from "hono/cookie";
 import type { BotProduct } from "@mytheclipse/contracts";
 import { callbackUrl, isSecureBase, type WebConfig } from "./config";
 import { loadGuildOverview, type OverviewSources } from "./guildOverview";
+import { loadManagedRoleReviews, type ManagedRoleSources } from "./managedRoles";
 import {
   authorizeUrl,
   exchangeCode,
@@ -32,7 +33,8 @@ const botProducts: BotProduct[] = [
     tagline: "Cosmetic roles that respect your server.",
     description: "Give boosters a safe, polished way to express themselves without touching staff permissions.",
     status: "available",
-    accent: "#c6f36b"
+    accent: "#c6f36b",
+    command: "/booster-role claim"
   },
   {
     id: "community-guard",
@@ -41,7 +43,8 @@ const botProducts: BotProduct[] = [
     tagline: "Moderation signals for busy communities.",
     description: "A focused moderation companion for incident alerts, onboarding, and safer community operations.",
     status: "coming-soon",
-    accent: "#8ed8ff"
+    accent: "#8ed8ff",
+    command: null
   }
 ];
 
@@ -56,6 +59,7 @@ export type AppDeps = {
   tenants?: TenantStore;
   oauth?: OAuthGateway;
   overview?: OverviewSources;
+  roles?: ManagedRoleSources;
   now?: () => number;
 };
 
@@ -160,6 +164,22 @@ export function createApp(deps: AppDeps) {
       return context.json({ overview, user: session.user });
     } catch {
       return context.json({ error: "Could not load this server from Discord" }, 502);
+    }
+  });
+
+  // The roles the bot created, judged by the same contract the bot enforces.
+  // Same session gate as the overview: one login decision covers the dashboard.
+  app.get("/api/admin/roles", async (context) => {
+    context.header("cache-control", "no-store");
+    const session = verifySession(config.sessionSecret, getCookie(context, SESSION_COOKIE), now());
+    if (!session) return context.json({ error: "Sign in with Discord to open the dashboard" }, 401);
+    if (!deps.roles) return context.json({ error: "Role data source is not configured" }, 503);
+
+    try {
+      const reviews = await loadManagedRoleReviews(config.guildId, deps.roles);
+      return context.json({ reviews, user: session.user });
+    } catch {
+      return context.json({ error: "Could not read this server's roles from Discord" }, 502);
     }
   });
 

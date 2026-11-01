@@ -47,6 +47,24 @@ export type SessionUser = {
   name: string;
 };
 
+/**
+ * One booster role the bot created, judged against the same rules the bot
+ * applies before it touches a role. The dashboard renders this instead of
+ * re-deriving the rules, so the two can never disagree.
+ */
+export type ManagedRoleReview = {
+  roleId: string;
+  userId: string;
+  roleName: string;
+  result: VerificationResult;
+};
+
+export type ManagedRoleReviews = {
+  guildId: string;
+  roles: ManagedRoleReview[];
+  fetchedAt: string;
+};
+
 export type BotProduct = {
   id: string;
   slug: string;
@@ -55,6 +73,8 @@ export type BotProduct = {
   description: string;
   status: "available" | "coming-soon";
   accent: string;
+  /** The slash command a member actually types, when the bot has one. */
+  command: string | null;
 };
 
 export function verifyBoosterRole(input: VerificationInput): VerificationResult {

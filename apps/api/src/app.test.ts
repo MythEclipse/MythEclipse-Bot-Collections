@@ -4,6 +4,7 @@ import { createApp } from "./app";
 import type { WebConfig } from "./config";
 import type { OAuthGateway } from "./app";
 import type { OverviewSources } from "./guildOverview";
+import type { ManagedRoleSources } from "./managedRoles";
 import { createTenantStore } from "./tenantStore";
 import { SESSION_COOKIE, signSession, STATE_COOKIE } from "./session";
 
@@ -38,12 +39,25 @@ const sources: OverviewSources = {
   now: () => new Date("2026-11-01T00:00:00.000Z")
 };
 
-function makeApp(overrides: { oauth?: OAuthGateway; overview?: OverviewSources } = {}) {
+const roleSources: ManagedRoleSources = {
+  fetchRoleSnapshot: async () => ({
+    roles: [{ id: "role-1", name: "Booster · Mira", position: 4, permissions: "0" }],
+    anchorPosition: 10
+  }),
+  listStoredRoles: async () => [{ userId: "user-1", roleId: "role-1" }],
+  isBoosting: async () => true,
+  now: () => new Date("2026-11-01T00:00:00.000Z")
+};
+
+function makeApp(
+  overrides: { oauth?: OAuthGateway; overview?: OverviewSources; roles?: ManagedRoleSources } = {}
+) {
   return createApp({
     config,
     tenants: createTenantStore(),
     oauth: overrides.oauth ?? oauth(),
     overview: overrides.overview ?? sources,
+    roles: overrides.roles ?? roleSources,
     now
   });
 }
@@ -188,5 +202,41 @@ describe("admin overview", () => {
 
     expect(response.status).toBe(200);
     expect((await response.json()).overview.managedRoleCount).toBeNull();
+  });
+});
+describe("managed roles", () => {
+  const cookie = () =>
+    `${SESSION_COOKIE}=${signSession("test-secret", {
+      user: { id: "user-1", name: "MythEclipse" },
+      expiresAt: now() + 60_000
+    })}`;
+
+  test("401s without a session", async () => {
+    const response = await makeApp().request("/api/admin/roles");
+    expect(response.status).toBe(401);
+  });
+
+  test("serves every stored role judged by the contract", async () => {
+    const response = await makeApp().request("/api/admin/roles", { headers: { cookie: cookie() } });
+
+    expect(response.status).toBe(200);
+    const body = await response.json();
+    expect(body.reviews.guildId).toBe("guild-1");
+    expect(body.reviews.roles).toHaveLength(1);
+    expect(body.reviews.roles[0].roleName).toBe("Booster · Mira");
+    expect(body.reviews.roles[0].result.valid).toBe(true);
+  });
+
+  test("502s when discord cannot be read", async () => {
+    const response = await makeApp({
+      roles: {
+        ...roleSources,
+        fetchRoleSnapshot: async () => {
+          throw new Error("discord down");
+        }
+      }
+    }).request("/api/admin/roles", { headers: { cookie: cookie() } });
+
+    expect(response.status).toBe(502);
   });
 });
