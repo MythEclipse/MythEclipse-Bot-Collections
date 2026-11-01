@@ -4,7 +4,8 @@ import * as React from "react";
 function Brand(): React.ReactElement {
   return (
     <Link className="brand" to="/">
-      dc<span>bot</span>
+      Myth<span>Eclipse</span>
+      <small className="brand-tag">Bot Collection</small>
     </Link>
   );
 }
@@ -16,10 +17,11 @@ export function Shell(): React.ReactElement {
         <Brand />
         <nav>
           <Link to="/" hash="products">
-            Products
+            Bots
           </Link>
           <Link to="/support">Support</Link>
           <Link to="/privacy">Privacy</Link>
+          <Link to="/terms">Terms</Link>
           <Link className="nav-login" to="/dashboard">
             Admin login ↗
           </Link>
@@ -29,14 +31,14 @@ export function Shell(): React.ReactElement {
       <footer className="container footer">
         <div>
           <Brand />
-          <p>Thoughtful software for Discord communities.</p>
+          <p>Discord bots by MythEclipse. Each bot has its own terms and privacy policy.</p>
         </div>
         <div className="footer-links">
-          <Link to="/privacy">Privacy policy</Link>
-          <Link to="/terms">Terms of service</Link>
+          <Link to="/privacy">Privacy</Link>
+          <Link to="/terms">Terms</Link>
           <Link to="/support">Support</Link>
         </div>
-        <small>© 2026 dcbot. All rights reserved.</small>
+        <small>© 2026 MythEclipse. All rights reserved.</small>
       </footer>
     </>
   );

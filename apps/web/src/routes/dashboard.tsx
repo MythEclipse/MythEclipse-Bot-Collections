@@ -29,7 +29,7 @@ export function DashboardPage(): React.ReactElement {
           <h1>Your workspaces.</h1>
           <p className="lead">Manage every Discord server and bot from one place.</p>
         </div>
-        <span className="avatar">DC</span>
+        <span className="avatar">ME</span>
       </div>
 
       <div className="notice">

@@ -2,8 +2,9 @@ import { Link, createRootRoute, createRoute, createRouter } from "@tanstack/reac
 import * as React from "react";
 import { DashboardPage } from "./routes/dashboard";
 import { LandingPage } from "./routes/landing";
-import { LegalPage } from "./routes/legal";
+import { LegalDocumentPage, LegalIndexPage } from "./routes/legal";
 import { Shell } from "./routes/shell";
+import { SupportPage } from "./routes/support";
 
 function NotFound(): React.ReactElement {
   return (
@@ -20,23 +21,38 @@ function NotFound(): React.ReactElement {
 const rootRoute = createRootRoute({ component: Shell, notFoundComponent: NotFound });
 const indexRoute = createRoute({ getParentRoute: () => rootRoute, path: "/", component: LandingPage });
 const dashboardRoute = createRoute({ getParentRoute: () => rootRoute, path: "/dashboard", component: DashboardPage });
-const privacyRoute = createRoute({
+const supportRoute = createRoute({ getParentRoute: () => rootRoute, path: "/support", component: SupportPage });
+const privacyIndexRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/privacy",
-  component: () => <LegalPage kind="privacy" />
+  component: () => <LegalIndexPage kind="privacy" />
 });
-const termsRoute = createRoute({
+const termsIndexRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/terms",
-  component: () => <LegalPage kind="terms" />
+  component: () => <LegalIndexPage kind="terms" />
 });
-const supportRoute = createRoute({
+// Per-bot documents: each Discord application points at its own pair of URLs.
+const appPrivacyRoute = createRoute({
   getParentRoute: () => rootRoute,
-  path: "/support",
-  component: () => <LegalPage kind="support" />
+  path: "/apps/$slug/privacy",
+  component: () => <LegalDocumentPage kind="privacy" />
+});
+const appTermsRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/apps/$slug/terms",
+  component: () => <LegalDocumentPage kind="terms" />
 });
 
-const routeTree = rootRoute.addChildren([indexRoute, dashboardRoute, privacyRoute, termsRoute, supportRoute]);
+const routeTree = rootRoute.addChildren([
+  indexRoute,
+  dashboardRoute,
+  supportRoute,
+  privacyIndexRoute,
+  termsIndexRoute,
+  appPrivacyRoute,
+  appTermsRoute
+]);
 
 export const router = createRouter({ routeTree });
 

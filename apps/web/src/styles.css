@@ -35,3 +35,16 @@ code{font-family:ui-monospace,SFMono-Regular,monospace;font-size:.9em;color:#d4d
 .legal code{background:#171b15;border:1px solid #293127;border-radius:6px;padding:.1rem .35rem}
 .legal-section + .legal-section{border-top:1px solid #293127;padding-top:2rem}
 
+/* Collection brand: wordmark plus a small tag, and the per-bot legal index */
+/* Inline (not flex): "Myth" and "Eclipse" must read as one word, so the gap is
+   applied to the tag instead of between every flex item. */
+.brand{display:inline-block}
+.brand-tag{font-size:.62rem;font-weight:750;letter-spacing:.16em;text-transform:uppercase;color:#667060;margin-left:.5rem}
+.legal-index{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1rem;margin-top:1.5rem}
+.legal-index-card{border:1px solid #293127;border-radius:16px;background:#171b15;padding:1.35rem}
+.legal-index-card h3{margin:0;font-size:1.2rem;color:#f4f1ea}
+.legal-index-card p{color:#9ba496;font-size:.92rem;margin:.4rem 0 1rem}
+.legal-index-links{display:flex;gap:1rem;flex-wrap:wrap}
+.legal-index-links a{color:#c6f36b;font-weight:700;text-decoration:none;font-size:.9rem}
+.legal-index-links a:hover{text-decoration:underline}
+

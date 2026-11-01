@@ -120,7 +120,7 @@ export function RoleVerifier({ guildId }: { guildId: string }): React.ReactEleme
             checked={state.roleManaged}
             onChange={(event) => update("roleManaged", event.target.checked)}
           />
-          Role is managed by dcbot
+          Role is managed by the bot
         </label>
         <label className="verifier-check">
           <input type="checkbox" checked={state.eligible} onChange={(event) => update("eligible", event.target.checked)} />

@@ -20,21 +20,22 @@ function Hero(): React.ReactElement {
   return (
     <section className="hero container">
       <div className="hero-copy">
-        <p className="eyebrow">The home for better Discord communities</p>
+        <p className="eyebrow">MythEclipse Bot Collection</p>
         <h1>
           Your server.
           <br />
           <em>More capable.</em>
         </h1>
         <p className="lead">
-          A calm, reliable platform for Discord bots that help communities grow, stay safe, and feel like home.
+          A small, carefully built collection of Discord bots — booster roles, moderation companions, and whatever
+          comes next. One dashboard for every server that runs them.
         </p>
         <div className="actions">
           <Link className="button" to="/dashboard">
             Manage a server
           </Link>
           <a className="text-link" href="#products">
-            Explore products ↓
+            Explore the bots ↓
           </a>
         </div>
       </div>
@@ -68,7 +69,7 @@ function ProductSection(): React.ReactElement {
     <section className="section container" id="products">
       <div className="section-heading">
         <div>
-          <p className="eyebrow">The platform</p>
+          <p className="eyebrow">The collection</p>
           <h2>One home for every bot.</h2>
         </div>
         <p>
@@ -101,7 +102,7 @@ function ServerLookup(): React.ReactElement {
       <div>
         <p className="eyebrow">Public lookup</p>
         <h2>Find your server workspace.</h2>
-        <p>Check whether a server has an active dcbot workspace.</p>
+        <p>Check whether a server has an active MythEclipse workspace.</p>
       </div>
       <form
         onSubmit={(event) => {
