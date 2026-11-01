@@ -1,3 +1,10 @@
+# [1.5.0](https://github.com/asepharyana/Booster-role/compare/v1.4.0...v1.5.0) (2026-11-01)
+
+
+### Features
+
+* **web:** sign the dashboard in with discord oauth ([e1a8663](https://github.com/asepharyana/Booster-role/commit/e1a8663ddad757d9b306cb1e9a7f733f6a04a7bf))
+
 # [1.4.0](https://github.com/asepharyana/Booster-role/compare/v1.3.0...v1.4.0) (2026-11-01)
 
 
