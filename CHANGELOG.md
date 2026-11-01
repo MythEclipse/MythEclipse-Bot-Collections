@@ -1,3 +1,10 @@
+## [1.6.4](https://github.com/asepharyana/MythEclipse-Bot-Collections/compare/v1.6.3...v1.6.4) (2026-11-01)
+
+
+### Bug Fixes
+
+* **web:** one-word brand and a navbar that lines up ([4274abe](https://github.com/asepharyana/MythEclipse-Bot-Collections/commit/4274abec45350d73648c48d1036bd29abf3af4a0))
+
 ## [1.6.3](https://github.com/asepharyana/MythEclipse-Bot-Collections/compare/v1.6.2...v1.6.3) (2026-11-01)
 
 
