@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/asepharyana/Booster-role/compare/v1.2.1...v1.3.0) (2026-11-01)
+
+
+### Features
+
+* **web:** document the discord intents and data in the legal pages ([83c5b12](https://github.com/asepharyana/Booster-role/commit/83c5b12c74d52598fd93b367faaf5316c93b9308))
+
 ## [1.2.1](https://github.com/asepharyana/Booster-role/compare/v1.2.0...v1.2.1) (2026-11-01)
 
 
