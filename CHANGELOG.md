@@ -1,3 +1,10 @@
+## [1.2.1](https://github.com/asepharyana/Booster-role/compare/v1.2.0...v1.2.1) (2026-11-01)
+
+
+### Bug Fixes
+
+* **deploy:** move the web unit to port 4025 ([97dac70](https://github.com/asepharyana/Booster-role/commit/97dac70fe842c160f083f9133328e0ea34a374ec))
+
 # [1.2.0](https://github.com/asepharyana/Booster-role/compare/v1.1.0...v1.2.0) (2026-11-01)
 
 
