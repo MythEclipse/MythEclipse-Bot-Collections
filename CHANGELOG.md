@@ -1,3 +1,10 @@
+## [1.6.3](https://github.com/asepharyana/MythEclipse-Bot-Collections/compare/v1.6.2...v1.6.3) (2026-11-01)
+
+
+### Bug Fixes
+
+* **web:** rewrite the Indonesian copy that read like a translation ([673f6a0](https://github.com/asepharyana/MythEclipse-Bot-Collections/commit/673f6a0043bd8c698368368e6c004b88e938da82))
+
 ## [1.6.2](https://github.com/asepharyana/MythEclipse-Bot-Collections/compare/v1.6.1...v1.6.2) (2026-11-01)
 
 
