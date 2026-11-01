@@ -1,3 +1,15 @@
+# [1.2.0](https://github.com/asepharyana/Booster-role/compare/v1.1.0...v1.2.0) (2026-11-01)
+
+
+### Bug Fixes
+
+* **deploy:** run the bot from apps/bot and ship the web unit ([d5ff8d9](https://github.com/asepharyana/Booster-role/commit/d5ff8d9767788bbff2ce942cf2aebfa5b24415da))
+
+
+### Features
+
+* **web:** finish landing page and server dashboard ([1b19585](https://github.com/asepharyana/Booster-role/commit/1b19585e9df4c50fa9a0ba8e34c3bec8b0625aeb))
+
 # [1.1.0](https://github.com/asepharyana/Booster-role/compare/v1.0.5...v1.1.0) (2026-10-31)
 
 
