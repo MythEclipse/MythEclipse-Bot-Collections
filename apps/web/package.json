@@ -1,5 +1,5 @@
 {
-  "name": "@booster-role/web",
+  "name": "@mytheclipse/web",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -10,7 +10,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@booster-role/contracts": "workspace:*",
+    "@mytheclipse/contracts": "workspace:*",
     "@tanstack/react-query": "latest",
     "@tanstack/react-router": "latest",
     "react": "^19.1.0",

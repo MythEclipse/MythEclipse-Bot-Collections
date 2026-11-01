@@ -1,20 +1,20 @@
 {
-  "name": "booster-role-workspace",
+  "name": "mytheclipse-bot-collections",
   "version": "1.5.0",
   "private": true,
   "packageManager": "pnpm@10.33.2",
   "scripts": {
-    "dev": "pnpm --filter @booster-role/bot dev",
-    "web:dev": "pnpm --filter @booster-role/web dev",
-    "web:build": "pnpm --filter @booster-role/web build",
-    "api:dev": "pnpm --filter @booster-role/api dev",
-    "api:start": "pnpm --filter @booster-role/api start",
+    "dev": "pnpm --filter @mytheclipse/booster-role dev",
+    "web:dev": "pnpm --filter @mytheclipse/web dev",
+    "web:build": "pnpm --filter @mytheclipse/web build",
+    "api:dev": "pnpm --filter @mytheclipse/api dev",
+    "api:start": "pnpm --filter @mytheclipse/api start",
     "moon:check": "moon run :typecheck && moon run :test",
-    "test": "pnpm --filter @booster-role/bot test && pnpm --filter @booster-role/contracts test && pnpm --filter @booster-role/api test",
-    "typecheck": "pnpm --filter @booster-role/bot typecheck",
-    "typecheck:all": "pnpm --filter @booster-role/bot typecheck && pnpm --filter @booster-role/contracts typecheck && pnpm --filter @booster-role/api typecheck && pnpm --filter @booster-role/web exec tsc --noEmit",
-    "lint": "pnpm --filter @booster-role/bot lint",
-    "db:generate": "pnpm --filter @booster-role/bot db:generate",
-    "db:migrate": "pnpm --filter @booster-role/bot db:migrate"
+    "test": "pnpm --filter @mytheclipse/booster-role test && pnpm --filter @mytheclipse/contracts test && pnpm --filter @mytheclipse/api test",
+    "typecheck": "pnpm --filter @mytheclipse/booster-role typecheck",
+    "typecheck:all": "pnpm --filter @mytheclipse/booster-role typecheck && pnpm --filter @mytheclipse/contracts typecheck && pnpm --filter @mytheclipse/api typecheck && pnpm --filter @mytheclipse/web exec tsc --noEmit",
+    "lint": "pnpm --filter @mytheclipse/booster-role lint",
+    "db:generate": "pnpm --filter @mytheclipse/booster-role db:generate",
+    "db:migrate": "pnpm --filter @mytheclipse/booster-role db:migrate"
   }
 }

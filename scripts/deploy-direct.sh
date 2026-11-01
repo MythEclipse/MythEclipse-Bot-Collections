@@ -232,17 +232,17 @@ fi
 (
   cd "$RELEASE_DIR"
   unset NODE_ENV || true
-  log "pnpm --filter @booster-role/web build"
-  $PNPM --filter @booster-role/web build
+  log "pnpm --filter @mytheclipse/web build"
+  $PNPM --filter @mytheclipse/web build
 )
 
 # ── 3. sanity-check before anything is swapped ─────────────────────────────
 # Every path here is what the units or Caddy exec/read. Failing here means
 # $CURRENT is still the live tree and the services were never disturbed.
-[ -x "$RELEASE_DIR/apps/bot/node_modules/.bin/tsx" ] || \
-  die "apps/bot/node_modules/.bin/tsx missing after install — pnpm skipped bot devDependencies"
-[ -f "$RELEASE_DIR/apps/bot/node_modules/drizzle-kit/bin.cjs" ] || \
-  die "apps/bot/node_modules/drizzle-kit/bin.cjs missing after install — the unit cannot migrate"
+[ -x "$RELEASE_DIR/apps/booster-role/node_modules/.bin/tsx" ] || \
+  die "apps/booster-role/node_modules/.bin/tsx missing after install — pnpm skipped bot devDependencies"
+[ -f "$RELEASE_DIR/apps/booster-role/node_modules/drizzle-kit/bin.cjs" ] || \
+  die "apps/booster-role/node_modules/drizzle-kit/bin.cjs missing after install — the unit cannot migrate"
 [ -x "$RELEASE_DIR/apps/api/node_modules/.bin/tsx" ] || \
   die "apps/api/node_modules/.bin/tsx missing after install — $WEB_UNIT cannot start"
 [ -f "$RELEASE_DIR/apps/web/dist/index.html" ] || \
@@ -253,7 +253,7 @@ fi
   die "deploy/${WEB_UNIT}.service missing — cannot install the web unit"
 
 # ── 3b. install the shipped wrapper + web unit ─────────────────────────────
-# Both are coupled to the checkout layout (apps/bot, apps/api), so they are
+# Both are coupled to the checkout layout (apps/booster-role, apps/api), so they are
 # installed from the release being deployed instead of drifting on the box.
 as_root install -d -m 0755 "$(dirname "$CURRENT")/bin"
 as_root install -m 0755 "$RELEASE_DIR/deploy/bin/booster-role" "$(dirname "$CURRENT")/bin/booster-role"

@@ -12,12 +12,12 @@ tests.
 
 ## Boundaries
 
-- `apps/bot/src/domain` contains pure eligibility and role-safety rules.
-- `apps/bot/src/discord` contains Discord client, command registration, interaction
+- `apps/booster-role/src/domain` contains pure eligibility and role-safety rules.
+- `apps/booster-role/src/discord` contains Discord client, command registration, interaction
   parsing, and Discord-facing schemas.
-- `apps/bot/src/services` coordinates role operations and persistence adapters.
-- `apps/bot/src/db` contains Drizzle schema, connection, and migrations.
-- `apps/bot/src/config` contains environment and permission policy.
+- `apps/booster-role/src/services` coordinates role operations and persistence adapters.
+- `apps/booster-role/src/db` contains Drizzle schema, connection, and migrations.
+- `apps/booster-role/src/config` contains environment and permission policy.
 - `apps/web` contains the Vite verification UI and should remain an adapter
   over shared verification logic.
 - `apps/api` contains Hono HTTP routes and tenant authorization boundaries.
@@ -29,11 +29,11 @@ tests.
 - Keep workspace dependencies declared with `workspace:*`.
 - Do not import browser APIs into `packages/contracts`.
 - Do not duplicate role verification checks in `apps/web`; import them from
-  `@booster-role/contracts`.
+  `@mytheclipse/contracts`.
 - Every API read/write must be tenant-scoped and authorized before accessing
   tenant records.
 - Keep the root workspace scripts stable while the deployed bot entrypoint
-  lives in `apps/bot`.
+  lives in `apps/booster-role`.
 
 ## Safety invariants
 
@@ -49,7 +49,7 @@ and enforce ownership and permission rules again in the service/domain layer.
 Use fakes or in-memory stores in tests; never use production Discord or
 database credentials.
 
-When changing `apps/bot/src/db/schema.ts`, generate and review a new Drizzle migration
+When changing `apps/booster-role/src/db/schema.ts`, generate and review a new Drizzle migration
 with `pnpm run db:generate`. Never rewrite an applied migration. Run focused
 tests, `pnpm run typecheck`, the web typecheck, and `pnpm run web:build` when
 the affected change crosses package boundaries.

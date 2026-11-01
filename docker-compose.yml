@@ -1,6 +1,6 @@
 services:
   booster-role:
-    image: ghcr.io/mytheclipse/booster-role:latest
+    image: ghcr.io/asepharyana/booster-role:latest
     container_name: booster-role
     restart: always
     env_file:

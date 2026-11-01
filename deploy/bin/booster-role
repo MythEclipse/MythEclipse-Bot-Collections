@@ -5,17 +5,17 @@
 # run by the `booster-role` systemd unit. It lives in the repo because it is
 # layout-coupled: it hardcodes where the bot package sits inside the checkout, so
 # a workspace move must ship the new wrapper together with the new tree. (A copy
-# left only on the box is how the apps/bot restructure crash-looped the unit.)
+# left only on the box is how the apps/booster-role restructure crash-looped the unit.)
 #
 # The app is TypeScript with bun-style extensionless imports, which Node's own
 # type-stripping refuses to resolve, so tsx provides the loader. drizzle-kit is
 # invoked through its JS entry rather than its bin symlink: the wrapper runs as a
 # service account and the shim is not reliably executable there.
 #
-# cwd = apps/bot, not the workspace root: drizzle.config.ts (schema + migrations
+# cwd = apps/booster-role, not the workspace root: drizzle.config.ts (schema + migrations
 # paths) and the package's own node_modules both live there.
 set -euo pipefail
-cd /opt/booster-role/current/apps/bot
+cd /opt/booster-role/current/apps/booster-role
 export NODE_ENV=production
 # Absolute node path: systemd's PATH is minimal and the unit must not depend on a
 # version-manager shim being first on it.

@@ -1,7 +1,7 @@
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { deleteCookie, getCookie, setCookie } from "hono/cookie";
-import type { BotProduct } from "@booster-role/contracts";
+import type { BotProduct } from "@mytheclipse/contracts";
 import { callbackUrl, isSecureBase, type WebConfig } from "./config";
 import { loadGuildOverview, type OverviewSources } from "./guildOverview";
 import {

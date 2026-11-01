@@ -19,5 +19,5 @@ Never force-push, rewrite history, retag, or publish without explicit approval.
 
 This project uses semantic-release. Do not manually choose or retag versions.
 The root package is the workspace orchestrator; the deployed Discord bot is
-`@booster-role/bot`. Do not assume every workspace package is independently
+`@mytheclipse/booster-role`. Do not assume every workspace package is independently
 released or deployed.

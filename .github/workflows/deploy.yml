@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: booster-role-deploy
+  group: mytheclipse-deploy
   cancel-in-progress: false
 
 permissions:
@@ -74,12 +74,12 @@ jobs:
           set -eu
           # Exactly the tree the job above typechecked and tested.
           tar --exclude='./.git' --exclude='./node_modules' --exclude='./.env' \
-              -czf /tmp/booster-role-src.tgz .
-          ls -lh /tmp/booster-role-src.tgz
-          scp -o BatchMode=yes /tmp/booster-role-src.tgz \
-              "$VPS_USER@$VPS_HOST:/tmp/booster-role-src.tgz"
+              -czf /tmp/mytheclipse-src.tgz .
+          ls -lh /tmp/mytheclipse-src.tgz
+          scp -o BatchMode=yes /tmp/mytheclipse-src.tgz \
+              "$VPS_USER@$VPS_HOST:/tmp/mytheclipse-src.tgz"
           scp -o BatchMode=yes scripts/deploy-direct.sh \
-              "$VPS_USER@$VPS_HOST:/tmp/booster-role-deploy.sh"
+              "$VPS_USER@$VPS_HOST:/tmp/mytheclipse-deploy.sh"
 
       - name: Deploy to VPS
         env:
@@ -89,7 +89,7 @@ jobs:
         run: |
           set -eu
           ssh -o BatchMode=yes "$VPS_USER@$VPS_HOST" \
-            "bash /tmp/booster-role-deploy.sh '$DEPLOY_SHA' /tmp/booster-role-src.tgz"
+            "bash /tmp/mytheclipse-deploy.sh '$DEPLOY_SHA' /tmp/mytheclipse-src.tgz"
 
       # Read-only confirmation for the CI log: the bot has no inbound listener,
       # so its health is systemd state + journal. dcbot-web does listen, so it

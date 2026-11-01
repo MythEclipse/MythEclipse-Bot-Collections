@@ -1,6 +1,21 @@
-# Booster Role Bot
+# MythEclipse Bot Collections
 
-Discord bot untuk memberi role custom kosmetik ke user yang sedang boost server. Role dibuat oleh bot, tidak boleh mengambil role yang sudah ada, dan otomatis dihapus saat user tidak lagi eligible.
+Kumpulan bot Discord buatan MythEclipse dalam satu monorepo. Setiap bot punya
+paket sendiri di `apps/`, sementara web dashboard, API, dan kontrak bersama
+(`packages/contracts`) dipakai bersama supaya aturan tidak diduplikasi.
+
+- Situs: <https://dcbot.asepharyana.my.id>
+- Dashboard: login Discord, hanya terbuka untuk admin server yang bot-nya aktif
+
+## Bots
+
+| Bot | Paket | Status |
+|---|---|---|
+| Booster Role | `apps/booster-role` | live — role kosmetik untuk member yang boost |
+| Community Guard | — | coming soon, belum ada kode |
+
+Bagian teknis di bawah ini menjelaskan bot Booster Role, bot pertama di koleksi
+ini.
 
 ## Tech stack
 
@@ -11,7 +26,9 @@ Discord bot untuk memberi role custom kosmetik ke user yang sedang boost server.
 - pnpm + Moonrepo workspace dengan web React berbasis TanStack Router,
   TanStack Query, Vite, dan Tailwind CSS v4
 
-## Prasyarat
+## Booster Role bot
+
+### Prasyarat
 
 - Node.js 24 dan pnpm terinstall
 - Bot Discord dengan token dari Developer Portal
@@ -19,7 +36,7 @@ Discord bot untuk memberi role custom kosmetik ke user yang sedang boost server.
 - Bot punya permission `Manage Roles`
 - Posisi role bot harus lebih tinggi dari role custom yang akan dibuat
 
-## Setup
+### Setup
 
 ```bash
 pnpm install
@@ -40,7 +57,7 @@ LOG_LEVEL=info
 
 `BOOSTER_ROLE_ANCHOR_ROLE_ID` dipakai sebagai batas posisi role. Role booster custom harus berada di bawah role ini agar tetap kosmetik dan tidak menyentuh role staff/admin.
 
-## Database
+### Database
 
 Generate dan jalankan migration setelah schema siap:
 
@@ -51,7 +68,7 @@ pnpm run db:migrate
 
 Pastikan `DATABASE_URL` mengarah ke database PostgreSQL external (pool PgBouncer imrnes `100.121.180.82:6432`) sebelum menjalankan migration.
 
-## Menjalankan bot
+### Menjalankan bot
 
 ```bash
 pnpm run dev
@@ -136,7 +153,7 @@ The workspace now contains:
 - `apps/api` - Hono backend with tenant-scoped public and admin endpoints.
 - `apps/web` - public landing page and server-admin dashboard.
 - `packages/contracts` - shared verification and tenant types.
-- `apps/bot` - Discord worker that remains isolated from other tenants.
+- `apps/booster-role` - Discord worker that remains isolated from other tenants.
 - Moonrepo configuration lives in `.moon/workspace.yml` and each workspace
   package's `moon.yml`; use `moon run :typecheck` for task orchestration.
 
@@ -157,13 +174,13 @@ Saat startup, bot otomatis register slash command ke guild dari `DISCORD_GUILD_I
 
 ```bash
 pnpm test
-pnpm --filter @booster-role/bot test src/domain/roleGuards.test.ts
+pnpm --filter @mytheclipse/booster-role test src/domain/roleGuards.test.ts
 pnpm run typecheck
 pnpm run typecheck:all
 pnpm run lint
 ```
 
-## Keamanan role
+## Keamanan role (Booster Role)
 
 Bot ini dirancang supaya aman dari abuse:
 
@@ -176,7 +193,7 @@ Bot ini dirancang supaya aman dari abuse:
 - Permission berbahaya seperti `Administrator`, `ManageRoles`, `ManageChannels`, `BanMembers`, `KickMembers`, `MentionEveryone`, `ManageGuild`, dan `ManageWebhooks` ditolak.
 - Jika user tidak punya role booster eligibility dari `BOOSTER_ELIGIBILITY_ROLE_ID`, claim ditolak.
 
-## Slash command target
+## Slash command target (Booster Role)
 
 Command utama yang disiapkan:
 
@@ -187,7 +204,7 @@ Command utama yang disiapkan:
 - `/booster-role delete` - hapus role milik sendiri.
 - `/booster-role admin-delete user` - admin dengan permission `Administrator` bisa hapus role custom user lain. User target bisa claim lagi jika masih eligible.
 
-## Catatan eligibility boost
+## Catatan eligibility boost (Booster Role)
 
 Untuk sekarang, user eligible jika punya role dari `BOOSTER_ELIGIBILITY_ROLE_ID`. Jika role ini hilang dari user, role bot-managed miliknya akan dihapus lewat event `guildMemberUpdate`.
 

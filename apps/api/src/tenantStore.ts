@@ -1,4 +1,4 @@
-import type { TenantSummary } from "@booster-role/contracts";
+import type { TenantSummary } from "@mytheclipse/contracts";
 
 export type TenantStore = {
   findPublicBySlug(slug: string): TenantSummary | null;

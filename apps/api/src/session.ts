@@ -1,5 +1,5 @@
 import { createHmac, randomBytes, timingSafeEqual } from "node:crypto";
-import type { SessionUser } from "@booster-role/contracts";
+import type { SessionUser } from "@mytheclipse/contracts";
 
 export type Session = {
   user: SessionUser;

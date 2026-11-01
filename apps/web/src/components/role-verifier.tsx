@@ -1,4 +1,4 @@
-import { verifyBoosterRole } from "@booster-role/contracts";
+import { verifyBoosterRole } from "@mytheclipse/contracts";
 import * as React from "react";
 
 type RoleState = {
@@ -39,7 +39,7 @@ function parsePosition(value: string): number {
 
 /**
  * Runs the same checks the bot applies before it touches a role. The rules live
- * in `@booster-role/contracts`, so this page can never drift from the bot.
+ * in `@mytheclipse/contracts`, so this page can never drift from the bot.
  */
 export function RoleVerifier({ guildId }: { guildId: string }): React.ReactElement {
   const [state, setState] = React.useState<RoleState>(initialState);

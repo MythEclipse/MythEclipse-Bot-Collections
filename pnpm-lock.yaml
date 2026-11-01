@@ -10,12 +10,12 @@ importers:
 
   apps/api:
     dependencies:
-      '@booster-role/contracts':
-        specifier: workspace:*
-        version: link:../../packages/contracts
       '@hono/node-server':
         specifier: latest
         version: 2.1.5(hono@4.13.14)
+      '@mytheclipse/contracts':
+        specifier: workspace:*
+        version: link:../../packages/contracts
       hono:
         specifier: latest
         version: 4.13.14
@@ -39,7 +39,7 @@ importers:
         specifier: latest
         version: 7.0.2
 
-  apps/bot:
+  apps/booster-role:
     dependencies:
       '@discordjs/builders':
         specifier: latest
@@ -78,7 +78,7 @@ importers:
 
   apps/web:
     dependencies:
-      '@booster-role/contracts':
+      '@mytheclipse/contracts':
         specifier: workspace:*
         version: link:../../packages/contracts
       '@tanstack/react-query':

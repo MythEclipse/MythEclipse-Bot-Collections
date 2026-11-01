@@ -1,4 +1,4 @@
-import type { BotProduct } from "@booster-role/contracts";
+import type { BotProduct } from "@mytheclipse/contracts";
 import { Link } from "@tanstack/react-router";
 import * as React from "react";
 

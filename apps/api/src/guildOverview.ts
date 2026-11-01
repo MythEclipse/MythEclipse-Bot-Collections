@@ -1,4 +1,4 @@
-import type { GuildOverview } from "@booster-role/contracts";
+import type { GuildOverview } from "@mytheclipse/contracts";
 
 export type GuildSnapshot = {
   id: string;

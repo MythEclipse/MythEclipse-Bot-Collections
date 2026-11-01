@@ -4,7 +4,7 @@ packages:
   - apps/*
   - packages/*
 
-# pnpm workspace for the deployed booster-role payload and verification web app.
+# pnpm workspace for the bot collection, its API, dashboard and shared contracts.
 #
 # The root package remains the deployed bot while apps/* and packages/* are
 # independently buildable workspace packages. This file also whitelists the

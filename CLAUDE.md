@@ -4,9 +4,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Repository state
 
-This repository contains the working Booster Role Discord bot, its tests,
-deployment configuration, a pnpm monorepo web verifier, and GitHub Copilot
-project instructions in `.github/copilot-instructions.md`.
+This repository is the MythEclipse Bot Collections monorepo: one package per
+Discord bot under `apps/` (the first is `apps/booster-role`), a shared Hono API,
+a React dashboard, shared contracts, the deployment configuration for the VPS,
+and GitHub Copilot project instructions in `.github/copilot-instructions.md`.
 
 The web app (landing page + server dashboard) is served at
 <https://dcbot.asepharyana.my.id>: Caddy serves the built SPA from
@@ -34,12 +35,12 @@ both units. The Caddy route lives in the `asepharyana/infra` repo
 - `pnpm run web:build` - build the web verification app.
 - `pnpm run api:dev` - run the Hono API locally.
 - `pnpm test` - run tests.
-- `pnpm --filter @booster-role/bot test <path>` - run a single bot test file.
+- `pnpm --filter @mytheclipse/booster-role test <path>` - run a single bot test file.
 - `pnpm run typecheck` / `pnpm run typecheck:all` / `pnpm run lint` - run
   TypeScript validation for the bot or all workspace packages.
 - `pnpm run db:generate` / `pnpm run db:migrate` - manage Drizzle migrations.
 
-Bot source and migrations live under `apps/bot`; the root scripts delegate to
+Bot source and migrations live under `apps/booster-role`; the root scripts delegate to
 that workspace package.
 
 ## Architecture

@@ -1,4 +1,4 @@
-import type { GuildOverview, SessionUser } from "@booster-role/contracts";
+import type { GuildOverview, SessionUser } from "@mytheclipse/contracts";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import * as React from "react";
 import { discordLoginUrl, fetchGuildOverview, fetchSession, signOut } from "../api";

@@ -13,9 +13,9 @@ test changes across the bot, web app, and shared packages.
 
 1. Read the surrounding module, its callers, package boundary, and tests before
    editing.
-2. Keep bot domain rules in `apps/bot/src/domain`, Discord integration in
-   `apps/bot/src/discord`, persistence adapters in `apps/bot/src/services` or
-   `apps/bot/src/db`, web UI in `apps/web`,
+2. Keep bot domain rules in `apps/booster-role/src/domain`, Discord integration in
+   `apps/booster-role/src/discord`, persistence adapters in `apps/booster-role/src/services` or
+   `apps/booster-role/src/db`, web UI in `apps/web`,
    and runtime-agnostic shared contracts in `packages/contracts`.
 3. Keep functions focused on one responsibility. Prefer explicit names,
    narrow interfaces, early validation, and dependency injection over hidden

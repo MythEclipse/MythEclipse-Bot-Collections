@@ -1,5 +1,5 @@
 {
-  "name": "@booster-role/api",
+  "name": "@mytheclipse/api",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -10,7 +10,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@booster-role/contracts": "workspace:*",
+    "@mytheclipse/contracts": "workspace:*",
     "@hono/node-server": "latest",
     "hono": "latest",
     "postgres": "latest",

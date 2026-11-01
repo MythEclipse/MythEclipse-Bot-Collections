@@ -1,4 +1,4 @@
-import type { BotProduct, GuildOverview, SessionUser, TenantSummary } from "@booster-role/contracts";
+import type { BotProduct, GuildOverview, SessionUser, TenantSummary } from "@mytheclipse/contracts";
 
 /**
  * Empty by default so production is same-origin: Caddy serves this SPA and
