@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/asepharyana/Booster-role/compare/v1.3.0...v1.4.0) (2026-11-01)
+
+
+### Features
+
+* **web:** rebrand as MythEclipse Bot Collection with per-bot legal pages ([5aa7ec0](https://github.com/asepharyana/Booster-role/commit/5aa7ec03a68f8dbd79815f15e90b6966ce8e6eb3))
+
 # [1.3.0](https://github.com/asepharyana/Booster-role/compare/v1.2.1...v1.3.0) (2026-11-01)
 
 
