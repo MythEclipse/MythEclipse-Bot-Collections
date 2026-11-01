@@ -155,7 +155,7 @@ function HelpSection(): React.ReactElement {
           </ul>
         </article>
       </div>
-      <p className="muted">{t("legal.index.contact.body", { email: contactEmail })}</p>
+      <p className="section-note">{t("legal.index.contact.body", { email: contactEmail })}</p>
     </section>
   );
 }

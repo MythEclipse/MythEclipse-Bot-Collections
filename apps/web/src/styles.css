@@ -478,6 +478,7 @@ a {
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   align-items: end;
   gap: var(--space-xl);
+  margin-bottom: var(--space-xl);
 }
 
 .section-head h2 {
@@ -493,15 +494,15 @@ a {
 
 .product-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  /* auto-fill, not auto-fit: one bot must not stretch to the full page width */
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: var(--space-sm);
-  margin-top: var(--space-xl);
 }
 
 .product-card {
   display: flex;
   flex-direction: column;
-  gap: var(--space-2xs);
+  gap: var(--space-sm);
   border: 1px solid var(--slate);
   border-radius: var(--radius-xl);
   background: var(--shale);
@@ -833,6 +834,7 @@ a {
   align-items: flex-start;
   justify-content: space-between;
   gap: var(--space-md);
+  margin-bottom: var(--space-xl);
 }
 
 .dashboard-top h1 {
@@ -1129,6 +1131,10 @@ li {
   margin-top: var(--space-xl);
 }
 
+.legal-section > h2 {
+  margin-bottom: var(--space-xs);
+}
+
 .legal-section + .legal-section {
   padding-top: var(--space-lg);
   border-top: 1px solid var(--slate);
@@ -1374,6 +1380,12 @@ li {
   border-bottom-color: currentColor;
 }
 
+.section-note {
+  margin-top: var(--space-md);
+  color: var(--ash-soft);
+  font-size: 0.9rem;
+}
+
 /* ==========================================================================
    Role safety
    ========================================================================== */
@@ -1489,10 +1501,17 @@ li {
    ========================================================================== */
 @media (max-width: 900px) {
   .section-head,
-  .lookup,
-  .verifier-grid,
-  .metric-grid {
+  .lookup {
     grid-template-columns: minmax(0, 1fr);
+  }
+
+  /* three tiles fit on a tablet; they only stack when they genuinely cannot */
+  .metric-grid {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  }
+
+  .verifier-grid {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   }
 
   .section-head {
@@ -1530,6 +1549,10 @@ li {
     --gutter: 1.25rem;
     --space-3xl: 3.5rem;
     --space-2xl: 2.75rem;
+  }
+
+  .section-head {
+    margin-bottom: var(--space-lg);
   }
 
   .nav-links a:not(.nav-login) {
@@ -1578,6 +1601,17 @@ li {
   .footer {
     flex-direction: column;
     gap: var(--space-md);
+  }
+}
+
+@media (max-width: 600px) {
+  .help-card,
+  .panel {
+    padding: var(--space-md);
+  }
+
+  .help-grid {
+    gap: var(--space-sm);
   }
 }
 

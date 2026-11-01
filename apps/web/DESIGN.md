@@ -335,8 +335,19 @@ the section. The binding documents stay per bot at `/apps/$slug/{privacy,terms}`
 because each Discord application must point at its own pair.
 
 Rhythm comes in one scale: 0.4 / 0.6 / 1 / 1.5 / 2 / 3 / 4 / 5.5rem. Cards are
-padded at 2rem (1.5rem for metric tiles), grids gap at 1rem, and the gap between
-a heading block and its grid is 3rem.
+padded at 2rem (1.5rem for metric tiles, 1.5rem for any card under 600px), grids
+gap at 1rem.
+
+Nothing sits flush against the thing above it. A section head owns the gap to its
+body (`margin-bottom: 3rem`, `2rem` under 900px) so no grid has to carry its own
+top margin; a section's closing note sits 1.5rem under the grid; a dashboard
+header owns 3rem to the form under it; a legal `h2` owns 0.6rem to its paragraph.
+The only intentional 6px gaps are inside a title and its badge, and inside a list.
+
+Card grids use `auto-fill`, not `auto-fit`: with one bot in the catalogue a single
+card must stay one card's width instead of stretching across the page. Tiles and
+verifier fields use `auto-fit` with a 180–200px floor, so three of them stay three
+across on a tablet and only stack when they genuinely cannot fit.
 
 ## Elevation & Depth
 
