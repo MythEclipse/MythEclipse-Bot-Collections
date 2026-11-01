@@ -18,16 +18,21 @@
 # Flow:
 #   1. extract the tarball into $RELEASES_DIR/<sha>
 #   2. pnpm install --frozen-lockfile there (devDependencies included — the unit
-#      runs the bot workspace's drizzle-kit + tsx, they are NOT optional)
-#   3. sanity-check the tree BEFORE touching $CURRENT (bot tools present)
-#   4. swap it into place: current -> current.previous, release -> current
-#   5. systemctl restart + hold `is-active` steady (the bot has no inbound
-#      listener, so health is a steady systemd state, not an HTTP probe)
-#   6. on failure: restore current.previous, restart, re-check
-#   7. prune leftover release dirs (never the active one)
+#      runs the bot workspace's drizzle-kit + tsx, and the web build needs vite;
+#      they are NOT optional)
+#   2b. build the SPA (apps/web/dist) inside the release dir, so the static files
+#      swap and roll back together with the code that serves them
+#   3. sanity-check the tree BEFORE touching $CURRENT (bot tools, web dist)
+#   3b. install the layout-coupled wrapper + web unit shipped by this checkout
+#   4. swap the tree into place: current -> current.previous, release -> current
+#   5. restart both units
+#   6. health: the bot has no inbound listener, so its health is a steady
+#      systemd state; dcbot-web answers GET /api/health
+#   7. on failure: restore current.previous, restart both, re-check
+#   8. prune leftover release dirs (never the active one)
 #
 # Overrides (defaults are the production values):
-#   RELEASES_DIR CURRENT UNIT KEEP_RELEASES SKIP_RESTART=1
+#   RELEASES_DIR CURRENT UNIT WEB_UNIT WEB_PORT KEEP_RELEASES SKIP_RESTART=1
 #
 # Failure modes that are safe by construction: an install or sanity-check
 # failure happens before the swap, so $CURRENT is never touched and the running
@@ -38,6 +43,8 @@ RELEASES_DIR="${RELEASES_DIR:-/opt/booster-role/releases}"
 CURRENT="${CURRENT:-/opt/booster-role/current}"
 PREV="${CURRENT}.previous"
 UNIT="${UNIT:-booster-role}"
+WEB_UNIT="${WEB_UNIT:-dcbot-web}"
+WEB_PORT="${WEB_PORT:-4024}"
 KEEP_RELEASES="${KEEP_RELEASES:-5}"
 SKIP_RESTART="${SKIP_RESTART:-0}"
 
@@ -83,6 +90,7 @@ PNPM="$(resolve_pnpm)"
 
 command -v node >/dev/null 2>&1 || die "node not found on PATH"
 command -v tar  >/dev/null 2>&1 || die "tar not found on PATH"
+command -v curl >/dev/null 2>&1 || die "curl not found on PATH (used for the web health probe)"
 log "node $(node -v) | $($PNPM --version 2>/dev/null || echo 'pnpm ?') | user $(id -un)"
 
 # ── state captured before we touch anything ────────────────────────────────
@@ -108,7 +116,9 @@ rollback() {
   fi
   if [ "$SKIP_RESTART" != "1" ]; then
     as_root systemctl restart "$UNIT"
+    as_root systemctl restart "$WEB_UNIT"
     health_check || log "WARNING: service still unhealthy after rollback"
+    web_health || log "WARNING: $WEB_UNIT still unhealthy after rollback"
   fi
 }
 
@@ -151,6 +161,28 @@ dump_journal() {
   journalctl -u "$UNIT" -n 60 --no-pager || true
   printf '=== %s status ===\n' "$UNIT"
   systemctl status "$UNIT" --no-pager -l || true
+  printf '\n=== %s journal ===\n' "$WEB_UNIT"
+  journalctl -u "$WEB_UNIT" -n 60 --no-pager || true
+  printf '=== %s status ===\n' "$WEB_UNIT"
+  systemctl status "$WEB_UNIT" --no-pager -l || true
+}
+
+# dcbot-web DOES have an inbound listener, so it is probed for real. /api/health
+# is the same endpoint the CI verification step hits.
+web_health() {
+  local i
+  log "health-check $WEB_UNIT (GET /api/health on 127.0.0.1:${WEB_PORT})"
+  for i in $(seq 1 20); do
+    if systemctl is-failed --quiet "$WEB_UNIT"; then
+      log "$WEB_UNIT is in failed state"
+      return 1
+    fi
+    if curl -fsS -m 2 "http://127.0.0.1:${WEB_PORT}/api/health" >/dev/null 2>&1; then
+      return 0
+    fi
+    sleep 1
+  done
+  return 1
 }
 
 # ── 1. unpack the release ──────────────────────────────────────────────────
@@ -192,13 +224,43 @@ fi
   $PNPM install --frozen-lockfile
 )
 
+# ── 2b. build the SPA ──────────────────────────────────────────────────────
+# Built here, not on the CI runner: the output has to land inside THIS release
+# dir so the static files are swapped and rolled back by the same `mv` as the
+# code. vite is a devDependency of the web package, which the install above
+# already put on disk.
+(
+  cd "$RELEASE_DIR"
+  unset NODE_ENV || true
+  log "pnpm --filter @booster-role/web build"
+  $PNPM --filter @booster-role/web build
+)
+
 # ── 3. sanity-check before anything is swapped ─────────────────────────────
-# Both paths are what /opt/booster-role/bin/booster-role execs. Failing here
-# means $CURRENT is still the live tree and the service was never disturbed.
+# Every path here is what the units or Caddy exec/read. Failing here means
+# $CURRENT is still the live tree and the services were never disturbed.
 [ -x "$RELEASE_DIR/apps/bot/node_modules/.bin/tsx" ] || \
   die "apps/bot/node_modules/.bin/tsx missing after install — pnpm skipped bot devDependencies"
 [ -f "$RELEASE_DIR/apps/bot/node_modules/drizzle-kit/bin.cjs" ] || \
   die "apps/bot/node_modules/drizzle-kit/bin.cjs missing after install — the unit cannot migrate"
+[ -x "$RELEASE_DIR/apps/api/node_modules/.bin/tsx" ] || \
+  die "apps/api/node_modules/.bin/tsx missing after install — $WEB_UNIT cannot start"
+[ -f "$RELEASE_DIR/apps/web/dist/index.html" ] || \
+  die "apps/web/dist/index.html missing after build — Caddy would serve 404s"
+[ -f "$RELEASE_DIR/deploy/bin/booster-role" ] || \
+  die "deploy/bin/booster-role missing — the bot wrapper is layout-coupled and must ship with the tree"
+[ -f "$RELEASE_DIR/deploy/${WEB_UNIT}.service" ] || \
+  die "deploy/${WEB_UNIT}.service missing — cannot install the web unit"
+
+# ── 3b. install the shipped wrapper + web unit ─────────────────────────────
+# Both are coupled to the checkout layout (apps/bot, apps/api), so they are
+# installed from the release being deployed instead of drifting on the box.
+as_root install -d -m 0755 "$(dirname "$CURRENT")/bin"
+as_root install -m 0755 "$RELEASE_DIR/deploy/bin/booster-role" "$(dirname "$CURRENT")/bin/booster-role"
+as_root install -m 0644 "$RELEASE_DIR/deploy/${WEB_UNIT}.service" "/etc/systemd/system/${WEB_UNIT}.service"
+as_root systemctl daemon-reload
+as_root systemctl enable "$WEB_UNIT" >/dev/null 2>&1 || log "WARNING: could not enable $WEB_UNIT"
+log "installed bin/booster-role and ${WEB_UNIT}.service"
 
 # ── 4. activate ────────────────────────────────────────────────────────────
 log "activating $RELEASE_DIR"
@@ -215,14 +277,18 @@ ACTIVATED=1
 
 # ── 5. restart ─────────────────────────────────────────────────────────────
 if [ "$SKIP_RESTART" = "1" ]; then
-  log "SKIP_RESTART=1 — not restarting $UNIT"
+  log "SKIP_RESTART=1 — not restarting $UNIT or $WEB_UNIT"
 else
   log "restarting $UNIT"
   as_root systemctl restart "$UNIT"
+  # The web unit is started for the first time on a fresh box, where it was only
+  # enabled above; `restart` on an inactive unit starts it just the same.
+  log "restarting $WEB_UNIT"
+  as_root systemctl restart "$WEB_UNIT"
 fi
 
 # ── 6. health check ────────────────────────────────────────────────────────
-if [ "$SKIP_RESTART" = "1" ] || health_check; then
+if [ "$SKIP_RESTART" = "1" ] || { health_check && web_health; }; then
   ACTIVATED=0
   log "healthy — deploy of ${SHA:0:7} complete"
 else

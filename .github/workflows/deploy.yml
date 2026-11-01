@@ -92,8 +92,10 @@ jobs:
             "bash /tmp/booster-role-deploy.sh '$DEPLOY_SHA' /tmp/booster-role-src.tgz"
 
       # Read-only confirmation for the CI log: the bot has no inbound listener,
-      # so service health is systemd state + journal, not an HTTP probe.
-      - name: Verify service on VPS
+      # so its health is systemd state + journal. dcbot-web does listen, so it
+      # is probed through its own health endpoint — and the public domain is
+      # checked separately below.
+      - name: Verify services on VPS
         if: always()
         env:
           VPS_HOST: ${{ secrets.VPS_HOST }}
@@ -101,3 +103,16 @@ jobs:
         run: |
           ssh -o BatchMode=yes "$VPS_USER@$VPS_HOST" \
             'systemctl is-active booster-role; systemctl show booster-role -p NRestarts --value; journalctl -u booster-role -n 20 --no-pager'
+          ssh -o BatchMode=yes "$VPS_USER@$VPS_HOST" \
+            'systemctl is-active dcbot-web; curl -fsS -m 5 http://127.0.0.1:4024/api/health; echo; journalctl -u dcbot-web -n 20 --no-pager'
+
+      # The domain is the deliverable, so it is asserted from outside the box:
+      # static landing page, a client-side route (proves the SPA fallback), and
+      # the API through Caddy.
+      - name: Verify the public site
+        if: always()
+        run: |
+          set -eu
+          curl -fsS -m 15 -o /dev/null -w 'landing %{http_code}\n' https://dcbot.asepharyana.my.id/
+          curl -fsS -m 15 -o /dev/null -w 'dashboard %{http_code}\n' https://dcbot.asepharyana.my.id/dashboard
+          curl -fsS -m 15 https://dcbot.asepharyana.my.id/api/public/bots | head -c 200; echo

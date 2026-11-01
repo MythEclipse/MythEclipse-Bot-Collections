@@ -1,0 +1,31 @@
+[Unit]
+# Installed by scripts/deploy-direct.sh from deploy/dcbot-web.service.
+# Serves the Hono API behind Caddy at https://dcbot.asepharyana.my.id; the SPA
+# itself is static and served by Caddy from apps/web/dist in the same tree.
+Description=dcbot — landing page + dashboard API (Booster Role web)
+Documentation=https://github.com/asepharyana/Booster-role
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=booster-role
+Group=booster-role
+# The deploy flips /opt/booster-role/current atomically, so code and static
+# assets swap together and this path always resolves to the live release.
+WorkingDirectory=/opt/booster-role/current/apps/api
+Environment=NODE_ENV=production
+Environment=PORT=4024
+# No bws-exec wrapper: the API needs no secrets today (the tenant store is
+# in-process). Add one when it reads Postgres or Discord with a token.
+ExecStart=/opt/booster-role/current/apps/api/node_modules/.bin/tsx src/server.ts
+Restart=always
+RestartSec=5
+ProtectHome=true
+PrivateTmp=true
+NoNewPrivileges=true
+MemoryMax=256M
+TasksMax=128
+
+[Install]
+WantedBy=multi-user.target
