@@ -27,14 +27,8 @@ export const en = {
   "landing.hero.cta": "Open your dashboard",
   "landing.hero.secondary": "See the collection",
 
-  "proof.role": "Booster role",
-  "proof.safe": "● Safe to keep",
-  "proof.colour": "Colour",
-  "proof.position": "Position",
-  "proof.permissions": "Permissions",
-  "proof.none": "None",
-  "proof.caption":
-    "What every role the bot creates looks like: cosmetic, below your staff roles, and holding no permissions.",
+  "proof.result": "Role created — cosmetic, below your staff roles, no permissions.",
+  "proof.caption": "What a booster types. The bot creates the role; permissions never leave your staff.",
 
   "products.heading": "One home for every bot.",
   "products.body":

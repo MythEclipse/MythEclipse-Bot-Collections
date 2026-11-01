@@ -486,18 +486,21 @@ carries hover, focus-visible, active, disabled, loading, and error behaviour.
   links hide (they repeat in the footer) and the tools stay.
 - **Mobile (≤760px):** the four text links hide; the ghost login pill stays.
 
-### Signature: The Safety Verdict
+### Signature: The Command
 
-The landing hero's ornament is the product's own output: a Shale card carrying a
-role name, a lime `● Safe to keep` status, three facts (colour, position,
-permissions), and a caption saying what every bot-created role looks like. Behind
-it, two 1px Slate Light ellipse rings (330×180 and 250×330) counter-rotate on a
-26s / 34s loop and are disabled under `prefers-reduced-motion`.
+The landing hero's ornament is the product's own invocation, not a picture of
+one: a Shale card carrying `/booster-role claim`, the two options a booster
+fills in (`name`, `color` with its swatch), the result line — cosmetic, below
+staff, no permissions — and a caption saying the bot makes the role and
+permissions never leave staff.
+
+Behind it, two 1px Slate Light ellipse rings (330×180 and 250×330) counter-rotate
+on a 26s / 34s loop and are disabled under `prefers-reduced-motion`.
 
 The card replaces the abstract orbit core and its two claim labels ("safe by
-design", "built to scale"): same space, same restraint, but it shows a verdict
-instead of asserting one. It is a `figure` with a `figcaption`, so the ornament
-is also real content.
+design", "built to scale"), and it deliberately carries no numbers: no role
+count, no position, no member name. Anything that looks like data on the landing
+page has to be data the page actually has.
 
 ### Role Safety List
 

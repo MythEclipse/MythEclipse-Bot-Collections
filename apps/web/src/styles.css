@@ -372,57 +372,64 @@ a {
   background: var(--shale);
 }
 
-.proof-head {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--space-2xs) var(--space-xs);
-}
-
-.proof-head strong {
+.proof-command {
+  margin: 0;
   color: var(--bone);
-  font-size: 1.05rem;
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 1rem;
+  font-weight: 600;
   letter-spacing: -0.01em;
 }
 
-.proof-head .status {
-  margin-left: auto;
-  white-space: nowrap;
-}
-
-.proof-swatch {
-  width: 0.85rem;
-  height: 0.85rem;
-  border-radius: var(--radius-pill);
-  background: var(--lime);
-}
-
-.proof-facts {
+.proof-options {
   display: grid;
   gap: var(--space-2xs);
   margin: 0;
   padding: var(--space-xs) 0;
   border-top: 1px solid var(--slate);
   border-bottom: 1px solid var(--slate);
+  list-style: none;
 }
 
-.proof-facts div {
+.proof-options li {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
   gap: var(--space-sm);
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 0.8rem;
 }
 
-.proof-facts dt {
+.proof-options span {
   color: var(--ash-soft);
-  font-size: 0.9rem;
 }
 
-.proof-facts dd {
+.proof-options b {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: var(--mist);
+  font-weight: 500;
+}
+
+.proof-swatch {
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: var(--radius-pill);
+  background: var(--lime);
+}
+
+.proof-result {
   margin: 0;
   color: var(--mist);
   font-size: 0.9rem;
-  font-variant-numeric: tabular-nums;
+  line-height: 1.55;
+}
+
+.proof-result::before {
+  content: "→ ";
+  color: var(--signal);
+  font-weight: 700;
 }
 
 .hero-proof figcaption {

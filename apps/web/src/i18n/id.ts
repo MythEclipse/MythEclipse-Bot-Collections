@@ -29,14 +29,8 @@ export const id: Messages = {
   "landing.hero.cta": "Buka dashboard",
   "landing.hero.secondary": "Lihat koleksinya",
 
-  "proof.role": "Role booster",
-  "proof.safe": "● Aman dipakai",
-  "proof.colour": "Warna",
-  "proof.position": "Posisi",
-  "proof.permissions": "Izin",
-  "proof.none": "Tidak ada",
-  "proof.caption":
-    "Bentuk setiap role yang dibuat bot: kosmetik, di bawah role staf, dan tanpa izin apa pun.",
+  "proof.result": "Role dibuat — kosmetik, di bawah role staf, tanpa izin apa pun.",
+  "proof.caption": "Yang diketik booster. Bot yang membuat role-nya; izin tidak pernah lepas dari staf.",
 
   "products.heading": "Satu rumah untuk semua bot.",
   "products.body":

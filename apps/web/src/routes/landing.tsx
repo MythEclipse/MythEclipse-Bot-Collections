@@ -40,25 +40,21 @@ function Hero(): React.ReactElement {
         <div className="orbit-ring ring-one" />
         <div className="orbit-ring ring-two" />
         <figure className="hero-proof">
-          <div className="proof-head">
-            <span className="proof-swatch" aria-hidden="true" />
-            <strong>{t("proof.role")}</strong>
-            <span className="status">{t("proof.safe")}</span>
-          </div>
-          <dl className="proof-facts">
-            <div>
-              <dt>{t("proof.colour")}</dt>
-              <dd>#c6f36b</dd>
-            </div>
-            <div>
-              <dt>{t("proof.position")}</dt>
-              <dd>4</dd>
-            </div>
-            <div>
-              <dt>{t("proof.permissions")}</dt>
-              <dd>{t("proof.none")}</dd>
-            </div>
-          </dl>
+          <p className="proof-command">/booster-role claim</p>
+          <ul className="proof-options">
+            <li>
+              <span>name</span>
+              <b>&lt;member&gt;</b>
+            </li>
+            <li>
+              <span>color</span>
+              <b>
+                <i className="proof-swatch" aria-hidden="true" />
+                #c6f36b
+              </b>
+            </li>
+          </ul>
+          <p className="proof-result">{t("proof.result")}</p>
           <figcaption>{t("proof.caption")}</figcaption>
         </figure>
       </div>
