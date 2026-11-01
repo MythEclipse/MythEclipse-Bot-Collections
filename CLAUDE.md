@@ -8,6 +8,15 @@ This repository contains the working Booster Role Discord bot, its tests,
 deployment configuration, a pnpm monorepo web verifier, and GitHub Copilot
 project instructions in `.github/copilot-instructions.md`.
 
+The web app (landing page + server dashboard) is served at
+<https://dcbot.asepharyana.my.id>: Caddy serves the built SPA from
+`/opt/booster-role/current/apps/web/dist` and proxies `/api/*` to the `dcbot-web`
+systemd unit on `127.0.0.1:4024`. `scripts/deploy-direct.sh` builds the SPA inside
+the release directory, installs `deploy/bin/booster-role` and
+`deploy/dcbot-web.service` from that same tree, then swaps `current` and restarts
+both units. The Caddy route lives in the `asepharyana/infra` repo
+(`infra/caddy/Caddyfile.prod`).
+
 ## Tech stack
 
 - Node.js 24 + TypeScript - primary runtime (run via tsx) and language for fast Discord bot development.

@@ -57,16 +57,17 @@ Pastikan `DATABASE_URL` mengarah ke database PostgreSQL external (pool PgBouncer
 pnpm run dev
 ```
 
-## Web verification app
+## Web app (landing page + dashboard)
 
-Workspace ini juga menyediakan web platform React untuk landing page publik,
-katalog bot, public server lookup, dan dashboard admin server. Routing memakai
-TanStack Router, data fetching/cache memakai TanStack Query, dan style pipeline
-menggunakan Tailwind CSS v4 melalui Vite. Kontrak verifikasi dan tenant
-dibagikan melalui `packages/contracts`, sehingga aturan yang dipakai web tidak
-dibuat ulang secara terpisah dari bot.
-Kontrak verifikasinya dibagikan melalui `packages/contracts`, sehingga aturan
-yang dipakai web tidak dibuat ulang secara terpisah dari bot.
+Workspace ini menyediakan web platform React untuk landing page publik, katalog
+bot, public server lookup, dan dashboard admin server. Routing memakai TanStack
+Router, data fetching/cache memakai TanStack Query, dan style pipeline
+menggunakan Tailwind CSS v4 melalui Vite.
+
+Kontrak verifikasi dan tenant dibagikan melalui `packages/contracts`, sehingga
+aturan yang dipakai web tidak dibuat ulang secara terpisah dari bot. Dashboard
+menjalankan panel **role safety** yang memanggil `verifyBoosterRole` dari paket
+itu, jadi hasil di web selalu sama dengan aturan yang dipakai bot.
 
 ```bash
 pnpm run web:dev
@@ -74,9 +75,24 @@ pnpm run web:build
 pnpm run api:dev
 ```
 
-Web dapat diarahkan ke API melalui `VITE_API_URL`; default-nya adalah
-`http://localhost:8787`. Auth dashboard masih berupa development boundary
-`x-admin-user` sampai Discord OAuth/session diaktifkan.
+API client memakai base URL same-origin secara default, jadi production tidak
+butuh build-time URL: Caddy menyajikan SPA dan mem-proxy `/api` ke service yang
+sama. Di dev, Vite mem-proxy `/api` ke `http://127.0.0.1:8787`; isi
+`VITE_API_URL` kalau API berjalan di port lain. Auth dashboard masih berupa
+development boundary `x-admin-user` sampai Discord OAuth/session diaktifkan.
+
+### Production
+
+- URL: <https://dcbot.asepharyana.my.id>
+- Static SPA: `/opt/booster-role/current/apps/web/dist` (dilayani Caddy)
+- API: unit `dcbot-web` di `127.0.0.1:4024`, route `/api/*` lewat Caddy
+- Rute Caddy adalah source of truth di repo `asepharyana/infra`
+  (`infra/caddy/Caddyfile.prod`)
+
+`scripts/deploy-direct.sh` membangun SPA di dalam release dir, lalu men-swap
+`current` sehingga kode dan aset statis berganti (dan rollback) bersamaan. Wrapper
+`deploy/bin/booster-role` dan unit `deploy/dcbot-web.service` ikut di-install dari
+release yang sedang di-deploy karena keduanya terikat ke layout workspace.
 
 ## Multi-tenant platform
 
@@ -89,8 +105,7 @@ The workspace now contains:
 - Moonrepo configuration lives in `.moon/workspace.yml` and each workspace
   package's `moon.yml`; use `moon run :typecheck` for task orchestration.
 
-Run the API and web in separate terminals. The web defaults to
-`http://localhost:8787` for the API:
+Run the API and web in separate terminals:
 
 ```bash
 pnpm run api:dev
@@ -99,7 +114,8 @@ pnpm run web:dev
 
 The dashboard currently uses `x-admin-user` as an explicit development
 authentication boundary. Replace it with Discord OAuth/session middleware before
-production use; tenant authorization is already enforced in the API store.
+production use; tenant authorization is already enforced in the API store. The
+tenant data itself is still the in-process demo store in `apps/api/src/tenantStore.ts`.
 
 Saat startup, bot otomatis register slash command ke guild dari `DISCORD_GUILD_ID`, lalu menangani interaction command. Pastikan bot di-invite dengan scope `applications.commands`.
 
