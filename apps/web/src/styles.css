@@ -23,3 +23,15 @@ code{font-family:ui-monospace,SFMono-Regular,monospace;font-size:.9em;color:#d4d
 .check-fail td:last-child{color:#f0b6a5}
 @media(max-width:760px){.verifier{padding:1.4rem}.verifier-grid{grid-template-columns:1fr}.check-table td:first-child{width:auto}}
 
+/* Long-form legal pages (privacy, terms, support) */
+.legal-section{margin-top:3rem}
+.legal-section h2{margin-top:0}
+.legal-table-wrap{overflow-x:auto;margin:1.5rem 0}
+.legal table{width:100%;border-collapse:collapse;font-size:.92rem;min-width:620px}
+.legal th{text-align:left;padding:.65rem .7rem;border-bottom:1px solid #3b4738;color:#c6f36b;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase}
+.legal td{padding:.75rem .7rem;border-bottom:1px solid #293127;color:#c4cbbd;vertical-align:top}
+.legal td:first-child{color:#e1e8dc;font-weight:600}
+.legal ul{padding-left:1.15rem;display:grid;gap:.5rem}
+.legal code{background:#171b15;border:1px solid #293127;border-radius:6px;padding:.1rem .35rem}
+.legal-section + .legal-section{border-top:1px solid #293127;padding-top:2rem}
+
