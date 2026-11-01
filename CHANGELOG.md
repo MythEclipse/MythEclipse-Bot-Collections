@@ -1,3 +1,11 @@
+# [1.6.0](https://github.com/asepharyana/MythEclipse-Bot-Collections/compare/v1.5.0...v1.6.0) (2026-11-01)
+
+
+### Features
+
+* **api:** review the roles the bot created against the shared contract ([2e72fc1](https://github.com/asepharyana/MythEclipse-Bot-Collections/commit/2e72fc168a03421604faf1956941710a98d6d68e))
+* **web:** rebuild the site, add themes and an EN/ID switcher ([31cc5ec](https://github.com/asepharyana/MythEclipse-Bot-Collections/commit/31cc5ecc062ae4b6eb6dbd4a3382c7b62e85bbdc))
+
 # [1.5.0](https://github.com/asepharyana/Booster-role/compare/v1.4.0...v1.5.0) (2026-11-01)
 
 
