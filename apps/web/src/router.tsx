@@ -5,14 +5,16 @@ import { LandingPage } from "./routes/landing";
 import { LegalDocumentPage, LegalIndexPage } from "./routes/legal";
 import { Shell } from "./routes/shell";
 import { SupportPage } from "./routes/support";
+import { useLocale } from "./i18n";
 
 function NotFound(): React.ReactElement {
+  const { t } = useLocale();
+
   return (
-    <main className="legal container">
-      <p className="eyebrow">404</p>
-      <h1>This page drifted away.</h1>
+    <main className="legal container" id="main">
+      <h1>{t("notFound.h1")}</h1>
       <p className="legal-date">
-        The link may be old. <Link to="/">Back to the landing page</Link>.
+        {t("notFound.body")} <Link to="/">{t("notFound.back")}</Link>.
       </p>
     </main>
   );

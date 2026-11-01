@@ -1,5 +1,6 @@
 import { Link, useParams } from "@tanstack/react-router";
 import * as React from "react";
+import { useLocale } from "../i18n";
 import { findLegalApp, legalApps } from "../legal";
 import type { LegalDocumentKind } from "../legal/types";
 import { contactEmail } from "../legal/types";
@@ -8,36 +9,55 @@ import { contactEmail } from "../legal/types";
  * Legal documents are per bot, not per site: each Discord application links to
  * its own terms and privacy URLs, so one shared page would describe the wrong
  * app as soon as the collection grows.
+ *
+ * The document bodies ship in English only — they are the binding text — so a
+ * translated page states that plainly instead of pretending otherwise.
  */
 export function LegalDocumentPage({ kind }: { kind: LegalDocumentKind }): React.ReactElement {
+  const { t, locale } = useLocale();
   const params = useParams({ strict: false });
   const app = findLegalApp(typeof params.slug === "string" ? params.slug : undefined);
 
   if (!app) {
     return (
       <LegalShell
-        title="Document not found"
-        subtitle="No legal document lives at this address."
+        title={t("legal.notFound.title")}
+        subtitle={t("legal.notFound.subtitle")}
         body={<NotFoundBody />}
       />
     );
   }
 
   const document = app[kind];
+  const kindLabel = kind === "privacy" ? t("legal.index.policy") : t("legal.index.termsLink");
+
   return (
     <LegalShell
-      eyebrow={`${app.name} · ${kind === "privacy" ? "privacy" : "terms"}`}
-      title={`${app.name} ${kind === "privacy" ? "privacy policy" : "terms of service"}`}
-      subtitle={`${kind === "privacy" ? "Last updated" : "Effective"}: ${document.updated}`}
+      crumb={
+        <>
+          <Link to={kind === "privacy" ? "/privacy" : "/terms"}>
+            {kind === "privacy" ? t("legal.privacy") : t("legal.terms")}
+          </Link>
+          <span aria-hidden="true"> / </span>
+          <span>{app.name}</span>
+        </>
+      }
+      title={`${app.name} — ${kindLabel}`}
+      subtitle={`${kind === "privacy" ? t("legal.updated") : t("legal.effective")}: ${document.updated}`}
+      notice={locale === "en" ? null : t("legal.notice")}
       body={document.body}
     />
   );
 }
 
 function NotFoundBody(): React.ReactElement {
+  const { t } = useLocale();
+
   return (
     <p>
-      Pick a bot from the <Link to="/privacy">privacy</Link> or <Link to="/terms">terms</Link> index.
+      {t("legal.notFound.body.one")} <Link to="/privacy">{t("legal.privacy")}</Link> {t("legal.notFound.body.two")}{" "}
+      <Link to="/terms">{t("legal.terms")}</Link>
+      {t("legal.notFound.body.three")}
     </p>
   );
 }
@@ -47,26 +67,19 @@ function NotFoundBody(): React.ReactElement {
  * collection and links out to each bot's own documents.
  */
 export function LegalIndexPage({ kind }: { kind: "privacy" | "terms" }): React.ReactElement {
+  const { t } = useLocale();
   const isPrivacy = kind === "privacy";
+
   return (
     <LegalShell
-      eyebrow="MythEclipse Bot Collection"
-      title={isPrivacy ? "Privacy" : "Terms"}
-      subtitle={
-        isPrivacy
-          ? "Each bot has its own policy. This page explains the collection around them."
-          : "Each bot has its own terms. This page explains the collection around them."
-      }
+      title={isPrivacy ? t("legal.privacy") : t("legal.terms")}
+      subtitle={isPrivacy ? t("legal.index.privacy.subtitle") : t("legal.index.terms.subtitle")}
       body={
         <>
-          <p>
-            {isPrivacy
-              ? "MythEclipse Bot Collection is a set of Discord bots run by the same developer. Every bot publishes its own privacy policy, because each one requests different Discord intents and stores different data."
-              : "MythEclipse Bot Collection is a set of Discord bots run by the same developer. Every bot publishes its own terms of service, because each one asks for different Discord permissions."}
-          </p>
+          <p>{isPrivacy ? t("legal.index.privacy.body") : t("legal.index.terms.body")}</p>
 
           <section className="legal-section">
-            <h2>Bots in the collection</h2>
+            <h2>{t("legal.index.bots")}</h2>
             <div className="legal-index">
               {legalApps.map((app) => (
                 <article key={app.slug} className="legal-index-card">
@@ -74,10 +87,10 @@ export function LegalIndexPage({ kind }: { kind: "privacy" | "terms" }): React.R
                   <p>{app.summary}</p>
                   <div className="legal-index-links">
                     <Link to="/apps/$slug/privacy" params={{ slug: app.slug }}>
-                      Privacy policy
+                      {t("legal.index.policy")}
                     </Link>
                     <Link to="/apps/$slug/terms" params={{ slug: app.slug }}>
-                      Terms of service
+                      {t("legal.index.termsLink")}
                     </Link>
                   </div>
                 </article>
@@ -86,20 +99,13 @@ export function LegalIndexPage({ kind }: { kind: "privacy" | "terms" }): React.R
           </section>
 
           <section className="legal-section">
-            <h2>{isPrivacy ? "This website" : "This website"}</h2>
-            <p>
-              {isPrivacy
-                ? "The site you are reading is a static page. It sets no cookies, runs no analytics or tracking scripts, and asks for no account. It calls the collection's own API only to list bots and to load a server dashboard; nothing from that call is shared with a third party."
-                : "The site you are reading is informational. Using it does not grant you access to a bot beyond what Discord itself allows, and the bots may be changed or stopped at any time."}
-            </p>
+            <h2>{t("legal.index.site")}</h2>
+            <p>{isPrivacy ? t("legal.index.privacy.site") : t("legal.index.terms.site")}</p>
           </section>
 
           <section className="legal-section">
-            <h2>Contact and changes</h2>
-            <p>
-              Questions about any bot or about the collection: <a href={`mailto:${contactEmail}`}>{contactEmail}</a>. When
-              a bot's behaviour changes, its own page is updated and the date at the top of that page moves with it.
-            </p>
+            <h2>{t("legal.index.contact")}</h2>
+            <p>{t("legal.index.contact.body", { email: contactEmail })}</p>
           </section>
         </>
       }
@@ -108,21 +114,24 @@ export function LegalIndexPage({ kind }: { kind: "privacy" | "terms" }): React.R
 }
 
 function LegalShell({
+  crumb,
   title,
   subtitle,
-  body,
-  eyebrow = "MythEclipse"
+  notice,
+  body
 }: {
+  crumb?: React.ReactNode;
   title: string;
   subtitle: string;
+  notice?: string | null;
   body: React.ReactNode;
-  eyebrow?: string;
 }): React.ReactElement {
   return (
-    <main className="legal container">
-      <p className="eyebrow">{eyebrow}</p>
+    <main className="legal container" id="main">
+      {crumb && <p className="legal-crumb">{crumb}</p>}
       <h1>{title}</h1>
       <p className="legal-date">{subtitle}</p>
+      {notice && <p className="legal-notice">{notice}</p>}
       <article>{body}</article>
     </main>
   );

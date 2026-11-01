@@ -1,0 +1,606 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-01T10:35:00+00:00",
+  "title": "Design System: MythEclipse Bot Collections",
+  "extensions": {
+    "colorMeta": {
+      "basalt": {
+        "role": "neutral",
+        "displayName": "Basalt",
+        "canonical": "oklch(17.9% 0.007 135.0)",
+        "hex": "#10120f",
+        "purpose": "Page ground; ink on lime.",
+        "tonalRamp": [
+          "#0b0b0a",
+          "#282927",
+          "#464845",
+          "#676a66",
+          "#8a8d89",
+          "#b0b2af",
+          "#d0d1cf",
+          "#eaece9"
+        ]
+      },
+      "basalt-deep": {
+        "role": "neutral",
+        "displayName": "Basalt Deep",
+        "canonical": "oklch(17.7% 0.009 137.9)",
+        "hex": "#0f120e",
+        "purpose": "Input wells and result strips, one step below the ground.",
+        "tonalRamp": [
+          "#0a0c0a",
+          "#272a27",
+          "#464945",
+          "#666a65",
+          "#8a8d89",
+          "#afb2ae",
+          "#cfd2ce",
+          "#eaece9"
+        ]
+      },
+      "shale": {
+        "role": "neutral",
+        "displayName": "Shale",
+        "canonical": "oklch(21.6% 0.013 135.1)",
+        "hex": "#171b15",
+        "purpose": "Every raised panel: cards, verifier, forms, metric tiles.",
+        "tonalRamp": [
+          "#0a0c09",
+          "#272a26",
+          "#454943",
+          "#666b63",
+          "#898e87",
+          "#aeb2ad",
+          "#cfd2cd",
+          "#e9ece8"
+        ]
+      },
+      "shale-raised": {
+        "role": "neutral",
+        "displayName": "Shale Raised",
+        "canonical": "oklch(24.0% 0.015 136.7)",
+        "hex": "#1c211a",
+        "purpose": "Card hover step; depth comes from this ladder, not from shadows.",
+        "tonalRamp": [
+          "#0a0c09",
+          "#272a25",
+          "#454943",
+          "#656b63",
+          "#888e86",
+          "#aeb3ac",
+          "#ced2cd",
+          "#e9ece8"
+        ]
+      },
+      "slate": {
+        "role": "neutral",
+        "displayName": "Slate",
+        "canonical": "oklch(30.2% 0.021 139.4)",
+        "hex": "#293127",
+        "purpose": "Default hairline: dividers, card borders, table rules.",
+        "tonalRamp": [
+          "#090c08",
+          "#262b24",
+          "#434a41",
+          "#636c61",
+          "#878f84",
+          "#acb3ab",
+          "#cdd3cb",
+          "#e8ede7"
+        ]
+      },
+      "slate-light": {
+        "role": "neutral",
+        "displayName": "Slate Light",
+        "canonical": "oklch(38.2% 0.029 139.4)",
+        "hex": "#3b4738",
+        "purpose": "Interactive hairline: input borders, ghost pill, orbit rings, card hover.",
+        "tonalRamp": [
+          "#080d07",
+          "#242b22",
+          "#414b3f",
+          "#616d5e",
+          "#849081",
+          "#aab5a8",
+          "#cbd4c9",
+          "#e7eee5"
+        ]
+      },
+      "bone": {
+        "role": "neutral",
+        "displayName": "Bone",
+        "canonical": "oklch(95.9% 0.010 87.5)",
+        "hex": "#f4f1ea",
+        "purpose": "Body text on dark; ink on lime surfaces.",
+        "tonalRamp": [
+          "#0c0b09",
+          "#2a2925",
+          "#494743",
+          "#6b6963",
+          "#8e8c86",
+          "#b3b1ac",
+          "#d2d1cd",
+          "#ecebe8"
+        ]
+      },
+      "mist": {
+        "role": "neutral",
+        "displayName": "Mist",
+        "canonical": "oklch(92.2% 0.018 131.9)",
+        "hex": "#e1e8dc",
+        "purpose": "Emphasized panel text, legal prose, the serif italic.",
+        "tonalRamp": [
+          "#0a0c08",
+          "#272a24",
+          "#454942",
+          "#656b61",
+          "#898e85",
+          "#aeb3ab",
+          "#ced2cc",
+          "#e9ece7"
+        ]
+      },
+      "ash": {
+        "role": "neutral",
+        "displayName": "Ash",
+        "canonical": "oklch(75.1% 0.020 130.2)",
+        "hex": "#aab1a4",
+        "purpose": "Secondary text, nav links, form labels, hero lead.",
+        "tonalRamp": [
+          "#0a0c08",
+          "#272a24",
+          "#454a41",
+          "#656b60",
+          "#898e83",
+          "#aeb3aa",
+          "#ced3cb",
+          "#e9ece6"
+        ]
+      },
+      "ash-soft": {
+        "role": "neutral",
+        "displayName": "Ash Soft",
+        "canonical": "oklch(70.7% 0.022 134.1)",
+        "hex": "#9ba496",
+        "purpose": "Tertiary text: panel body, metric labels, muted notes, footer.",
+        "tonalRamp": [
+          "#090c08",
+          "#262b23",
+          "#444a40",
+          "#646c5f",
+          "#878f83",
+          "#adb3a9",
+          "#cdd3ca",
+          "#e8ede6"
+        ]
+      },
+      "signal-lime": {
+        "role": "primary",
+        "displayName": "Signal Lime",
+        "canonical": "oklch(90.5% 0.171 125.0)",
+        "hex": "#c6f36b",
+        "purpose": "The only accent: live status, primary action, links, wordmark, orbit core.",
+        "tonalRamp": [
+          "#050f00",
+          "#1d3000",
+          "#375200",
+          "#547700",
+          "#779b1f",
+          "#9fbf65",
+          "#c2dd95",
+          "#dff5ba"
+        ]
+      },
+      "lime-deep": {
+        "role": "primary",
+        "displayName": "Lime Deep",
+        "canonical": "oklch(82.4% 0.173 126.6)",
+        "hex": "#a8d94f",
+        "purpose": "Hover and pressed step of the primary button.",
+        "tonalRamp": [
+          "#041000",
+          "#1a3100",
+          "#345300",
+          "#507800",
+          "#749c20",
+          "#9cbf65",
+          "#c0de95",
+          "#ddf6bb"
+        ]
+      },
+      "orbit-blue": {
+        "role": "tertiary",
+        "displayName": "Orbit Blue",
+        "canonical": "oklch(84.8% 0.092 232.3)",
+        "hex": "#8ed8ff",
+        "purpose": "Per-bot accent injected as --accent inside a product card only.",
+        "tonalRamp": [
+          "#000d1a",
+          "#002d40",
+          "#124e68",
+          "#297193",
+          "#5695b5",
+          "#87b9d4",
+          "#afd8ee",
+          "#cff1ff"
+        ]
+      },
+      "error-surface": {
+        "role": "neutral",
+        "displayName": "Error Surface",
+        "canonical": "oklch(22.0% 0.022 33.4)",
+        "hex": "#241714",
+        "purpose": "Background of form-error and auth-failure alerts.",
+        "tonalRamp": [
+          "#0f0a08",
+          "#2f2624",
+          "#514442",
+          "#756561",
+          "#988885",
+          "#bbaeab",
+          "#d9cecc",
+          "#f2e9e7"
+        ]
+      },
+      "error-border": {
+        "role": "neutral",
+        "displayName": "Error Border",
+        "canonical": "oklch(39.0% 0.050 33.9)",
+        "hex": "#5d3b33",
+        "purpose": "1px edge of the error alert.",
+        "tonalRamp": [
+          "#140805",
+          "#37231e",
+          "#5b4039",
+          "#825f57",
+          "#a5837b",
+          "#c7a9a2",
+          "#e4cbc5",
+          "#fbe6e1"
+        ]
+      },
+      "error-text": {
+        "role": "neutral",
+        "displayName": "Error Text",
+        "canonical": "oklch(82.5% 0.072 37.0)",
+        "hex": "#f0b6a5",
+        "purpose": "Error copy and the fail state of a status line.",
+        "tonalRamp": [
+          "#170603",
+          "#3c2018",
+          "#633c31",
+          "#8c5b4c",
+          "#af7f71",
+          "#cfa69a",
+          "#ebc8be",
+          "#ffe4db"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Landing hero only; hard-broken lines at 780 weight."
+      },
+      "display-cta": {
+        "displayName": "Display CTA",
+        "purpose": "Closing call to action."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Section headings, dashboard h1, legal h1."
+      },
+      "subhead": {
+        "displayName": "Subhead",
+        "purpose": "Lookup panel and verifier headings."
+      },
+      "title-lg": {
+        "displayName": "Title Large",
+        "purpose": "Guild name on the dashboard."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Product card names."
+      },
+      "title-sm": {
+        "displayName": "Title Small",
+        "purpose": "Panel headings and legal h2."
+      },
+      "lead": {
+        "displayName": "Lead",
+        "purpose": "Paragraph under a display or headline; legal body copy at 66ch."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Default copy at 1rem / 1.65."
+      },
+      "small": {
+        "displayName": "Small",
+        "purpose": "Nav links, form labels, muted notes, table cells."
+      },
+      "meta": {
+        "displayName": "Meta",
+        "purpose": "Table headers and footer fine print."
+      },
+      "micro": {
+        "displayName": "Micro",
+        "purpose": "Uppercase status labels only."
+      },
+      "accent": {
+        "displayName": "Instrument Serif Italic",
+        "purpose": "One italic phrase inside a display or headline; never body or UI."
+      }
+    },
+    "shadows": [],
+    "motion": [
+      {
+        "name": "orbit-a",
+        "value": "rotate(-25deg) → rotate(335deg), 26s linear infinite",
+        "purpose": "Outer ellipse ring of the hero orbit; the one authored motion."
+      },
+      {
+        "name": "orbit-b",
+        "value": "rotate(55deg) → rotate(-305deg), 34s linear infinite",
+        "purpose": "Inner ellipse ring, counter-rotating."
+      },
+      {
+        "name": "ease-out",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Default easing for state transitions (160ms fast, 280ms for cards)."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "tablet",
+        "value": "900px",
+        "purpose": "Section head, lookup, metric and verifier grids collapse to one column; the lookup form stacks."
+      },
+      {
+        "name": "mobile",
+        "value": "760px",
+        "purpose": "Gutters drop to 1.25rem, section rhythm to 3.5rem, nav text links hide, orbit shrinks and moves above the copy."
+      }
+    ],
+    "themes": {
+      "default": "dark",
+      "supported": [
+        "dark",
+        "light"
+      ],
+      "mechanism": "data-theme attribute on <html>, resolved pre-paint from localStorage then prefers-color-scheme",
+      "dark": {
+        "ground": "#10120f",
+        "groundDeep": "#0f120e",
+        "surface": "#171b15",
+        "surfaceRaised": "#1c211a",
+        "line": "#293127",
+        "lineLoud": "#3b4738",
+        "ink": "#f4f1ea",
+        "inkSoft": "#e1e8dc",
+        "inkMuted": "#aab1a4",
+        "inkQuiet": "#9ba496",
+        "signal": "#c6f36b",
+        "fill": "#c6f36b",
+        "onFill": "#10120f"
+      },
+      "light": {
+        "ground": "#eef1e6",
+        "groundDeep": "#e5e9db",
+        "surface": "#f7f9f1",
+        "surfaceRaised": "#e9eddf",
+        "line": "#cfd5c4",
+        "lineLoud": "#b0b8a2",
+        "ink": "#1a1f16",
+        "inkSoft": "#2c3327",
+        "inkMuted": "#4f574a",
+        "inkQuiet": "#5c6453",
+        "signal": "#3d6606",
+        "fill": "#c6f36b",
+        "onFill": "#10120f"
+      }
+    },
+    "locales": {
+      "source": "en",
+      "shipped": [
+        "en",
+        "id"
+      ],
+      "storageKey": "mytheclipse.locale",
+      "detection": "localStorage -> navigator.language (id*) -> en",
+      "legalBodies": "en only, with a notice on translated pages"
+    }
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The one saturated block in the system. Hover steps to Lime Deep, active translates 1px, disabled drops to Slate.",
+      "html": "<button class=\"ds-btn-primary\">Manage a server</button>",
+      "css": ".ds-btn-primary{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;border:0;border-radius:999px;padding:.8rem 1.35rem;background:#c6f36b;color:#10120f;font-family:\"Inter Variable\",ui-sans-serif,system-ui,sans-serif;font-size:1rem;font-weight:700;letter-spacing:-.01em;line-height:1.65;cursor:pointer;transition:background .16s cubic-bezier(.16,1,.3,1),transform .16s cubic-bezier(.16,1,.3,1)}.ds-btn-primary:hover{background:#a8d94f}.ds-btn-primary:active{transform:translateY(1px)}.ds-btn-primary:focus-visible{outline:2px solid #c6f36b;outline-offset:3px}.ds-btn-primary[disabled]{background:#293127;color:#aab1a4;cursor:not-allowed}"
+    },
+    {
+      "name": "Ghost Login Pill",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Nav-level secondary action: transparent pill with a Slate Light hairline that turns lime on hover.",
+      "html": "<a class=\"ds-btn-ghost\" href=\"#\">Admin login ↗</a>",
+      "css": ".ds-btn-ghost{display:inline-block;border:1px solid #3b4738;border-radius:999px;padding:.55rem .95rem;background:transparent;color:#f4f1ea;font-family:\"Inter Variable\",ui-sans-serif,system-ui,sans-serif;font-size:.9rem;text-decoration:none;transition:color .16s cubic-bezier(.16,1,.3,1),border-color .16s cubic-bezier(.16,1,.3,1)}.ds-btn-ghost:hover{border-color:#c6f36b;color:#c6f36b}.ds-btn-ghost:focus-visible{outline:2px solid #c6f36b;outline-offset:3px}"
+    },
+    {
+      "name": "Text Field",
+      "kind": "input",
+      "refersTo": "input-field",
+      "description": "Basalt Deep well with a Slate Light hairline and a lime caret. Focus keeps the 2px lime ring at 2px offset — a border-colour change alone is below the WCAG 2.4.11 focus-area threshold.",
+      "html": "<label class=\"ds-field\">Server slug<input class=\"ds-input\" value=\"demo-server\" /></label>",
+      "css": ".ds-field{display:grid;gap:.4rem;color:#aab1a4;font-family:\"Inter Variable\",ui-sans-serif,system-ui,sans-serif;font-size:.9rem;font-weight:500}.ds-input{width:100%;border:1px solid #3b4738;border-radius:9px;padding:.72rem .8rem;background:#0f120e;color:#f4f1ea;font:inherit;caret-color:#c6f36b;transition:border-color .16s cubic-bezier(.16,1,.3,1)}.ds-input:hover{border-color:#aab1a4}.ds-input:focus-visible{outline:2px solid #c6f36b;outline-offset:2px;border-color:#c6f36b}"
+    },
+    {
+      "name": "Navigation Bar",
+      "kind": "nav",
+      "refersTo": "nav-link",
+      "description": "Wordmark left, links right, wrapping instead of overflowing at any width. The wordmark appears as a link in the header and as plain text in the footer, so exactly one element claims aria-current.",
+      "html": "<header class=\"ds-nav\"><a class=\"ds-brand\" href=\"#\">Myth<span>Eclipse</span><small>Bot Collection</small></a><nav class=\"ds-nav-links\"><a href=\"#\">Bots</a><a href=\"#\">Support</a><a class=\"ds-nav-pill\" href=\"#\">Admin login ↗</a></nav></header>",
+      "css": ".ds-nav{max-width:1180px;margin:auto;padding:1.5rem 2rem;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:.6rem 1.5rem;font-family:\"Inter Variable\",ui-sans-serif,system-ui,sans-serif}.ds-brand{display:inline-flex;align-items:baseline;gap:.5rem;color:#f4f1ea;font-size:1.35rem;font-weight:780;letter-spacing:-.04em;text-decoration:none}.ds-brand span{color:#c6f36b}.ds-brand small{font-size:.72rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#9ba496}.ds-nav-links{display:flex;flex-wrap:wrap;gap:.4rem 1.5rem;align-items:center;min-width:0}.ds-nav-links a{color:#aab1a4;font-size:.9rem;text-decoration:none;transition:color .16s cubic-bezier(.16,1,.3,1)}.ds-nav-links a:hover{color:#f4f1ea}.ds-nav-pill{border:1px solid #3b4738;border-radius:999px;padding:.55rem .95rem;color:#f4f1ea}.ds-nav-pill:hover{border-color:#c6f36b;color:#c6f36b}.ds-nav-links a:focus-visible{outline:2px solid #c6f36b;outline-offset:3px}"
+    },
+    {
+      "name": "Product Card",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "Shale slab with a Slate hairline; name and status share the top row, the bot's own accent marks the status and the link. Adds the bot slash command as an inline code chip when the payload carries one, and links to the dashboard (available) or support (coming soon).",
+      "html": "<article class=\"ds-card\"><div class=\"ds-card-head\"><h3>Booster Role</h3><span>Available now</span></div><p class=\"ds-card-tag\">Cosmetic roles that stay cosmetic.</p><p class=\"ds-card-body\">Boosters claim, rename and recolor their own role, kept below staff.</p><a class=\"ds-card-link\" href=\"#\">Manage bot →</a></article>",
+      "css": ".ds-card{display:flex;flex-direction:column;gap:.4rem;border:1px solid #293127;border-radius:20px;background:#171b15;padding:2rem;font-family:\"Inter Variable\",ui-sans-serif,system-ui,sans-serif;--accent:#c6f36b;transition:background .28s cubic-bezier(.16,1,.3,1),border-color .28s cubic-bezier(.16,1,.3,1),transform .28s cubic-bezier(.16,1,.3,1)}.ds-card:hover{background:#1c211a;border-color:#3b4738;transform:translateY(-2px)}.ds-card-head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:.4rem 1rem}.ds-card h3{margin:0;color:#f4f1ea;font-size:1.5rem;font-weight:750;letter-spacing:-.02em;line-height:1.2}.ds-card-head span{color:var(--accent);font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap}.ds-card p{margin:0;max-width:46ch;color:#9ba496;font-size:1rem;line-height:1.65}.ds-card p.ds-card-tag{color:#e1e8dc}.ds-card-link{margin-top:auto;padding-top:1.5rem;color:var(--accent);font-weight:650;text-decoration:none}.ds-card-link:hover{text-decoration:underline}.ds-card-link:focus-visible{outline:2px solid var(--accent);outline-offset:3px}"
+    },
+    {
+      "name": "Metric Tile",
+      "kind": "card",
+      "refersTo": "metric-card",
+      "description": "Dashboard figure: 16px Shale tile, Ash Soft label, 2.25rem Bone number with tabular numerals.",
+      "html": "<div class=\"ds-metric\"><span>Boosters</span><strong>37</strong></div>",
+      "css": ".ds-metric{border:1px solid #293127;border-radius:16px;background:#171b15;padding:1.5rem;font-family:\"Inter Variable\",ui-sans-serif,system-ui,sans-serif}.ds-metric span{display:block;color:#9ba496;font-size:.9rem;line-height:1.55}.ds-metric strong{display:block;margin-top:.4rem;color:#f4f1ea;font-size:2.25rem;font-weight:720;letter-spacing:-.03em;line-height:1.1;font-variant-numeric:tabular-nums}"
+    },
+    {
+      "name": "Status Line",
+      "kind": "chip",
+      "refersTo": "status-ok",
+      "description": "Bullet-led live state; the shape never changes, only the hue flips between Signal Lime and Error Text.",
+      "html": "<div class=\"ds-status\"><span class=\"ds-ok\">● Connected</span><span class=\"ds-fail\">● Would be rejected</span></div>",
+      "css": ".ds-status{display:flex;gap:1.5rem;font-family:\"Inter Variable\",ui-sans-serif,system-ui,sans-serif;font-size:.9rem;font-weight:600;line-height:1.55}.ds-ok{color:#c6f36b}.ds-fail{color:#f0b6a5}"
+    },
+    {
+      "name": "Error Alert",
+      "kind": "custom",
+      "refersTo": "alert-error",
+      "description": "Full-width failure surface under a form: Error Surface well, Error Border hairline, Error Text copy naming the problem.",
+      "html": "<p class=\"ds-alert\">No workspace with that slug.</p>",
+      "css": ".ds-alert{margin:0;padding:.9rem 1.1rem;border:1px solid #5d3b33;border-radius:12px;background:#241714;color:#f0b6a5;font-family:\"Inter Variable\",ui-sans-serif,system-ui,sans-serif;font-size:1rem;line-height:1.65}"
+    },
+    {
+      "name": "Skip Link",
+      "kind": "custom",
+      "refersTo": null,
+      "description": "First tab stop on every page: a lime pill that slides in from above the viewport so keyboard users can jump to the main landmark.",
+      "html": "<a class=\"ds-skip\" href=\"#main\">Skip to content</a>",
+      "css": ".ds-skip{display:inline-block;padding:.6rem 1rem;border-radius:999px;background:#c6f36b;color:#10120f;font-family:\"Inter Variable\",ui-sans-serif,system-ui,sans-serif;font-size:1rem;font-weight:700;text-decoration:none}.ds-skip:focus-visible{outline:2px solid #c6f36b;outline-offset:3px}"
+    },
+    {
+      "name": "Hero Verdict Card",
+      "kind": "figure",
+      "refersTo": "hero-proof",
+      "description": "The landing hero ornament: a real booster role with a lime safe-to-keep status, three facts, and a caption. Replaces the abstract orbit core and its two claim labels — same space, but it shows a verdict instead of asserting one.",
+      "html": "<figure class=\"hero-proof\"><div class=\"proof-head\"><span class=\"proof-swatch\"></span><strong>Booster role</strong><span class=\"status\">● Safe to keep</span></div><dl class=\"proof-facts\"><div><dt>Colour</dt><dd>#c6f36b</dd></div><div><dt>Position</dt><dd>4</dd></div><div><dt>Permissions</dt><dd>None</dd></div></dl><figcaption>What every role the bot creates looks like: cosmetic, below your staff roles, and holding no permissions.</figcaption></figure>",
+      "css": ".hero-proof{position:relative;display:grid;gap:.6rem;width:min(340px,100%);margin:0;padding:1.5rem;border:1px solid #3b4738;border-radius:20px;background:#171b15;font-family:\\\"Inter Variable\\\",ui-sans-serif,system-ui,sans-serif}.proof-head{display:flex;flex-wrap:wrap;align-items:center;gap:.4rem 1rem}.proof-head strong{color:#f4f1ea;font-size:1.05rem;letter-spacing:-.01em}.proof-head .status{margin-left:auto;white-space:nowrap;color:#c6f36b;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase}.proof-swatch{width:.85rem;height:.85rem;border-radius:999px;background:#c6f36b}.proof-facts{display:grid;gap:.4rem;margin:0;padding:.9rem 0;border-top:1px solid #293127;border-bottom:1px solid #293127}.proof-facts div{display:flex;align-items:baseline;justify-content:space-between;gap:1rem}.proof-facts dt{color:#9ba496;font-size:.9rem}.proof-facts dd{margin:0;color:#e1e8dc;font-size:.9rem;font-variant-numeric:tabular-nums}.hero-proof figcaption{color:#9ba496;font-size:.8rem;line-height:1.5}"
+    },
+    {
+      "name": "Role Safety Row",
+      "kind": "list-item",
+      "refersTo": "role-row",
+      "description": "One row per role the bot created, judged by verifyBoosterRole from @mytheclipse/contracts. Failing rows take the Error Border hairline and list the failing check with the single action that fixes it.",
+      "html": "<li class=\"role-row role-row-fail\"><div class=\"role-row-head\"><strong>Booster · Danu</strong><span class=\"status status-fail\">● Would be rejected</span></div><p class=\"muted\">Member 100000000000000004</p><ul class=\"role-row-fails\"><li><strong>Booster eligibility</strong>: Member is not boosting. Ask the member to boost again.</li></ul></li>",
+      "css": ".role-row{display:grid;gap:.4rem;padding:1.5rem;border:1px solid #293127;border-radius:16px;background:#171b15;font-family:\\\"Inter Variable\\\",ui-sans-serif,system-ui,sans-serif}.role-row-fail{border-color:#5d3b33}.role-row-head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:.4rem 1rem}.role-row-head strong{color:#f4f1ea;font-size:1.05rem}.role-row-head .status{color:#c6f36b;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase}.role-row-head .status-fail{color:#f0b6a5}.role-row-fails{display:grid;gap:.4rem;margin:.4rem 0 0;padding-left:1.15rem;color:#f0b6a5;font-size:.9rem}"
+    },
+    {
+      "name": "Diagnostics Disclosure",
+      "kind": "details",
+      "refersTo": "diagnostics",
+      "description": "Closed by default: the contract playground (six fields, two checkboxes, a captioned check table) sits behind a summary, because an admin came for the verdict. Tables scroll inside a focusable region.",
+      "html": "<details class=\"diagnostics\"><summary>Diagnostics: judge a role by hand</summary><p class=\"muted\">Sample values, not live data.</p><div class=\"check-table-wrap\" role=\"region\" aria-label=\"Safety checks\" tabindex=\"0\"><table class=\"check-table\"><caption>Safety checks for the values above</caption><thead><tr><th scope=\"col\">Check</th><th scope=\"col\">Detail</th><th scope=\"col\">Result</th></tr></thead></table></div></details>",
+      "css": ".diagnostics{margin-top:4rem;border:1px solid #293127;border-radius:20px;background:#171b15;padding:1.5rem 2rem;font-family:\\\"Inter Variable\\\",ui-sans-serif,system-ui,sans-serif}.diagnostics summary{color:#e1e8dc;font-weight:650;cursor:pointer}.diagnostics summary:hover{color:#c6f36b}.diagnostics[open] summary{margin-bottom:.9rem}.check-table-wrap{overflow-x:auto}.check-table-wrap:focus-visible{outline:2px solid #c6f36b;outline-offset:2px;border-radius:6px}"
+    },
+    {
+      "name": "Legal Breadcrumb",
+      "kind": "nav",
+      "refersTo": "legal-crumb",
+      "description": "Legal detail pages open with the index link and the app name. A nav cannot mark a nested route as current, so the breadcrumb states the position instead of faking aria-current.",
+      "html": "<p class=\"legal-crumb\"><a href=\"/privacy\">Privacy</a><span aria-hidden=\"true\"> / </span><span>Booster Role</span></p>",
+      "css": ".legal-crumb{margin-bottom:.9rem;color:#9ba496;font-size:.9rem;font-family:\\\"Inter Variable\\\",ui-sans-serif,system-ui,sans-serif}.legal-crumb a{color:#aab1a4;text-decoration:none}.legal-crumb a:hover{color:#c6f36b}"
+    },
+    {
+      "name": "Theme Toggle",
+      "kind": "button",
+      "refersTo": "icon-button",
+      "description": "44px circle carrying ☀ in the dark theme and ☾ in the light one. The aria-label names the theme it switches to, not the current one; the choice persists in localStorage and is applied before first paint.",
+      "html": "<button class=\"icon-button\" type=\"button\" aria-label=\"Switch to light theme\"><span aria-hidden=\"true\">☀</span></button>",
+      "css": ".icon-button{display:grid;place-items:center;width:2.75rem;height:2.75rem;padding:0;border:1px solid #3b4738;border-radius:999px;background:transparent;color:#aab1a4;font-size:1rem;line-height:1;cursor:pointer;font-family:\\\"Inter Variable\\\",ui-sans-serif,system-ui,sans-serif}.icon-button:hover{border-color:#c6f36b;color:#c6f36b}"
+    },
+    {
+      "name": "Language Switch",
+      "kind": "segmented-control",
+      "refersTo": "lang-switch",
+      "description": "Two buttons, EN and ID, in a hairline pill. The active one is filled with lime and marked aria-pressed; the group is labelled in the current locale.",
+      "html": "<div class=\"lang-switch\" role=\"group\" aria-label=\"Language\"><button type=\"button\" aria-pressed=\"true\" lang=\"en\">EN</button><button type=\"button\" aria-pressed=\"false\" lang=\"id\">ID</button></div>",
+      "css": ".lang-switch{display:flex;gap:2px;padding:3px;border:1px solid #3b4738;border-radius:999px;font-family:\\\"Inter Variable\\\",ui-sans-serif,system-ui,sans-serif}.lang-switch button{min-width:2.4rem;min-height:2.35rem;border:0;border-radius:999px;padding:0 .5rem;background:none;color:#aab1a4;font:inherit;font-size:.72rem;font-weight:700;letter-spacing:.06em;cursor:pointer}.lang-switch button[aria-pressed=\"true\"]{background:#c6f36b;color:#10120f}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Night Orchard",
+    "overview": "A dark olive ground with lime growing out of it. The surface sits in near black (#10120f) and the only thing that comes up through it is one chartreuse green, used as growth: the accent on a live status, the fill of the one action that matters, a link, the \"Eclipse\" syllable. Nothing else is colored. Everything else is a step of the same dark, separated by hairlines instead of shadows.\n\nThe voice is big and tight. Display type runs to 6rem with tracking pulled to -0.04em and line-height under 0.96, so a headline reads as mass rather than as a line of words, and one Instrument Serif italic phrase is set inside it to break the grotesk — \"More capable.\", \"feel like yours.\" That pairing is the whole typographic idea: hard geometry, one soft interruption, self-hosted so it actually renders.\n\nDensity is low and calm. Sections get 5.5rem of air, panels are 20px-rounded slabs one step lighter than the ground, and no surface casts a shadow. The composition is structural and restrained: hairline borders and tonal layering carry the shape, and the lime stays reserved for signal.",
+    "keyCharacteristics": [
+      "One hue in play — Signal Lime on a Basalt ground — with no second accent.",
+      "Display type as mass: 780 weight, -0.04em tracking, 0.96 line-height, 6rem cap.",
+      "Two-tone type pairing: Inter Variable plus one Instrument Serif italic phrase.",
+      "Flat surfaces, hairline borders, zero shadow anywhere.",
+      "Generous vertical rhythm (5.5rem sections) against tight horizontal grids.",
+      "No kicker labels: a heading carries its own weight, with no small label above it.",
+      "Two themes from one token block (Night Orchard / Day Orchard), two locales (EN / ID), no third variant."
+    ],
+    "rules": [
+      {
+        "name": "The One Signal Rule",
+        "body": "Signal Lime covers at most ~10% of any viewport, and only ever as text, a hairline-adjacent fill, or the single primary button. It never becomes a section background.",
+        "section": "colors"
+      },
+      {
+        "name": "The Own Hue Rule",
+        "body": "A bot's accent color is read from data (--accent) inside its own card. Never hard-code a bot hue into the stylesheet, and never let it escape the card.",
+        "section": "colors"
+      },
+      {
+        "name": "The Text Tint Rule",
+        "body": "Every text tone on the dark ladder clears 4.5:1 against its own background (Ash Soft on Shale is 6.8:1). No gray is borrowed from outside the palette to make text quiet; use a lower step of the same olive.",
+        "section": "colors"
+      },
+      {
+        "name": "The Tight Display Rule",
+        "body": "Type at 2.25rem or larger gets tracking between -0.03em and -0.04em and a line-height at or below 1.05. Display type with neutral tracking is off-system.",
+        "section": "typography"
+      },
+      {
+        "name": "The One Italic Rule",
+        "body": "Instrument Serif italic appears at most once per composition, inside a display or headline. Never in body copy, a label, a button, or a table.",
+        "section": "typography"
+      },
+      {
+        "name": "The Ramp Rule",
+        "body": "Twelve sizes exist and nothing sits between them: 0.72, 0.8, 0.9, 1, 1.05, 1.35, 1.5, 1.75, 2.25, 3, 4.5, 6rem. A fluid clamp may only interpolate between two of those steps.",
+        "section": "typography"
+      },
+      {
+        "name": "The Hairline Rule",
+        "body": "Surfaces are separated by a 1px border, never by a shadow. If a panel needs to feel closer, raise its tone one step toward Shale Raised rather than adding blur.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do keep every surface on the Basalt → Shale → Shale Raised ladder, and state edges with a 1px Slate hairline.",
+      "Do reserve Signal Lime for live status, the primary action, links, and the \"Eclipse\" syllable.",
+      "Do keep display type at 780 weight with -0.03em to -0.04em tracking and a line-height at or below 1.05.",
+      "Do break a headline with exactly one Instrument Serif italic phrase when the composition has a hero or CTA.",
+      "Do read a bot's accent from --accent data inside its card.",
+      "Do theme the browser's own surfaces: lime selection, lime caret, thin scrollbar in Slate Light that turns lime on hover, 3px underline offset, and tabular numerals on every figure and date.",
+      "Do give every interactive element hover, focus-visible, active, and disabled states before shipping it.",
+      "Do let a heading carry its own weight, and start the section with the heading.",
+      "Do show the product's real output (a role, a verdict, a slash command) instead of an abstract ornament that asserts quality.",
+      "Do keep every colour in the token block: two themes ship, and a component that looks wrong in one of them is a missing token."
+    ],
+    "donts": [
+      "Don't introduce a third theme or a light surface outside the Day Orchard ladder.",
+      "Don't fill a section or card with Signal Lime; it is a signal, not a surface.",
+      "Don't put a kicker, eyebrow, or small label above a heading.",
+      "Don't add a second sans-serif, a third decorative hue, or a serif anywhere outside the one italic phrase.",
+      "Don't add a shadow to anything — there is no glow left in the system, and depth is a tone step plus a hairline.",
+      "Don't use rounded-full on panels or 0-radius on actions; pills are for actions and circles, 16–22px is for containers.",
+      "Don't invent a size between the twelve ramp steps, or a color outside the token block."
+    ]
+  }
+}

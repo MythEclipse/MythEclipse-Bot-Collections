@@ -3,12 +3,12 @@ import { Link } from "@tanstack/react-router";
 import * as React from "react";
 import { fetchProducts, fetchTenant } from "../api";
 import { ProductCard } from "../components/product-card";
+import { useLocale } from "../i18n";
 
 export function LandingPage(): React.ReactElement {
   return (
-    <main>
+    <main id="main">
       <Hero />
-      <TrustStrip />
       <ProductSection />
       <ServerLookup />
       <ClosingCta />
@@ -17,69 +17,77 @@ export function LandingPage(): React.ReactElement {
 }
 
 function Hero(): React.ReactElement {
+  const { t } = useLocale();
+
   return (
     <section className="hero container">
-      <div className="hero-copy">
-        <p className="eyebrow">MythEclipse Bot Collection</p>
-        <h1>
-          Your server.
-          <br />
-          <em>More capable.</em>
+      <div>
+        <h1 className="hero-title">
+          {t("landing.hero.line1")}
+          <em>{t("landing.hero.line2")}</em>
         </h1>
-        <p className="lead">
-          A small, carefully built collection of Discord bots — booster roles, moderation companions, and whatever
-          comes next. One dashboard for every server that runs them.
-        </p>
-        <div className="actions">
+        <p className="hero-lead">{t("landing.hero.lead")}</p>
+        <div className="hero-actions">
           <Link className="button" to="/dashboard">
-            Manage a server
+            {t("landing.hero.cta")}
           </Link>
           <a className="text-link" href="#products">
-            Explore the bots ↓
+            {t("landing.hero.secondary")}
           </a>
         </div>
       </div>
       <div className="hero-orbit">
         <div className="orbit-ring ring-one" />
         <div className="orbit-ring ring-two" />
-        <div className="orbit-core">✦</div>
-        <span className="orbit-label label-one">safe by design</span>
-        <span className="orbit-label label-two">built for scale</span>
+        <figure className="hero-proof">
+          <div className="proof-head">
+            <span className="proof-swatch" aria-hidden="true" />
+            <strong>{t("proof.role")}</strong>
+            <span className="status">{t("proof.safe")}</span>
+          </div>
+          <dl className="proof-facts">
+            <div>
+              <dt>{t("proof.colour")}</dt>
+              <dd>#c6f36b</dd>
+            </div>
+            <div>
+              <dt>{t("proof.position")}</dt>
+              <dd>4</dd>
+            </div>
+            <div>
+              <dt>{t("proof.permissions")}</dt>
+              <dd>{t("proof.none")}</dd>
+            </div>
+          </dl>
+          <figcaption>{t("proof.caption")}</figcaption>
+        </figure>
       </div>
-    </section>
-  );
-}
-
-function TrustStrip(): React.ReactElement {
-  return (
-    <section className="trust container">
-      <span>POWERING THE NEXT GENERATION OF</span>
-      <b>COMMUNITIES</b>
-      <b>CREATORS</b>
-      <b>FRIENDS</b>
-      <b>TEAMS</b>
     </section>
   );
 }
 
 function ProductSection(): React.ReactElement {
+  const { t } = useLocale();
   const products = useQuery({ queryKey: ["public", "products"], queryFn: fetchProducts });
 
   return (
     <section className="section container" id="products">
-      <div className="section-heading">
-        <div>
-          <p className="eyebrow">The collection</p>
-          <h2>One home for every bot.</h2>
-        </div>
-        <p>
-          Install the tools you need today. Add more as your community evolves. Every server gets its own isolated
-          workspace.
-        </p>
+      <div className="section-head">
+        <h2>{t("products.heading")}</h2>
+        <p>{t("products.body")}</p>
       </div>
       <div className="product-grid">
-        {products.isPending && <p className="muted">Loading products…</p>}
-        {products.isError && <p className="form-error">{products.error.message}</p>}
+        {products.isPending && <p className="muted">{t("products.loading")}</p>}
+        {products.isError && (
+          <div className="form-error error-note" role="alert">
+            <p>{t("products.error")}</p>
+            <p className="error-detail">{products.error.message}</p>
+            <button className="text-link" type="button" onClick={() => void products.refetch()}>
+              {t("products.retry")}
+            </button>
+          </div>
+        )}
+        {products.data && products.data.bots.length === 0 && <p className="empty">{t("products.empty")}</p>}
         {products.data?.bots.map((bot) => (
           <ProductCard key={bot.id} bot={bot} />
         ))}
@@ -89,59 +97,98 @@ function ProductSection(): React.ReactElement {
 }
 
 function ServerLookup(): React.ReactElement {
-  const [slug, setSlug] = React.useState("demo-server");
+  const { t } = useLocale();
+  const [value, setValue] = React.useState("");
   const [submitted, setSubmitted] = React.useState<string | null>(null);
   const lookup = useQuery({
     queryKey: ["public", "tenant", submitted],
     queryFn: () => fetchTenant(submitted ?? ""),
-    enabled: submitted !== null
+    enabled: submitted !== null && submitted.length > 0,
+    retry: false
   });
 
+  function clear(): void {
+    setValue("");
+    setSubmitted(null);
+  }
+
   return (
-    <section className="verify-panel container">
-      <div>
-        <p className="eyebrow">Public lookup</p>
-        <h2>Find your server workspace.</h2>
-        <p>Check whether a server has an active MythEclipse workspace.</p>
-      </div>
-      <form
-        onSubmit={(event) => {
-          event.preventDefault();
-          setSubmitted(slug.trim());
-        }}
-      >
-        <label>
-          Server slug
-          <input value={slug} onChange={(event) => setSlug(event.target.value)} required />
-        </label>
-        <button className="button" type="submit" disabled={lookup.isFetching}>
-          {lookup.isFetching ? "Checking…" : "Check server"}
-        </button>
-      </form>
-      {lookup.data && (
-        <div className="server-result">
-          <strong>{lookup.data.tenant.name}</strong>
-          <span>
-            Active · {lookup.data.tenant.plan} workspace · {lookup.data.tenant.discordGuildId}
-          </span>
+    <section className="section container">
+      <div className="panel lookup">
+        <div>
+          <h2>{t("lookup.heading")}</h2>
+          <p>{t("lookup.body")}</p>
         </div>
-      )}
-      {lookup.isError && <p className="form-error server-result">{lookup.error.message}</p>}
+        <form
+          className="lookup-form"
+          onSubmit={(event) => {
+            event.preventDefault();
+            setSubmitted(value.trim());
+          }}
+        >
+          <label className="field">
+            {t("lookup.label")}
+            <input
+              value={value}
+              onChange={(event) => setValue(event.target.value)}
+              placeholder="demo-server"
+              autoComplete="off"
+              required
+            />
+          </label>
+          <button className="button" type="submit" disabled={lookup.isFetching}>
+            {lookup.isFetching ? t("lookup.checking") : t("lookup.submit")}
+          </button>
+        </form>
+        {lookup.data && (
+          <div className="server-result">
+            <div>
+              <strong>{lookup.data.tenant.name}</strong>
+              <span>
+                {t("lookup.meta", {
+                  state: lookup.data.tenant.active ? t("lookup.active") : t("lookup.inactive"),
+                  plan: lookup.data.tenant.plan,
+                  guild: lookup.data.tenant.discordGuildId
+                })}
+              </span>
+            </div>
+          </div>
+        )}
+        {lookup.isError && (
+          <p className="form-error server-result" role="alert">
+            {t("lookup.miss")}
+          </p>
+        )}
+        {submitted !== null && (lookup.data !== undefined || lookup.isError) && (
+          <div className="result-actions">
+            {lookup.data && (
+              <Link className="text-link" to="/dashboard">
+                {t("lookup.open")}
+              </Link>
+            )}
+            <button className="text-link" type="button" onClick={clear}>
+              {t("lookup.clear")}
+            </button>
+          </div>
+        )}
+      </div>
     </section>
   );
 }
 
 function ClosingCta(): React.ReactElement {
+  const { t } = useLocale();
+
   return (
     <section className="cta container">
-      <p className="eyebrow">Ready when you are</p>
       <h2>
-        Make your community
+        {t("cta.line1")}
         <br />
-        <em>feel like yours.</em>
+        <em>{t("cta.line2")}</em>
       </h2>
+      <p>{t("cta.body")}</p>
       <Link className="button" to="/dashboard">
-        Open your dashboard →
+        {t("cta.button")}
       </Link>
     </section>
   );

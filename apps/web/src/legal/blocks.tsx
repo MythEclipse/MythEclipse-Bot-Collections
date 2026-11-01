@@ -11,12 +11,16 @@ export function Section({ title, children }: { title: string; children: React.Re
 
 export function Table({ head, rows }: { head: string[]; rows: React.ReactNode[][] }): React.ReactElement {
   return (
-    <div className="legal-table-wrap">
+    // Scrollable regions must be reachable by keyboard, or the columns past the
+    // fold are invisible to anyone not using a pointer.
+    <div className="legal-table-wrap" role="region" aria-label="Table" tabIndex={0}>
       <table>
         <thead>
           <tr>
             {head.map((cell) => (
-              <th key={cell}>{cell}</th>
+              <th key={cell} scope="col">
+                {cell}
+              </th>
             ))}
           </tr>
         </thead>

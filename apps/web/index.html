@@ -3,11 +3,35 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="dark light" />
+    <meta name="theme-color" content="#10120f" />
     <meta
       name="description"
-      content="MythEclipse Bot Collection — a small set of carefully built Discord bots. Booster Role gives your boosters cosmetic roles that stay cosmetic."
+      content="MythEclipse Bot Collections — a small set of carefully built Discord bots. Booster Role gives your boosters cosmetic roles that stay cosmetic."
     />
-    <title>MythEclipse Bot Collection — Discord bots for better communities</title>
+    <title>MythEclipse Bot Collections — Discord bots for better communities</title>
+    <script>
+      // Resolve theme and language before paint: no flash, and React reads the
+      // same values back from <html> instead of deciding twice.
+      (function () {
+        try {
+          var theme = localStorage.getItem("mytheclipse.theme");
+          if (!theme) {
+            theme = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+          }
+          var root = document.documentElement;
+          root.dataset.theme = theme;
+          root.style.colorScheme = theme;
+          var meta = document.querySelector('meta[name="theme-color"]');
+          if (meta) meta.setAttribute("content", theme === "light" ? "#f6f4ec" : "#10120f");
+          var locale = localStorage.getItem("mytheclipse.locale");
+          if (!locale) {
+            locale = (navigator.language || "en").toLowerCase().indexOf("id") === 0 ? "id" : "en";
+          }
+          root.lang = locale;
+        } catch (error) {}
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>
