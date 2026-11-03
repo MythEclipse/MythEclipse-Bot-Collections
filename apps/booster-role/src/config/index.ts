@@ -11,6 +11,7 @@ export type AppConfig = {
   retentionMs: number;
   privacyPolicyUrl: string;
   termsOfServiceUrl: string;
+  contactEmail: string;
 };
 
 /** Developer policy caps stored API data at 30 days; 29 leaves room for clock skew. */
@@ -34,6 +35,7 @@ export function loadConfig(env: Record<string, string | undefined> = process.env
       env.BOOSTER_PRIVACY_URL ?? "https://dcbot.asepharyana.my.id/apps/booster-role/privacy",
     termsOfServiceUrl:
       env.BOOSTER_TERMS_URL ?? "https://dcbot.asepharyana.my.id/apps/booster-role/terms",
+    contactEmail: env.BOOSTER_CONTACT_EMAIL ?? "superaseph@gmail.com",
   };
 }
 
