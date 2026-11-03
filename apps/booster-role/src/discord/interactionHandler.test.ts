@@ -71,7 +71,7 @@ describe("handleInteraction", () => {
     const interaction = new FakeInteraction("claim", { name: "Test", color: "#AABBCC" });
     const service = new FakeService();
 
-    await handleInteraction(interaction, service, { isBoosting: async () => true });
+    await handleInteraction(interaction, service, { isBoosting: async () => true, disclosure: DISCLOSURE, findRecord: async () => null });
 
     expect(service.calls).toEqual(["claim"]);
     expect(interaction.deferred).toBe(true);
@@ -83,7 +83,7 @@ describe("handleInteraction", () => {
       const interaction = new FakeInteraction(subcommand, { name: "Test", color: "#AABBCC", image: { contentType: "image/png", size: 100, url: "https://cdn.discordapp.com/icon.png" } });
       const service = new FakeService();
 
-      await handleInteraction(interaction, service, { isBoosting: async () => true });
+      await handleInteraction(interaction, service, { isBoosting: async () => true, disclosure: DISCLOSURE, findRecord: async () => null });
 
       expect(service.calls).toEqual([subcommand]);
     }
@@ -93,7 +93,7 @@ describe("handleInteraction", () => {
     const interaction = new FakeInteraction("delete");
     const service = new FakeService();
 
-    await handleInteraction(interaction, service, { isBoosting: async () => true });
+    await handleInteraction(interaction, service, { isBoosting: async () => true, disclosure: DISCLOSURE, findRecord: async () => null });
 
     expect(service.calls).toEqual(["delete:user"]);
     expect(interaction.replies[0]).toEqual({ content: "Booster role deleted." });
@@ -104,7 +104,7 @@ describe("handleInteraction", () => {
     interaction.memberPermissions = { has: (permission) => permission === PermissionFlagsBits.Administrator };
     const service = new FakeService();
 
-    await handleInteraction(interaction, service, { isBoosting: async () => true });
+    await handleInteraction(interaction, service, { isBoosting: async () => true, disclosure: DISCLOSURE, findRecord: async () => null });
 
     expect(service.calls).toEqual(["delete:target-user"]);
     expect(interaction.replies[0]).toEqual({ content: "Booster role deleted by admin." });
@@ -115,7 +115,7 @@ describe("handleInteraction", () => {
     interaction.memberPermissions = { has: () => false };
     const service = new FakeService();
 
-    await handleInteraction(interaction, service, { isBoosting: async () => true });
+    await handleInteraction(interaction, service, { isBoosting: async () => true, disclosure: DISCLOSURE, findRecord: async () => null });
 
     expect(service.calls).toEqual([]);
     expect(interaction.replies[0]).toEqual({ content: "Administrator permission is required" });
@@ -128,7 +128,7 @@ describe("handleInteraction", () => {
       throw new Error("Role name is already used");
     };
 
-    await handleInteraction(interaction, service, { isBoosting: async () => true });
+    await handleInteraction(interaction, service, { isBoosting: async () => true, disclosure: DISCLOSURE, findRecord: async () => null });
 
     // claim is deferred, so errors use editReply
     expect(interaction.deferred).toBe(true);
@@ -142,7 +142,7 @@ describe("handleInteraction", () => {
       throw new Error("Failed query: insert into booster_roles params: secret");
     };
 
-    await handleInteraction(interaction, service, { isBoosting: async () => true });
+    await handleInteraction(interaction, service, { isBoosting: async () => true, disclosure: DISCLOSURE, findRecord: async () => null });
 
     expect(interaction.deferred).toBe(true);
     expect(interaction.replies[0]).toEqual({ content: "Failed to save booster role. Any created role was cleaned up. Try again." });
@@ -155,9 +155,49 @@ describe("handleInteraction", () => {
       throw new Error("Some error");
     };
 
-    await handleInteraction(interaction, service, { isBoosting: async () => true });
+    await handleInteraction(interaction, service, { isBoosting: async () => true, disclosure: DISCLOSURE, findRecord: async () => null });
 
     expect(interaction.deferred).toBe(false);
     expect(interaction.replies[0]).toEqual({ content: "Some error" });
+  });
+
+  test("answers /booster-role privacy with the policy link and contact address", async () => {
+    const { interaction } = makeInteraction("privacy", {});
+
+    await handleInteraction(interaction, service, {
+      isBoosting: async () => true,
+      disclosure: DISCLOSURE,
+      findRecord: async () => null,
+    });
+
+    const reply = interaction.replies[0];
+    expect(reply.content).toContain(DISCLOSURE.privacyPolicyUrl);
+    expect(reply.content).toContain(DISCLOSURE.contactEmail);
+    expect(reply.flags).toBe(MessageFlags.Ephemeral);
+  });
+
+  test("answers /booster-role mydata with the stored record", async () => {
+    const { interaction } = makeInteraction("mydata", {});
+
+    await handleInteraction(interaction, service, {
+      isBoosting: async () => true,
+      disclosure: DISCLOSURE,
+      findRecord: async () => ({
+        guildId: "guild",
+        userId: "352042144430817281",
+        roleId: "999",
+        name: "Custom",
+        color: "#AABBCC",
+        color2: null,
+        icon: null,
+        createdAt: 1_700_000_000_000,
+        updatedAt: 1_700_000_000_000,
+      }),
+    });
+
+    const reply = interaction.replies[0];
+    expect(reply.content).toContain("352042144430817281");
+    expect(reply.content).toContain("999");
+    expect(reply.flags).toBe(MessageFlags.Ephemeral);
   });
 });
