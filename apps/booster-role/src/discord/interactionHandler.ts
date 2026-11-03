@@ -5,6 +5,7 @@ import { ValidationError, NotFoundError, PermissionError } from "../domain/error
 import { claimOptions, renameOptions, recolorOptions } from "./schemas";
 import type { BoosterRoleRecord } from "../services/boosterRoleStore";
 import type { RoleIcon } from "../services/boosterRoleService";
+import { myDataMessage, privacyMessage, type DisclosureLinks } from "./disclosure";
 
 export type ChatInputInteractionLike = {
   commandName: string;
@@ -43,6 +44,8 @@ export type BoosterRoleCommandService = {
 
 export type InteractionHandlerDeps = {
   isBoosting(guildId: string, userId: string): Promise<boolean>;
+  disclosure: DisclosureLinks;
+  findRecord(guildId: string, userId: string): Promise<BoosterRoleRecord | null>;
 };
 
 export async function handleInteraction(
@@ -122,6 +125,22 @@ export async function handleInteraction(
       logger.info("Handling booster-role admin command", { guildId, userId, subcommand, targetUserId });
       await service.deleteRole({ guildId, userId: targetUserId });
       await interaction.reply({ content: "Booster role deleted by admin." });
+      return;
+    }
+
+    // Disclosure replies are ephemeral: they show the caller their own data and
+    // the deletion route, which is nobody else's business in the channel.
+    if (subcommand === "privacy") {
+      await interaction.reply({ content: privacyMessage(deps.disclosure), flags: MessageFlags.Ephemeral });
+      return;
+    }
+
+    if (subcommand === "mydata") {
+      const record = await deps.findRecord(guildId, userId);
+      await interaction.reply({
+        content: myDataMessage(record, deps.disclosure.retentionDays),
+        flags: MessageFlags.Ephemeral,
+      });
       return;
     }
 
