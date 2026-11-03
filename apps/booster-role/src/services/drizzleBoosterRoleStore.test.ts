@@ -4,9 +4,11 @@ import { DrizzleBoosterRoleStore, type BoosterRoleRecord, type BoosterRoleUpdate
 
 const KEY = "test-key-0123456789abcdef0123456789";
 
+type Row = Record<string, unknown>;
+
 class FakeDb {
-  rows: BoosterRoleRecord[] = [];
-  inserted: Array<Record<string, unknown>> = [];
+  rows: Row[] = [];
+  inserted: Row[] = [];
   lastUpdate: { changes: BoosterRoleUpdate; condition: unknown } | null = null;
 
   select() {
@@ -21,9 +23,9 @@ class FakeDb {
 
   insert() {
     return {
-      values: (record: Record<string, unknown>) => {
+      values: (record: Row) => {
         this.inserted.push(record);
-        this.rows.push(record as unknown as BoosterRoleRecord);
+        this.rows.push(record);
       }
     };
   }
