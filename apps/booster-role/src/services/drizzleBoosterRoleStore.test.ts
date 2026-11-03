@@ -1,10 +1,14 @@
 import { describe, test } from "node:test";
 import { expect } from "expect";
-import { DrizzleBoosterRoleStore, type BoosterRoleRecord, type BoosterRoleUpdate } from "./drizzleBoosterRoleStore";
+import {
+  DrizzleBoosterRoleStore,
+  type BoosterRoleRowLike,
+  type BoosterRoleUpdate,
+} from "./drizzleBoosterRoleStore";
 
 const KEY = "test-key-0123456789abcdef0123456789";
 
-type Row = Record<string, unknown>;
+type Row = BoosterRoleRowLike & Record<string, unknown>;
 
 class FakeDb {
   rows: Row[] = [];
