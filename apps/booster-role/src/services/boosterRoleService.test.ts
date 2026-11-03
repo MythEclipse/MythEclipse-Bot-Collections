@@ -162,6 +162,21 @@ describe("BoosterRoleService", () => {
     expect(await store.findByUser("guild", "user")).toBeNull();
   });
 
+  test("clears the stored record when the Discord role was already deleted by hand", async () => {
+    // Regression: deleteRole used to throw "Discord role not found", so the
+    // record survived and every later guildMemberUpdate retried forever.
+    const store = new MemoryRoleStore();
+    const roles = new FakeRoleRepository([]);
+    const service = new BoosterRoleService(store, roles, { anchorPosition: 10 });
+    const claimed = await service.claimRole({ guildId: "guild", userId: "user", name: "First Role", color: null, isBoosting: true });
+
+    roles.roles.delete(claimed.roleId);
+
+    await service.removeRoleForLostBoost({ guildId: "guild", userId: "user" });
+
+    expect(await store.findByUser("guild", "user")).toBeNull();
+  });
+
   test("rolls back created and assigned role when storing claim fails", async () => {
     const roles = new FakeRoleRepository([]);
     const service = new BoosterRoleService(new FailingCreateRoleStore(), roles, { anchorPosition: 10 });
