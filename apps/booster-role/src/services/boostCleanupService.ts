@@ -7,6 +7,7 @@ export type CleanupServiceOptions = {
   intervalMs: number;
   boosterEligibilityRoleId: string;
   anchorRoleId: string | null;
+  retentionMs: number;
 };
 
 /**
@@ -68,6 +69,19 @@ async function cleanupGuild(
   const records = await store.findByGuild(guild.id);
 
   for (const record of records) {
+    // A record whose stored id could not be decrypted has no owner we can verify.
+    // Keeping it would mean retaining personal data we cannot even read, so it is
+    // removed on the same path as an owner who left.
+    if (record.userId === "") {
+      logger.warn("Boost cleanup: unreadable user id, removing record", {
+        guildId: guild.id,
+        roleId: record.roleId,
+      });
+      await roles.deleteRole(record.roleId);
+      await store.delete(guild.id, record.userId);
+      continue;
+    }
+
     const member = guild.members.cache.get(record.userId);
 
     // Member left the server entirely → remove role + record
@@ -89,6 +103,24 @@ async function cleanupGuild(
         guildId: guild.id,
         userId: record.userId,
         roleId: record.roleId,
+      });
+      await roles.deleteRole(record.roleId);
+      await store.delete(guild.id, record.userId);
+      continue;
+    }
+
+    // Retention ceiling. A role that is still legitimate but older than the
+    // published retention window is deleted and the member may claim again: the
+    // developer policy caps how long stored API data may be kept, and a booster
+    // who has held the same role for months is exactly the case that would
+    // otherwise sit past it forever.
+    const age = Date.now() - record.updatedAt;
+    if (age > options.retentionMs) {
+      logger.info("Boost cleanup: record exceeded retention window, removing role", {
+        guildId: guild.id,
+        userId: record.userId,
+        roleId: record.roleId,
+        ageDays: Math.floor(age / 86_400_000),
       });
       await roles.deleteRole(record.roleId);
       await store.delete(guild.id, record.userId);
