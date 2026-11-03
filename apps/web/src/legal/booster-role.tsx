@@ -52,7 +52,7 @@ const privacyBody = (
         head={["Data", "Why", "Stored"]}
         rows={[
           ["Discord guild (server) id", "To keep each server's data separate.", "Yes, in our database"],
-          ["Discord user id of the booster", "To prove the custom role belongs to that member.", "Yes, in our database"],
+          ["Discord user id of the booster", "To prove the custom role belongs to that member.", "Yes, encrypted at rest"],
           ["Discord role id", "To rename, recolour, or delete only the role the bot created.", "Yes, in our database"],
           [
             "Role customisation: name, primary colour, secondary colour, icon image",
@@ -104,6 +104,13 @@ const privacyBody = (
         operator over SSH keys. Discord itself processes the events and API calls needed to run the features above,
         under its own privacy policy.
       </p>
+      <p>
+        The Discord user id of each booster is encrypted before it is written, with AES-256-GCM, so the stored value
+        cannot be read from the database, a backup, or a dump without the key. Every record is sealed with its own
+        random initialisation vector and bound to its server id, so a value copied from one server cannot be replayed
+        into another. The key lives in the secrets manager, not in the database and not in the source code. Lookups use
+        a separate keyed hash rather than the id itself, so the plaintext id is never part of a query.
+      </p>
     </Section>
 
     <Section title="Retention and deletion">
@@ -113,6 +120,14 @@ const privacyBody = (
             A member can delete their role and its record at any time with <code>/booster-role delete</code>.
           </>,
           "When a member stops boosting, the custom role and its record are deleted automatically.",
+          <>
+            A record is kept for at most <strong>29 days</strong>, after which it and its role are deleted
+            automatically even if the member is still boosting; the member may claim a fresh role at any time.
+          </>,
+          <>
+            <code>/booster-role mydata</code> shows you exactly what is stored about you, and
+            <code>/booster-role privacy</code> repeats this summary inside Discord.
+          </>,
           "A server administrator can ask for every record belonging to their server to be deleted by writing to the address below; we delete them and confirm.",
           "Removing the bot from a server stops all processing for that server immediately.",
           "We keep limited security records where the law requires it, and nothing else."
