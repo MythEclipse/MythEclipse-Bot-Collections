@@ -107,7 +107,7 @@ describe("startBoostCleanup", () => {
     const { stop } = startBoostCleanup(client, store, () => roles, {
       intervalMs: 60_000,
       boosterEligibilityRoleId: "booster-role-id",
-      anchorRoleId: null,
+      anchorRoleId: null, retentionMs: 30 * 86_400_000,
     });
     // Wait a tick for async runCleanup
     await new Promise(r => setTimeout(r, 10));
@@ -130,7 +130,7 @@ describe("startBoostCleanup", () => {
     const { stop } = startBoostCleanup(client, store, () => roles, {
       intervalMs: 60_000,
       boosterEligibilityRoleId: "booster-role-id",
-      anchorRoleId: null,
+      anchorRoleId: null, retentionMs: 30 * 86_400_000,
     });
     await new Promise(r => setTimeout(r, 10));
     stop();
@@ -152,7 +152,7 @@ describe("startBoostCleanup", () => {
     const { stop } = startBoostCleanup(client, store, () => roles, {
       intervalMs: 60_000,
       boosterEligibilityRoleId: "booster-role-id",
-      anchorRoleId: null,
+      anchorRoleId: null, retentionMs: 30 * 86_400_000,
     });
     await new Promise(r => setTimeout(r, 10));
     stop();
@@ -171,7 +171,7 @@ describe("startBoostCleanup", () => {
     const { stop } = startBoostCleanup(client, store, () => roles, {
       intervalMs: 60_000,
       boosterEligibilityRoleId: "booster-role-id",
-      anchorRoleId: null,
+      anchorRoleId: null, retentionMs: 30 * 86_400_000,
     });
     await new Promise(r => setTimeout(r, 10));
     stop();
