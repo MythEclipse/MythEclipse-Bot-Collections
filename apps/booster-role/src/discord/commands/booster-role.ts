@@ -37,4 +37,13 @@ export const boosterRoleCommand = new SlashCommandBuilder()
       .setName("admin-delete")
       .setDescription("Delete another user's bot-managed booster role")
       .addUserOption((option) => option.setName("user").setDescription("User whose booster role should be deleted").setRequired(true))
+  )
+  // Privacy and data-usage disclosure must be reachable from inside Discord, not
+  // only from the bot profile: a member deciding whether to claim a role should be
+  // able to read what is stored without leaving the server.
+  .addSubcommand((command) =>
+    command.setName("privacy").setDescription("Where your data goes, and how to have it deleted")
+  )
+  .addSubcommand((command) =>
+    command.setName("mydata").setDescription("Show what this bot stores about you")
   );
