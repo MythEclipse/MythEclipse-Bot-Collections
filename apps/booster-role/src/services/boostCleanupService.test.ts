@@ -147,7 +147,10 @@ describe("startBoostCleanup", () => {
     const guild = new FakeGuild("guild-1", [member]);
     client.guilds.cache.set("guild-1", guild);
 
-    await store.create({ guildId: "guild-1", userId: "active-user", roleId: "role-active", name: "Active Role", color: null, color2: null, icon: null, createdAt: 1, updatedAt: 1 });
+    // Fresh timestamp: this record is inside the retention window, so the only
+    // reason it may survive is that the member still boosts.
+    const now = Date.now();
+    await store.create({ guildId: "guild-1", userId: "active-user", roleId: "role-active", name: "Active Role", color: null, color2: null, icon: null, createdAt: now, updatedAt: now });
 
     const { stop } = startBoostCleanup(client, store, () => roles, {
       intervalMs: 60_000,
@@ -177,5 +180,33 @@ describe("startBoostCleanup", () => {
     stop();
 
     expect(roles.deleteRoleCalls).toEqual([]);
+  });
+
+  test("removes a record that outlived the retention window even while still boosting", async () => {
+    const store = new MemoryStore();
+    const roles = new SpyRoleRepository();
+    const client = new FakeClient() as any;
+    const member = new FakeMember("old-user", ["booster-role-id"]);
+    const guild = new FakeGuild("guild-1", [member]);
+    client.guilds.cache.set("guild-1", guild);
+
+    const thirtyOneDaysAgo = Date.now() - 31 * 86_400_000;
+    await store.create({
+      guildId: "guild-1", userId: "old-user", roleId: "role-old",
+      name: "Old Role", color: null, color2: null, icon: null,
+      createdAt: thirtyOneDaysAgo, updatedAt: thirtyOneDaysAgo,
+    });
+
+    const { stop } = startBoostCleanup(client, store, () => roles, {
+      intervalMs: 60_000,
+      boosterEligibilityRoleId: "booster-role-id",
+      anchorRoleId: null,
+      retentionMs: 29 * 86_400_000,
+    });
+    await new Promise(r => setTimeout(r, 10));
+    stop();
+
+    expect(roles.deleteRoleCalls).toEqual(["role-old"]);
+    expect(await store.findByUser("guild-1", "old-user")).toBeNull();
   });
 });
