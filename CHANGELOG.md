@@ -1,3 +1,26 @@
+# [1.8.0](https://github.com/MythEclipse/MythEclipse-Bot-Collections/compare/v1.7.4...v1.8.0) (2026-11-03)
+
+
+### Bug Fixes
+
+* **booster-role:** correct fieldCipher import path in migration ([7e6246f](https://github.com/MythEclipse/MythEclipse-Bot-Collections/commit/7e6246f70b262efd1cf1ec74b0b5db614483d591))
+
+
+### Features
+
+* **booster-role:** add /booster-role privacy and mydata disclosure commands ([7058a96](https://github.com/MythEclipse/MythEclipse-Bot-Collections/commit/7058a96f5f150c779cfbcbf591fd2472dde1350e))
+* **booster-role:** add AES-256-GCM field cipher for stored user ids ([d592a6f](https://github.com/MythEclipse/MythEclipse-Bot-Collections/commit/d592a6ff573d7e6becb8588d440e07493ecc2e14))
+* **booster-role:** add privacy and data disclosure replies ([e9afe62](https://github.com/MythEclipse/MythEclipse-Bot-Collections/commit/e9afe62da94bf3f25dc2b82a9c887fab18492979))
+* **booster-role:** add privacy and mydata subcommands ([c017359](https://github.com/MythEclipse/MythEclipse-Bot-Collections/commit/c017359bcf1b28356819d95ca9d6d00a3e32093b))
+* **booster-role:** encrypt user ids at rest with a keyed blind index for lookups ([067fef1](https://github.com/MythEclipse/MythEclipse-Bot-Collections/commit/067fef14ae7ba76dc2355d84c27eaa547e0523ff))
+* **booster-role:** enforce a retention ceiling during cleanup ([cd0eb96](https://github.com/MythEclipse/MythEclipse-Bot-Collections/commit/cd0eb965bf30d8ec038432b2faf784899f6ab8be))
+* **booster-role:** expose the data-deletion contact address ([6f5b8a7](https://github.com/MythEclipse/MythEclipse-Bot-Collections/commit/6f5b8a7e6c9e800190a2835ca5109a0cf89cc72b))
+* **booster-role:** migrate existing rows to encrypted user ids ([eebc95e](https://github.com/MythEclipse/MythEclipse-Bot-Collections/commit/eebc95e8d5496ac74b8f23f04f57442d8a709f56))
+* **booster-role:** migrate stored ids on boot and enforce retention ([9b9a0ea](https://github.com/MythEclipse/MythEclipse-Bot-Collections/commit/9b9a0eab2c00db254adfca28705bed45b9397b62))
+* **booster-role:** require an encryption key and expose retention + legal URLs ([85f7e69](https://github.com/MythEclipse/MythEclipse-Bot-Collections/commit/85f7e6946ce5e3434c13ee555d0665874523f542))
+* **booster-role:** store user_id_hash and index it instead of the ciphertext column ([94d4f8b](https://github.com/MythEclipse/MythEclipse-Bot-Collections/commit/94d4f8b5a27d9bd7e5a6daafc0f1d26370de0e53))
+* **booster-role:** wire encryption key and disclosure deps into handlers ([72c972e](https://github.com/MythEclipse/MythEclipse-Bot-Collections/commit/72c972eacffd3aff3162841637d419109fbb9b50))
+
 ## [1.7.4](https://github.com/MythEclipse/MythEclipse-Bot-Collections/compare/v1.7.3...v1.7.4) (2026-11-03)
 
 ## [1.7.3](https://github.com/MythEclipse/MythEclipse-Bot-Collections/compare/v1.7.2...v1.7.3) (2026-11-03)
