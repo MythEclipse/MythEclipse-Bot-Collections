@@ -1,3 +1,11 @@
+## [1.8.1](https://github.com/MythEclipse/MythEclipse-Bot-Collections/compare/v1.8.0...v1.8.1) (2026-11-03)
+
+
+### Bug Fixes
+
+* **booster-role:** align disclosure tests with the existing fakes ([8416a39](https://github.com/MythEclipse/MythEclipse-Bot-Collections/commit/8416a395fe9ff903c2594338f387598c0d229609))
+* **booster-role:** type the fake database rows as database rows ([aac8613](https://github.com/MythEclipse/MythEclipse-Bot-Collections/commit/aac8613dca5685e9a27d18663ddd770e4187ef07))
+
 # [1.8.0](https://github.com/MythEclipse/MythEclipse-Bot-Collections/compare/v1.7.4...v1.8.0) (2026-11-03)
 
 
