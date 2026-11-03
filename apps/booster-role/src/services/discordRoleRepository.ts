@@ -53,8 +53,19 @@ export class DiscordRoleRepository implements RoleRepository {
    * again — an error every few minutes, forever, for a role nobody could delete.
    * Treating "already absent" as done lets the caller finish and clean up.
    */
+  /**
+   * Deletes the role when Discord still has it. A role that is already gone
+   * counts as success: the caller wants "this role must not exist", and that is
+   * already true.
+   *
+   * WHY NOT REUSE fetchRole: fetchRole throws when the role is missing, which is
+   * correct for updateRole (editing a role that vanished is a real bug). Here the
+   * same throw was harmful — the only caller, removeRoleForLostBoost, deletes the
+   * database row right after, so throwing left the row behind and every later
+   * guildMemberUpdate retried forever.
+   */
   async deleteRole(roleId: string): Promise<void> {
-    const role = await this.fetchRole(roleId);
+    const role = await this.guild.roles.fetch(roleId);
     if (!role) return;
     await role.delete();
   }
@@ -63,7 +74,9 @@ export class DiscordRoleRepository implements RoleRepository {
     return Math.max(fallbackPosition, 1);
   }
 
-  private async fetchRole(roleId: string): Promise<Role | null> {
-    return this.guild.roles.fetch(roleId);
+  private async fetchRole(roleId: string): Promise<Role> {
+    const role = await this.guild.roles.fetch(roleId);
+    if (!role) throw new Error("Discord role not found");
+    return role;
   }
 }
