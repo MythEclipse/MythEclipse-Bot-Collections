@@ -11,7 +11,7 @@ import { handleInteraction } from "./interactionHandler";
 
 export function attachBotHandlers(client: Client, config: AppConfig): void {
   const db = createDb(config.databaseUrl);
-  const store = new DrizzleBoosterRoleStore(db);
+  const store = new DrizzleBoosterRoleStore(db, config.encryptionKey);
 
   client.on("interactionCreate", async (interaction) => {
     if (!interaction.isChatInputCommand() || !interaction.guild) return;
@@ -23,7 +23,14 @@ export function attachBotHandlers(client: Client, config: AppConfig): void {
     );
 
     await handleInteraction(interaction, service, {
-      isBoosting: async () => memberHasRole(interaction.member, config.boosterEligibilityRoleId)
+      isBoosting: async () => memberHasRole(interaction.member, config.boosterEligibilityRoleId),
+      disclosure: {
+        privacyPolicyUrl: config.privacyPolicyUrl,
+        termsOfServiceUrl: config.termsOfServiceUrl,
+        contactEmail: config.contactEmail,
+        retentionDays: Math.round(config.retentionMs / 86_400_000),
+      },
+      findRecord: (guildId, userId) => store.findByUser(guildId, userId),
     });
   });
 
