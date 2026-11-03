@@ -1,9 +1,16 @@
-import { PermissionFlagsBits } from "discord.js";
+import { MessageFlags, PermissionFlagsBits } from "discord.js";
 import { describe, test } from "node:test";
 import { expect } from "expect";
 import { handleInteraction, type BoosterRoleCommandService, type ChatInputInteractionLike } from "./interactionHandler";
 
 type Reply = { content: string; flags?: number };
+
+const DISCLOSURE = {
+  privacyPolicyUrl: "https://example.test/privacy",
+  termsOfServiceUrl: "https://example.test/terms",
+  contactEmail: "privacy@example.test",
+  retentionDays: 29,
+};
 
 class FakeInteraction implements ChatInputInteractionLike {
   commandName = "booster-role";
@@ -162,7 +169,8 @@ describe("handleInteraction", () => {
   });
 
   test("answers /booster-role privacy with the policy link and contact address", async () => {
-    const { interaction } = makeInteraction("privacy", {});
+    const interaction = new FakeInteraction("privacy");
+    const service = new FakeService();
 
     await handleInteraction(interaction, service, {
       isBoosting: async () => true,
@@ -170,14 +178,15 @@ describe("handleInteraction", () => {
       findRecord: async () => null,
     });
 
-    const reply = interaction.replies[0];
-    expect(reply.content).toContain(DISCLOSURE.privacyPolicyUrl);
-    expect(reply.content).toContain(DISCLOSURE.contactEmail);
-    expect(reply.flags).toBe(MessageFlags.Ephemeral);
+    expect(interaction.replies[0].content).toContain(DISCLOSURE.privacyPolicyUrl);
+    expect(interaction.replies[0].content).toContain(DISCLOSURE.contactEmail);
+    expect(interaction.replies[0].flags).toBe(MessageFlags.Ephemeral);
+    expect(service.calls).toEqual([]);
   });
 
-  test("answers /booster-role mydata with the stored record", async () => {
-    const { interaction } = makeInteraction("mydata", {});
+  test("answers /booster-role mydata with the caller's stored record", async () => {
+    const interaction = new FakeInteraction("mydata");
+    const service = new FakeService();
 
     await handleInteraction(interaction, service, {
       isBoosting: async () => true,
@@ -195,9 +204,20 @@ describe("handleInteraction", () => {
       }),
     });
 
-    const reply = interaction.replies[0];
-    expect(reply.content).toContain("352042144430817281");
-    expect(reply.content).toContain("999");
-    expect(reply.flags).toBe(MessageFlags.Ephemeral);
+    expect(interaction.replies[0].content).toContain("352042144430817281");
+    expect(interaction.replies[0].content).toContain("999");
+    expect(interaction.replies[0].flags).toBe(MessageFlags.Ephemeral);
+  });
+
+  test("answers /booster-role mydata when nothing is stored", async () => {
+    const interaction = new FakeInteraction("mydata");
+
+    await handleInteraction(interaction, new FakeService(), {
+      isBoosting: async () => true,
+      disclosure: DISCLOSURE,
+      findRecord: async () => null,
+    });
+
+    expect(interaction.replies[0].content).toContain("stores nothing about you");
   });
 });
