@@ -1,6 +1,6 @@
 import { createHmac } from "node:crypto";
 import postgres from "postgres";
-import { FieldCipher } from "../fieldCipher";
+import { FieldCipher } from "../services/fieldCipher";
 
 /**
  * Brings an existing booster_roles table up to the encrypted layout.
