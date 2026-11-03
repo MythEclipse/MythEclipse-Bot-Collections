@@ -18,7 +18,7 @@ type QueryWithLimit = {
   limit(count: number): Promise<BoosterRoleRowLike[]> | BoosterRoleRowLike[];
 };
 
-type BoosterRoleRowLike = {
+export type BoosterRoleRowLike = {
   guildId: string;
   userId: string;
   userIdHash: string;
@@ -31,9 +31,9 @@ type BoosterRoleRowLike = {
   updatedAt: number;
 };
 
-type InsertValues = Omit<BoosterRoleRowLike, "userIdHash"> & { userIdHash: string };
+export type InsertValues = Omit<BoosterRoleRowLike, "userIdHash"> & { userIdHash: string };
 
-type DatabaseLike = {
+export type DatabaseLike = {
   select(): {
     from(table: typeof boosterRoles): SelectQuery;
   };
