@@ -1,3 +1,11 @@
+## [1.7.3](https://github.com/MythEclipse/MythEclipse-Bot-Collections/compare/v1.7.2...v1.7.3) (2026-11-03)
+
+
+### Bug Fixes
+
+* **booster-role:** deleteRole tolerates an already-absent role, fetchRole keeps throwing ([ead2995](https://github.com/MythEclipse/MythEclipse-Bot-Collections/commit/ead2995751604bc60f8e258372373db111bf1e4d))
+* **booster-role:** treat an already-deleted Discord role as success ([d9641ab](https://github.com/MythEclipse/MythEclipse-Bot-Collections/commit/d9641ab9d89787476eb0b89481f7c2d81fe4383c))
+
 ## [1.7.2](https://github.com/MythEclipse/MythEclipse-Bot-Collections/compare/v1.7.1...v1.7.2) (2026-11-01)
 
 ## [1.7.1](https://github.com/asepharyana/MythEclipse-Bot-Collections/compare/v1.7.0...v1.7.1) (2026-11-01)
