@@ -1,3 +1,10 @@
+## [1.8.4](https://github.com/MythEclipse/MythEclipse-Bot-Collections/compare/v1.8.3...v1.8.4) (2026-11-05)
+
+
+### Bug Fixes
+
+* **deps:** stop the auto-merge gate reading its own check run ([a6f2c56](https://github.com/MythEclipse/MythEclipse-Bot-Collections/commit/a6f2c56c0dbd4def06bcf4259e4d0fb64d9407be))
+
 ## [1.8.3](https://github.com/MythEclipse/MythEclipse-Bot-Collections/compare/v1.8.2...v1.8.3) (2026-11-03)
 
 ## [1.8.2](https://github.com/MythEclipse/MythEclipse-Bot-Collections/compare/v1.8.1...v1.8.2) (2026-11-03)
