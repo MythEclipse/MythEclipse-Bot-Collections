@@ -1,3 +1,10 @@
+## [1.8.5](https://github.com/MythEclipse/MythEclipse-Bot-Collections/compare/v1.8.4...v1.8.5) (2026-11-12)
+
+
+### Bug Fixes
+
+* **booster-role:** stop a listener rejection from killing the bot ([4f20350](https://github.com/MythEclipse/MythEclipse-Bot-Collections/commit/4f2035030ccb507f6c0768d436d347f3d60f933a))
+
 ## [1.8.4](https://github.com/MythEclipse/MythEclipse-Bot-Collections/compare/v1.8.3...v1.8.4) (2026-11-05)
 
 
