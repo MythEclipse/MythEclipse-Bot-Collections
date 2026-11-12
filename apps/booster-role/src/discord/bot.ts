@@ -8,12 +8,15 @@ import { DiscordRoleRepository } from "../services/discordRoleRepository";
 import { handleGuildMemberUpdate } from "./events/guildMemberUpdate";
 import { sendBoostGreeting } from "./events/boostGreeting";
 import { handleInteraction } from "./interactionHandler";
+import { safeListener } from "./safeListener";
 
 export function attachBotHandlers(client: Client, config: AppConfig): void {
   const db = createDb(config.databaseUrl);
   const store = new DrizzleBoosterRoleStore(db, config.encryptionKey);
 
-  client.on("interactionCreate", async (interaction) => {
+  // Every listener below is wrapped: a rejection escaping one of them would be
+  // re-emitted by discord.js as a fatal `error` event (see safeListener.ts).
+  client.on("interactionCreate", safeListener("interactionCreate", async (interaction) => {
     if (!interaction.isChatInputCommand() || !interaction.guild) return;
 
     const service = new BoosterRoleService(
@@ -32,9 +35,9 @@ export function attachBotHandlers(client: Client, config: AppConfig): void {
       },
       findRecord: (guildId, userId) => store.findByUser(guildId, userId),
     });
-  });
+  }));
 
-  client.on("guildMemberUpdate", async (oldMember, newMember) => {
+  client.on("guildMemberUpdate", safeListener("guildMemberUpdate", async (oldMember, newMember) => {
     const eligibilityRoleId = config.boosterEligibilityRoleId;
 
     // Detect boost gain: member just acquired the booster eligibility role
@@ -57,7 +60,7 @@ export function attachBotHandlers(client: Client, config: AppConfig): void {
     );
 
     await handleGuildMemberUpdate(oldMember, newMember, service, eligibilityRoleId);
-  });
+  }));
 }
 
 function memberHasRole(member: unknown, roleId: string): boolean {

@@ -3,6 +3,7 @@ import { z } from "zod";
 import { logger } from "../logger";
 import { ValidationError, NotFoundError, PermissionError } from "../domain/errors";
 import { claimOptions, renameOptions, recolorOptions } from "./schemas";
+import { errorDetails } from "./safeListener";
 import type { BoosterRoleRecord } from "../services/boosterRoleStore";
 import type { RoleIcon } from "../services/boosterRoleService";
 import { myDataMessage, privacyMessage, type DisclosureLinks } from "./disclosure";
@@ -18,6 +19,7 @@ export type ChatInputInteractionLike = {
   reply(input: { content: string; flags?: MessageFlags.Ephemeral }): Promise<unknown>;
   deferReply(input?: { flags?: number }): Promise<unknown>;
   editReply(input: { content: string }): Promise<unknown>;
+  followUp(input: { content: string; flags?: MessageFlags.Ephemeral }): Promise<unknown>;
   options: {
     getSubcommand(): string;
     getString(name: string): string | null;
@@ -151,12 +153,38 @@ export async function handleInteraction(
       ? new ValidationError(error.issues.map(e => e.message).join("; "))
       : error;
     logger.warn("Booster-role command failed", { error: normalized instanceof Error ? normalized.message : String(normalized) });
-    // If already deferred, edit the reply instead of replying anew
+    await replyWithError(interaction, normalized);
+  }
+}
+
+/**
+ * Delivers the failure message, and never throws.
+ *
+ * WHY THIS IS GUARDED: this is the code that killed the production bot. A
+ * recolor failed validation, the handler tried to reply with the reason, that
+ * REST call hit a DNS outage (`getaddrinfo EAI_AGAIN discord.com`), and the
+ * rejection escaped the async listener — which discord.js re-emits as a fatal
+ * `error` event. Failing to tell a user about an error must not be able to take
+ * the bot down, so a failed delivery is logged and swallowed here.
+ */
+async function replyWithError(interaction: ChatInputInteractionLike, error: unknown): Promise<void> {
+  const content = toUserErrorMessage(error);
+
+  try {
     if (interaction.deferred) {
-      await interaction.editReply({ content: toUserErrorMessage(normalized) });
+      await interaction.editReply({ content });
+    } else if (interaction.replied) {
+      // Already acknowledged (e.g. a later step threw): replying again would be
+      // rejected with "Interaction has already been acknowledged".
+      await interaction.followUp({ content, flags: MessageFlags.Ephemeral });
     } else {
-      await interaction.reply({ content: toUserErrorMessage(normalized) });
+      await interaction.reply({ content });
     }
+  } catch (deliveryError) {
+    logger.error("Failed to deliver booster-role error reply", {
+      error: errorDetails(deliveryError),
+      intendedContent: content,
+    });
   }
 }
 

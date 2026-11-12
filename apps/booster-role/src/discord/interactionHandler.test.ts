@@ -40,6 +40,10 @@ class FakeInteraction implements ChatInputInteractionLike {
     this.replies.push({ content: input.content });
   }
 
+  async followUp(input: { content: string; flags?: number }): Promise<void> {
+    this.replies.push({ content: input.content, flags: input.flags });
+  }
+
   options = {
     getSubcommand: () => this.subcommand,
     getString: (name: string) => (this.values[name] as string | null) ?? null,
@@ -219,5 +223,53 @@ describe("handleInteraction", () => {
     });
 
     expect(interaction.replies[0].content).toContain("stores nothing about you");
+  });
+
+  /**
+   * Regression for the production crash: a recolor failed validation, the error
+   * reply itself hit a DNS outage, and the rejection escaped the async listener
+   * (discord.js re-emits that as a fatal `error` event). Delivering an error
+   * message must never be able to throw out of the handler.
+   */
+  test("does not throw when delivering the error reply itself fails", async () => {
+    const interaction = new FakeInteraction("recolor", { color: "not-a-color" });
+    interaction.reply = async () => {
+      throw new Error("getaddrinfo EAI_AGAIN discord.com");
+    };
+    const service = new FakeService();
+
+    await expect(
+      handleInteraction(interaction, service, { isBoosting: async () => true, disclosure: DISCLOSURE, findRecord: async () => null })
+    ).resolves.toBeUndefined();
+    expect(service.calls).toEqual([]);
+  });
+
+  test("does not throw when the deferred error edit fails", async () => {
+    const interaction = new FakeInteraction("claim", { name: "VIP" });
+    interaction.editReply = async () => {
+      throw new Error("getaddrinfo EAI_AGAIN discord.com");
+    };
+    const service = new FakeService();
+    service.claimRole = async () => {
+      throw new Error("Role name is already used");
+    };
+
+    await expect(
+      handleInteraction(interaction, service, { isBoosting: async () => true, disclosure: DISCLOSURE, findRecord: async () => null })
+    ).resolves.toBeUndefined();
+  });
+
+  test("uses followUp when the interaction was already replied to", async () => {
+    const interaction = new FakeInteraction("delete");
+    interaction.replied = true;
+    const service = new FakeService();
+    service.deleteRole = async () => {
+      throw new Error("Something broke after replying");
+    };
+
+    await handleInteraction(interaction, service, { isBoosting: async () => true, disclosure: DISCLOSURE, findRecord: async () => null });
+
+    expect(interaction.replies[0].content).toBe("Something broke after replying");
+    expect(interaction.replies[0].flags).toBe(MessageFlags.Ephemeral);
   });
 });
