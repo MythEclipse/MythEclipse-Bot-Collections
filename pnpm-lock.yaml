@@ -12,13 +12,13 @@ importers:
     dependencies:
       '@hono/node-server':
         specifier: latest
-        version: 2.1.8(hono@4.13.18)
+        version: 2.1.8(hono@4.13.19)
       '@mytheclipse/contracts':
         specifier: workspace:*
         version: link:../../packages/contracts
       hono:
         specifier: latest
-        version: 4.13.18
+        version: 4.13.19
       postgres:
         specifier: latest
         version: 4.1.1
@@ -1349,8 +1349,8 @@ packages:
     resolution: {integrity: sha512-EykJT/Q1KjTWctppgIAgfSO0tKVuZUjhgMr17kqTumMl6Afv3EISleU7qZUzoXDFTAHTDC4NOoG/ZxU3EvlMPQ==}
     engines: {node: '>=8'}
 
-  hono@4.13.18:
-    resolution: {integrity: sha512-H9q/E1XizaWstJxUW881dmLxEj+t/TrGGnyxINkm4+sK0qUwsMtFdo2BWI9Vs3cIS19MU6b6iCijoUoEf4f3DA==}
+  hono@4.13.19:
+    resolution: {integrity: sha512-KmXvQAXwcAHV+muzbIwoJ23niEB5nMoDVr9WcRkU8mvjUECm/1+7v4Jgp7P7a+H6MLFrh+vXrGonGrGS+RQfkA==}
     engines: {node: '>=16.9.0'}
 
   inherits@2.0.4:
@@ -2035,9 +2035,9 @@ snapshots:
 
   '@fontsource/instrument-serif@5.3.0': {}
 
-  '@hono/node-server@2.1.8(hono@4.13.18)':
+  '@hono/node-server@2.1.8(hono@4.13.19)':
     dependencies:
-      hono: 4.13.18
+      hono: 4.13.19
 
   '@jest/diff-sequences@30.5.0': {}
 
@@ -2571,7 +2571,7 @@ snapshots:
 
   has-flag@4.0.0: {}
 
-  hono@4.13.18: {}
+  hono@4.13.19: {}
 
   inherits@2.0.4: {}
 
