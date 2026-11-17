@@ -16,5 +16,10 @@
     "lint": "pnpm --filter @mytheclipse/booster-role lint",
     "db:generate": "pnpm --filter @mytheclipse/booster-role db:generate",
     "db:migrate": "pnpm --filter @mytheclipse/booster-role db:migrate"
+  },
+  "pnpm": {
+    "overrides": {
+      "esbuild": "0.25.0"
+    }
   }
 }
