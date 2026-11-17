@@ -1,3 +1,10 @@
+## [1.8.7](https://github.com/MythEclipse/MythEclipse-Bot-Collections/compare/v1.8.6...v1.8.7) (2026-11-17)
+
+
+### Bug Fixes
+
+* **deps:** bump esbuild to 0.25.0 for GHSA-67mh-4wv8-2f99 ([4d2644f](https://github.com/MythEclipse/MythEclipse-Bot-Collections/commit/4d2644fd41e22b2df08f449b08431528a8b71862))
+
 ## [1.8.6](https://github.com/MythEclipse/MythEclipse-Bot-Collections/compare/v1.8.5...v1.8.6) (2026-11-16)
 
 
